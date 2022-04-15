@@ -1,18 +1,15 @@
 package vn.triet.pharmacy.online.views;
 
-import vn.triet.pharmacy.online.models.Method;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Menu {
-    public static void entrance() {
+    public static void showEntrance() {
         System.out.println(" ____________________________________________ ");
         System.out.println("|     << Welcome to Pharmacy Online >>       |");
         System.out.println("|                                            |");
         System.out.println("|    1. Sign in to use our services.         |");
-        System.out.println("|    2. Sign up if you haven't an account.   |");
+        System.out.println("|    2. Sign up for a new account.           |");
         System.out.println("|    (Note: Our medicine for adults only)    |");
         System.out.println("|____________________________________________|");
     }
@@ -46,7 +43,7 @@ public class Menu {
 
     public static void chooseInEntrance() {
         do {
-            entrance();
+            showEntrance();
             try {
                 char character = chooseAction();
                 if (character == '1') {
@@ -63,6 +60,4 @@ public class Menu {
             }
         } while (true);
     }
-
-
 }

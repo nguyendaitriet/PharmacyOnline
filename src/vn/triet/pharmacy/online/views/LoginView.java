@@ -16,7 +16,9 @@ public class LoginView {
         String password = input.next();
         //Check username and password
 
+        if (username.equals("admin") && password.equals("admin")) {
 
+        }
         //Wrong username or password
         showChoicesWhenWrong();
     }
@@ -26,6 +28,7 @@ public class LoginView {
         System.out.println("Do you want to try again?");
         do {
             System.out.println("(Enter 'y' to sign in again or enter 'n' to return)");
+            System.out.println();
             try {
                 char character = Menu.chooseAction();
                 if (character == 'y') {
