@@ -1,21 +1,25 @@
 package vn.triet.pharmacy.online.views;
 
-public class GuestView {
-    public static void showServiceForm() {
+import java.util.ArrayList;
+
+public class GuestView{
+    public static void showServicesForm() {
         System.out.println("*---------------------------------------------------*");
+        System.out.println("|                                                   |");
         System.out.println("|   What would you like to do?                      |");
         System.out.println("|                                                   |");
-        System.out.println("|   1. Buy medicine depend on your symptom(s)       |");
-        System.out.println("|   2. Buy medicine with medical prescription       |");
+        System.out.println("|   1. Buy medicine depend on your symptom(s).      |");
+        System.out.println("|   2. Buy medicine with medical prescription.      |");
         System.out.println("|   3. Edit your account.                           |");
-        System.out.println("|   0. Exit                                         |");
+        System.out.println("|   0. Go back to homepage.                         |");
+        System.out.println("|                                                   |");
         System.out.println("*---------------------------------------------------*");
         System.out.println();
     }
 
-    public static void showServicesForGuest() {
+    public static void chooseServicesForGuest() {
         do {
-            showServiceForm();
+            showServicesForm();
             try {
                 char character = Menu.chooseAction();
                 if (character == '1') {
@@ -31,7 +35,7 @@ public class GuestView {
                     break;
                 }
                 if (character == '0') {
-                    System.exit(0);
+                    Menu.chooseInEntrance();
                     break;
                 }
                 Menu.alert();

@@ -8,17 +8,27 @@ public class LoginView {
         Scanner input = new Scanner(System.in);
         System.out.println();
         System.out.println();
-        System.out.println("-----LOGIN-----");
+        System.out.println("----- LOGIN -----");
         System.out.println();
         System.out.print("1. Username: ");
         String username = input.next();
         System.out.print("2. Password: ");
         String password = input.next();
+
         //Check username and password
-
         if (username.equals("admin") && password.equals("admin")) {
-
+            System.out.println("------ Sign in successfully as ADMIN!");
+            System.out.println();
+            AdminView.chooseAdminAction();
+            return;
         }
+        if (username.equals("abc") && password.equals("abc")) {
+            System.out.println("------ Sign in successfully!");
+            System.out.println();
+            GuestView.chooseServicesForGuest();
+            return;
+        }
+
         //Wrong username or password
         showChoicesWhenWrong();
     }

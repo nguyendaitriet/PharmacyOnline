@@ -1,10 +1,12 @@
 package vn.triet.pharmacy.online.views;
 
 
+
+
 import java.util.Scanner;
 
 public class Menu {
-    public static void showEntrance() {
+    private static void showEntrance() {
         System.out.println(" ____________________________________________ ");
         System.out.println("|     << Welcome to Pharmacy Online >>       |");
         System.out.println("|                                            |");
@@ -13,7 +15,6 @@ public class Menu {
         System.out.println("|    (Note: Our medicine for adults only)    |");
         System.out.println("|____________________________________________|");
     }
-
 
     public static char chooseAction() {
         System.out.print("Your choice is: ");
@@ -24,22 +25,6 @@ public class Menu {
     public static void alert() {
         System.out.println("Invalid choice. Please try again!");
     }
-
-//    public static void showChoices(char input, String ClassName, String methodName) {
-//        do {
-//            entrance();
-//            try {
-//                char character = chooseAction();
-//                if (character == input) {
-//                    ClassName.getMethod(methodName);
-//                    break;
-//                }
-//            } catch  (Exception io) {
-//                alert();
-//            }
-//            break;
-//        } while (true);
-//    }
 
     public static void chooseInEntrance() {
         do {
@@ -60,4 +45,6 @@ public class Menu {
             }
         } while (true);
     }
+
+
 }
