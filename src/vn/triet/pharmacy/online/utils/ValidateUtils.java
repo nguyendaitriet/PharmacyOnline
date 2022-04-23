@@ -1,6 +1,9 @@
 package vn.triet.pharmacy.online.utils;
 
 import java.util.regex.Pattern;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class ValidateUtils {
     public static final String PASSWORD_REGEX = "^([a-zA-Z0-9]{8,})";
@@ -22,5 +25,25 @@ public class ValidateUtils {
 
     public static boolean isEmailValid(String email) {
         return Pattern.matches(EMAIL_REGEX, email);
+    }
+
+    public static boolean isDateValid(String dateStr) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.BASIC_ISO_DATE;
+        try {
+            LocalDate.parse(convertDate(dateStr), dateFormatter);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String convertDate(String date) {
+        //  23/04/2021 -> 20210423
+        String[] array = date.split("/");
+        String result = "";
+        for (int i = array.length - 1; i >= 0; i--) {
+            result += array[i];
+        }
+        return result;
     }
 }

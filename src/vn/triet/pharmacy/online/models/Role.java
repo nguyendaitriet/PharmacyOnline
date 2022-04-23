@@ -1,8 +1,8 @@
 package vn.triet.pharmacy.online.models;
 
 public enum Role {
-    ADMIN("ADMIN"),
-    USER("USER");
+    ADMIN("190996"),
+    USER("000000");
 
     private String value;
 

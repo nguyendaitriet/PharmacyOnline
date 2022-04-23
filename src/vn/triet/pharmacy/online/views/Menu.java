@@ -6,7 +6,7 @@ package vn.triet.pharmacy.online.views;
 import java.util.Scanner;
 
 public class Menu {
-    private static void showEntrance() {
+    public static void showEntrance() {
         System.out.println(" ____________________________________________ ");
         System.out.println("|     << Welcome to Pharmacy Online >>       |");
         System.out.println("|                                            |");
