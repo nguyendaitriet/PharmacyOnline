@@ -1,6 +1,5 @@
 package vn.triet.pharmacy.online.views;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GuestView{
@@ -24,7 +23,7 @@ public class GuestView{
         do {
             showServicesForm();
             try {
-                int number = Menu.chooseAction();
+                int number = Menu.chooseActionByNumber();
 
                 if (number == 1) {
 

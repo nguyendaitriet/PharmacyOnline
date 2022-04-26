@@ -1,8 +1,14 @@
 package vn.triet.pharmacy.online.views;
 
+import vn.triet.pharmacy.online.services.IUserService;
+import vn.triet.pharmacy.online.services.UserService;
+
 import java.util.Scanner;
 
 public class LoginView {
+    private static int userID;
+    private final IUserService signUpService = new UserService();
+    
     public static void signIn() {
         Scanner input = new Scanner(System.in);
         System.out.println();
@@ -39,14 +45,12 @@ public class LoginView {
             System.out.println("(Enter 'y' to sign in again or enter 'n' to return)");
             System.out.println();
             try {
-                Scanner input = new Scanner(System.in);
-                System.out.print("Your choice is: ");
-                char character = input.next().charAt(0);
-                if (character == 'y') {
+                String letter = Menu.chooseActionByLetter();
+                if (letter.charAt(0) == 'y' && letter.length()==1) {
                     LoginView.signIn();
                     break;
                 }
-                if (character == 'n') {
+                if (letter.charAt(0) == 'n' && letter.length()==1) {
                     Menu.chooseInEntrance();
                     break;
                 }

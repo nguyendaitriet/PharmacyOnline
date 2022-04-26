@@ -12,8 +12,6 @@ public class SignUpView {
 
     private final IUserService signUpService;
 
-    private final Scanner input = new Scanner(System.in);
-
     public SignUpView() {
         signUpService = new UserService();
     }
@@ -36,16 +34,17 @@ public class SignUpView {
             enterUserName(newUser);
             enterPassword(newUser);
             setUpRole(newUser);
-        } catch (Exception io) {
-            io.printStackTrace();
+            confirmSignUp(newUser);
+        } catch (Exception ex) {
+            ex.printStackTrace();
             Menu.alert();
+            Menu.showExceptionAction();
         }
-        confirmSignUp(newUser);
     }
 
 
     public void showConfirmForm() {
-        System.out.println("Please confirm that you want to sign up with above information!");
+        System.out.println("\nPlease confirm that you want to sign up with above information!");
         System.out.println("1. Agree to sign up.");
         System.out.println("2. Return homepage.");
         System.out.println("0. Exit.");
@@ -55,26 +54,21 @@ public class SignUpView {
     public void confirmSignUp(User newUser) {
         do {
             showConfirmForm();
-            try {
-                int number = Menu.chooseAction();
-
-                if (number == 1) {
-                    signUpService.add(newUser);
-                    showSuccessfulMessage();
-                    break;
-                }
-                if (number == 2) {
-                    Menu.chooseInEntrance();
-                    break;
-                }
-                if (number == 0) {
-                    System.exit(0);
-                    break;
-                }
-                Menu.alert();
-            } catch (Exception io) {
-                Menu.alert();
+            int number = Menu.chooseActionByNumber();
+            if (number == 1) {
+                signUpService.add(newUser);
+                showSuccessfulMessage();
+                break;
             }
+            if (number == 2) {
+                Menu.chooseInEntrance();
+                break;
+            }
+            if (number == 0) {
+                System.exit(0);
+                break;
+            }
+            Menu.alert();
         } while (true);
     }
 
@@ -82,49 +76,49 @@ public class SignUpView {
         System.out.println("Please choose next action:");
         System.out.println("1. Sign in now.");
         System.out.println("2. Create another account.");
-        System.out.println("0. Exit.");
-        System.out.println();
+        System.out.println("0. Exit.\n");
     }
 
     public void showSuccessfulMessage() {
-        System.out.println("Sign up successfully!");
-        System.out.println();
+        System.out.println("\nSign up successfully!\n");
         do {
             showNextAction();
-            try {
-                int number = Menu.chooseAction();
-                if (number == 1) {
-                    LoginView.signIn();
-                    break;
-                }
-                if (number == 2) {
-                    createAccount();
-                    break;
-                }
-                if (number == 0) {
-                    System.exit(0);
-                    break;
-                }
-                Menu.alert();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                Menu.alert();
+            int number = Menu.chooseActionByNumber();
+            if (number == 1) {
+                LoginView.signIn();
+                break;
             }
+            if (number == 2) {
+                createAccount();
+                break;
+            }
+            if (number == 0) {
+                System.exit(0);
+                break;
+            }
+            Menu.alert();
         } while (true);
     }
 
     public void enterID(User newUser) {
         do {
-            System.out.println("1. Enter ID. ");
-            System.out.print("==> ");
-            Scanner input = new Scanner(System.in);
-            int id = Integer.parseInt(input.nextLine());
-            if (!signUpService.isIdExisted(id)) {
-                newUser.setId(id);
-                break;
+            try {
+                System.out.println("1. Enter ID (NUMBER). ");
+                System.out.print("==> ");
+                Scanner input = new Scanner(System.in);
+                int id = Integer.parseInt(input.nextLine());
+                if (!signUpService.isIdExisted(id)) {
+                    newUser.setId(id);
+                    break;
+                }
+                System.out.println("Your entered ID have existed. Please enter another ID!");
+                System.out.println();
             }
-            System.out.println("Your entered ID have existed. Please enter another ID!");
-            System.out.println();
+            catch (Exception ex) {
+                ex.printStackTrace();
+                Menu.alert();
+                Menu.showExceptionAction();
+            }
         }
         while (true);
     }
@@ -136,7 +130,7 @@ public class SignUpView {
             Scanner input = new Scanner(System.in);
             String fullName = input.next().trim();
             System.out.println();
-            if (!ValidateUtils.isNameValid(fullName)) {
+            if (ValidateUtils.isNameValid(fullName)) {
                 newUser.setFullName(fullName);
                 break;
             }
@@ -186,7 +180,7 @@ public class SignUpView {
     }
 
     public void enterAddress(User newUser) {
-        System.out.println("5. Enter Address (Example: 4/18 An Duong Vuong, Hue. ");
+        System.out.println("5. Enter Address (Example: 4/18 An Duong Vuong, Hue).");
         System.out.print("==> ");
         Scanner input = new Scanner(System.in);
         String address = input.next().trim();
@@ -246,7 +240,47 @@ public class SignUpView {
     }
 
     private void setUpRole(User newUser) {
-
-        newUser.setRole(Role.USER);
+        System.out.println("9. Set up ROLE:\n");
+        System.out.println("---> Are you an administrator?");
+        System.out.println("(Enter 'y' or 'n')\n");
+        boolean check;
+        do {
+            String letter = Menu.chooseActionByLetter();
+            if (letter.charAt(0) == 'y' && letter.length() == 1) {
+                check = checkAdminCode();
+                break;
+            }
+            if (letter.charAt(0) == 'n' && letter.length() == 1) {
+                check = false;
+                break;
+            }
+            Menu.alert();
+        } while (true);
+        if (check) newUser.setRole(Role.ADMIN);
+        else newUser.setRole(Role.USER);
     }
+
+    public boolean checkAdminCode() {
+        System.out.print("Enter administrator code: ");
+        Scanner input = new Scanner(System.in);
+        String code = input.next().trim();
+        if (code.equals(ADMIN_CODE)) {
+            System.out.println("Set ROLE as administrator successfully!\n");
+            return true;
+        }
+        do {
+            System.out.println("Incorrect code, do you want to try again?");
+            System.out.println("(Enter 'y' or 'n')\n");
+            String letter = Menu.chooseActionByLetter();
+            switch (letter.charAt(0)) {
+                case 'y':
+                    return checkAdminCode();
+                case 'n':
+                    return false;
+                default:
+                    Menu.alert();
+            }
+        } while (true);
+    }
+
 }

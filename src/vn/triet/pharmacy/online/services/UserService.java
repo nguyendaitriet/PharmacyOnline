@@ -21,6 +21,11 @@ public class UserService implements IUserService {
 
     @Override
     public User login(String username, String password) {
+        List<User> users = getUsers();
+        for (User user : users) {
+            if (user.getUserName().equals(username) && user.getPassword().equals(password))
+                return user;
+        }
         return null;
     }
 

@@ -8,7 +8,6 @@ import vn.triet.pharmacy.online.views.AdminView;
 import vn.triet.pharmacy.online.views.Menu;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class UserInformation {
     private static void showActionForm() {
@@ -25,7 +24,7 @@ public class UserInformation {
         do {
             showActionForm();
             try {
-                int number = Menu.chooseAction();
+                int number = Menu.chooseActionByNumber();
 
                 if (number == 1) {
                     showAllUsers();

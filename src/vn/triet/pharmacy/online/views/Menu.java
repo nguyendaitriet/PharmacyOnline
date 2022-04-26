@@ -1,8 +1,6 @@
 package vn.triet.pharmacy.online.views;
 
 
-
-
 import java.util.Scanner;
 
 public class Menu {
@@ -17,21 +15,34 @@ public class Menu {
         System.out.println("|____________________________________________|");
     }
 
-    public static int chooseAction() {
+    public static int chooseActionByNumber() {
         Scanner input = new Scanner(System.in);
         System.out.print("Your choice is: ");
         return input.nextInt();
     }
 
+    public static String chooseActionByLetter() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Your choice is: ");
+        return input.next();
+    }
+
+    public static void showExceptionAction() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter '0' to return Homepage or others to continue: ");
+        String exit = input.next();
+        if (exit.equals("0")) chooseInEntrance();
+    }
     public static void alert() {
-        System.out.println("Invalid input. Please try again!");
+        System.out.println("!!!!! INVALID input. Please try again !!!!!");
+        System.out.println();
     }
 
     public static void chooseInEntrance() {
         do {
             showEntrance();
             try {
-                int number = chooseAction();
+                int number = chooseActionByNumber();
                 if (number == 1) {
                     LoginView.signIn();
                     break;

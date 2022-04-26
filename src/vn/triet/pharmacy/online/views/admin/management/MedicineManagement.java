@@ -3,8 +3,6 @@ package vn.triet.pharmacy.online.views.admin.management;
 import vn.triet.pharmacy.online.views.AdminView;
 import vn.triet.pharmacy.online.views.Menu;
 
-import java.util.Scanner;
-
 public class MedicineManagement {
 
     private static void showActionForm() {
@@ -23,7 +21,7 @@ public class MedicineManagement {
         do {
             showActionForm();
             try {
-                int number = Menu.chooseAction();
+                int number = Menu.chooseActionByNumber();
 
                 if (number == 1) {
 
