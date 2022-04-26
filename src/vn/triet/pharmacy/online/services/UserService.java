@@ -43,10 +43,18 @@ public class UserService implements IUserService {
             if (user.getId() == newUser.getId()) {
                 if (newUser.getFullName() != null && !newUser.getFullName().isEmpty())
                     user.setFullName(newUser.getFullName());
+                if (newUser.getBirthday() != null && !newUser.getBirthday().isEmpty())
+                    user.setBirthday(newUser.getBirthday());
                 if (newUser.getPhoneNumber() != null && !newUser.getPhoneNumber().isEmpty())
                     user.setPhoneNumber(newUser.getPhoneNumber());
                 if (newUser.getAddress() != null && !newUser.getAddress().isEmpty())
                     user.setAddress(newUser.getAddress());
+                if (newUser.getEmail() != null && !newUser.getEmail().isEmpty())
+                    user.setEmail(newUser.getEmail());
+                if (newUser.getUserName() != null && !newUser.getUserName().isEmpty())
+                    user.setUserName(newUser.getUserName());
+                if (newUser.getPassword() != null && !newUser.getPassword().isEmpty())
+                    user.setPassword(newUser.getPassword());
                 CSVUtils.writeData(path, users);
                 break;
             }

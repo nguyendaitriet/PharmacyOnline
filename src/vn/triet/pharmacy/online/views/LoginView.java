@@ -1,14 +1,22 @@
 package vn.triet.pharmacy.online.views;
 
+import vn.triet.pharmacy.online.models.Role;
+import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;
 
 import java.util.Scanner;
 
 public class LoginView {
+
     private static int userID;
-    private final IUserService signUpService = new UserService();
-    
+
+    public static int getUserID() {
+        return userID;
+    }
+
+    private static IUserService signUpService = new UserService();
+
     public static void signIn() {
         Scanner input = new Scanner(System.in);
         System.out.println();
@@ -20,22 +28,24 @@ public class LoginView {
         System.out.print("2. Password: ");
         String password = input.next();
 
-        //Check username and password
-        if (username.equals("admin") && password.equals("admin")) {
-            System.out.println("------ Sign in successfully as ADMIN!");
-            System.out.println();
-            AdminView.chooseAdminAction();
-            return;
-        }
-        if (username.equals("abc") && password.equals("abc")) {
-            System.out.println("------ Sign in successfully!");
-            System.out.println();
-            GuestView.chooseServicesForGuest();
+        User user = signUpService.login(username, password);
+
+        if (user == null) {
+            showChoicesWhenWrong();
             return;
         }
 
-        //Wrong username or password
-        showChoicesWhenWrong();
+        if (user.getRole() == Role.ADMIN) {
+            System.out.println("\nSuccessful sign-in as ADMIN!");
+            userID = user.getId();
+            AdminView.chooseAdminAction();
+            return;
+        }
+
+        System.out.println("\nSuccessful sign-in!");
+        userID = user.getId();
+        GuestView.chooseServicesForGuest();
+
     }
 
     public static void showChoicesWhenWrong() {
@@ -46,11 +56,11 @@ public class LoginView {
             System.out.println();
             try {
                 String letter = Menu.chooseActionByLetter();
-                if (letter.charAt(0) == 'y' && letter.length()==1) {
-                    LoginView.signIn();
+                if (letter.charAt(0) == 'y' && letter.length() == 1) {
+                    signIn();
                     break;
                 }
-                if (letter.charAt(0) == 'n' && letter.length()==1) {
+                if (letter.charAt(0) == 'n' && letter.length() == 1) {
                     Menu.chooseInEntrance();
                     break;
                 }

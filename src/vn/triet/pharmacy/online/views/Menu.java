@@ -24,7 +24,7 @@ public class Menu {
     public static String chooseActionByLetter() {
         Scanner input = new Scanner(System.in);
         System.out.print("Your choice is: ");
-        return input.next();
+        return input.nextLine();
     }
 
     public static void showExceptionAction() {

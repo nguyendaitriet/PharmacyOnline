@@ -6,7 +6,7 @@ import vn.triet.pharmacy.online.views.admin.management.UserInformation;
 public class AdminView {
 
     public static void showActionsForm() {
-        System.out.println("**************************************");
+        System.out.println("\n**************************************");
         System.out.println("|                                    |");
         System.out.println("|      ADMIN MANAGEMENT              |");
         System.out.println("|                                    |");
@@ -15,8 +15,7 @@ public class AdminView {
         System.out.println("|      3. Order management.          |");
         System.out.println("|      0. Go back to homepage.       |");
         System.out.println("|                                    |");
-        System.out.println("**************************************");
-        System.out.println();
+        System.out.println("**************************************\n");
     }
 
     public static void chooseAdminAction() {

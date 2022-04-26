@@ -14,20 +14,8 @@ public class User {
     public User() {
     }
 
-    public User(int id, String fullName, String birthday, String phoneNumber, String address, String email, String userName, String password, Role role) {
-        this.id = id;
-        this.fullName = fullName;
-        this.birthday = birthday;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.email = email;
-        this.userName = userName;
-        this.password = password;
-        this.role = role;
-    }
-
     public User(String raw) {
-        String[] userInformation = raw.split(",");
+        String[] userInformation = raw.split("~");
         this.id = Integer.parseInt(userInformation[0]);
         this.fullName = userInformation[1];
         this.birthday = userInformation[2];
@@ -39,7 +27,7 @@ public class User {
         this.role = Role.parseRole(userInformation[8]);
     }
 
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
@@ -114,13 +102,13 @@ public class User {
     @Override
     public String toString() {
         return id +
-                "," + fullName +
-                "," + birthday +
-                "," + phoneNumber +
-                "," + address +
-                "," + email +
-                "," + userName +
-                "," + password +
-                "," + role;
+                "~" + fullName +
+                "~" + birthday +
+                "~" + phoneNumber +
+                "~" + address +
+                "~" + email +
+                "~" + userName +
+                "~" + password +
+                "~" + role;
     }
 }
