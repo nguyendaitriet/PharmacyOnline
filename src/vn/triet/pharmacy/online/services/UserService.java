@@ -6,8 +6,8 @@ import vn.triet.pharmacy.online.utils.CSVUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignUpService implements ISignUpService {
-    private static String path = "data/users.csv";
+public class UserService implements IUserService {
+    public static String path = "data/users.csv";
 
     @Override
     public List<User> getUsers() {
@@ -35,7 +35,7 @@ public class SignUpService implements ISignUpService {
     public void update(User newUser) {
         List<User> users = getUsers();
         for (User user : users) {
-            if (user.getId().equals(newUser.getId())) {
+            if (user.getId() == newUser.getId()) {
                 if (newUser.getFullName() != null && !newUser.getFullName().isEmpty())
                     user.setFullName(newUser.getFullName());
                 if (newUser.getPhoneNumber() != null && !newUser.getPhoneNumber().isEmpty())
@@ -49,7 +49,7 @@ public class SignUpService implements ISignUpService {
     }
 
     @Override
-    public boolean isIdExisted(String id) {
+    public boolean isIdExisted(int id) {
         return getUserById(id) != null;
     }
 
@@ -85,10 +85,10 @@ public class SignUpService implements ISignUpService {
     }
 
     @Override
-    public User getUserById(String id) {
+    public User getUserById(int id) {
         List<User> users = getUsers();
         for (User user : users) {
-            if (user.getId().equals(id))
+            if (user.getId() == id)
                 return user;
         }
         return null;

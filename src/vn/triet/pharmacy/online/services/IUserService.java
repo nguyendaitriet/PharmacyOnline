@@ -4,7 +4,7 @@ import vn.triet.pharmacy.online.models.User;
 
 import java.util.List;
 
-public interface ISignUpService {
+public interface IUserService {
     List<User> getUsers();
 
     User login(String username, String password);
@@ -13,7 +13,7 @@ public interface ISignUpService {
 
     void update(User newUser);
 
-    boolean isIdExisted(String id);
+    boolean isIdExisted(int id);
 
     boolean checkExistedEmail(String email);
 
@@ -21,5 +21,5 @@ public interface ISignUpService {
 
     boolean checkExistedUserName(String userName);
 
-    User getUserById(String id);
+    User getUserById(int id);
 }

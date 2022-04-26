@@ -1,8 +1,11 @@
 package vn.triet.pharmacy.online.views;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GuestView{
+    private static Scanner input = new Scanner(System.in);
+
     public static void showServicesForm() {
         System.out.println("*---------------------------------------------------*");
         System.out.println("|                                                   |");
@@ -21,25 +24,27 @@ public class GuestView{
         do {
             showServicesForm();
             try {
-                char character = Menu.chooseAction();
-                if (character == '1') {
+                int number = Menu.chooseAction();
+
+                if (number == 1) {
 
                     break;
                 }
-                if (character == '2') {
+                if (number == 2) {
 
                     break;
                 }
-                if (character == '3') {
+                if (number == 3) {
 
                     break;
                 }
-                if (character == '0') {
+                if (number ==0) {
                     Menu.chooseInEntrance();
                     break;
                 }
                 Menu.alert();
-            } catch (Exception io) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 Menu.alert();
             }
         } while (true);

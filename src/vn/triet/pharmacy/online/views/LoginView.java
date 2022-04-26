@@ -3,7 +3,6 @@ package vn.triet.pharmacy.online.views;
 import java.util.Scanner;
 
 public class LoginView {
-
     public static void signIn() {
         Scanner input = new Scanner(System.in);
         System.out.println();
@@ -40,7 +39,9 @@ public class LoginView {
             System.out.println("(Enter 'y' to sign in again or enter 'n' to return)");
             System.out.println();
             try {
-                char character = Menu.chooseAction();
+                Scanner input = new Scanner(System.in);
+                System.out.print("Your choice is: ");
+                char character = input.next().charAt(0);
                 if (character == 'y') {
                     LoginView.signIn();
                     break;
@@ -50,7 +51,8 @@ public class LoginView {
                     break;
                 }
                 Menu.alert();
-            } catch (Exception io) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 Menu.alert();
             }
         } while (true);

@@ -1,7 +1,7 @@
 package vn.triet.pharmacy.online.models;
 
 public class User {
-    private String id;
+    private int id;
     private String fullName;
     private String birthday;
     private String phoneNumber;
@@ -11,8 +11,10 @@ public class User {
     private String password;
     private Role role;
 
-    public User() {}
-    public User(String id, String fullName, String birthday, String phoneNumber, String address, String email, String userName, String password, Role role) {
+    public User() {
+    }
+
+    public User(int id, String fullName, String birthday, String phoneNumber, String address, String email, String userName, String password, Role role) {
         this.id = id;
         this.fullName = fullName;
         this.birthday = birthday;
@@ -26,7 +28,7 @@ public class User {
 
     public User(String raw) {
         String[] userInformation = raw.split(",");
-        this.id = userInformation[0];
+        this.id = Integer.parseInt(userInformation[0]);
         this.fullName = userInformation[1];
         this.birthday = userInformation[2];
         this.phoneNumber = userInformation[3];
@@ -34,19 +36,19 @@ public class User {
         this.email = userInformation[5];
         this.userName = userInformation[6];
         this.password = userInformation[7];
-        this.role = Role.fromValue(userInformation[8]);
+        this.role = Role.parseRole(userInformation[8]);
     }
 
-    public String getId() {
-        return id;
+    public long getId() {
+        return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public String getFullName() {
-        return fullName;
+        return this.fullName;
     }
 
     public void setFullName(String fullName) {
@@ -54,7 +56,7 @@ public class User {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -62,7 +64,7 @@ public class User {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -78,7 +80,7 @@ public class User {
     }
 
     public String getUserName() {
-        return userName;
+        return this.userName;
     }
 
     public void setUserName(String userName) {
@@ -86,7 +88,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -94,7 +96,7 @@ public class User {
     }
 
     public String getBirthday() {
-        return birthday;
+        return this.birthday;
     }
 
     public void setBirthday(String birthday) {
@@ -102,7 +104,7 @@ public class User {
     }
 
     public Role getRole() {
-        return role;
+        return this.role;
     }
 
     public void setRole(Role role) {
@@ -111,16 +113,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", birthday='" + birthday + '\'' +
-                ", mobile='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
+        return id +
+                "," + fullName +
+                "," + birthday +
+                "," + phoneNumber +
+                "," + address +
+                "," + email +
+                "," + userName +
+                "," + password +
+                "," + role;
     }
 }

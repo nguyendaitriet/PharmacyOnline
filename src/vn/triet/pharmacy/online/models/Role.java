@@ -1,8 +1,8 @@
 package vn.triet.pharmacy.online.models;
 
 public enum Role {
-    ADMIN("190996"),
-    USER("000000");
+    ADMIN("ADMIN"),
+    USER("USER");
 
     private String value;
 
@@ -14,7 +14,8 @@ public enum Role {
         return this.value;
     }
 
-    public static Role fromValue(String value) {
+    // ADMIN , USER
+    public static Role parseRole(String value) {
         Role[] values = values();
         for (Role role : values) {
             if (role.value.equals(value))

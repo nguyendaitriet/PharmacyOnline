@@ -3,7 +3,10 @@ package vn.triet.pharmacy.online.views;
 import vn.triet.pharmacy.online.views.admin.management.MedicineManagement;
 import vn.triet.pharmacy.online.views.admin.management.UserInformation;
 
+import java.util.Scanner;
+
 public class AdminView {
+
     public static void showActionsForm() {
         System.out.println("**************************************");
         System.out.println("|                                    |");
@@ -22,25 +25,28 @@ public class AdminView {
         do {
             showActionsForm();
             try {
-                char character = Menu.chooseAction();
-                if (character == '1') {
+                int number = Menu.chooseAction();
+
+                if (number == 1) {
                     UserInformation.chooseActionInUsersInfo();
                     break;
                 }
-                if (character == '2') {
+                if (number == 2) {
                     MedicineManagement.chooseActionInMedicineManagement();
                     break;
                 }
-                if (character == '3') {
+                if (number == 3) {
 
                     break;
                 }
-                if (character == '0') {
+                if (number == 0) {
                     Menu.chooseInEntrance();
                     break;
                 }
                 Menu.alert();
-            } catch (Exception io) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
+
                 Menu.alert();
             }
         } while (true);
