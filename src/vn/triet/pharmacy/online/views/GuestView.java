@@ -2,8 +2,6 @@ package vn.triet.pharmacy.online.views;
 
 import vn.triet.pharmacy.online.views.guest.services.AccountManagement;
 
-import java.util.Scanner;
-
 public class GuestView {
 
     public static void showServicesForm() {
@@ -34,7 +32,7 @@ public class GuestView {
                     break;
                 }
                 if (number == 3) {
-                    AccountManagement.editAccount();
+                    AccountManagement.confirmUpdating();
                     break;
                 }
                 if (number == 0) {

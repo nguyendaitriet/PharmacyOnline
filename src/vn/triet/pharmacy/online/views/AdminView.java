@@ -43,7 +43,6 @@ public class AdminView {
                 Menu.alert();
             } catch (Exception ex) {
                 ex.printStackTrace();
-
                 Menu.alert();
             }
         } while (true);
