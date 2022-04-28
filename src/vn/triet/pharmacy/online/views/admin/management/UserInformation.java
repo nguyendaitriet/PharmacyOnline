@@ -5,23 +5,28 @@ import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;
 import vn.triet.pharmacy.online.views.AdminView;
 
-import vn.triet.pharmacy.online.views.GuestView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.guest.services.AccountManagement;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Scanner;
 
 public class UserInformation {
     private static void showActionForm() {
-        System.out.println(" ---------- Users' Information -----------");
-        System.out.println("|                                         |");
-        System.out.println("|        1. Show all users' account.      |");
-        System.out.println("|        2. Update your account.          |");
-        System.out.println("|        3. Block user.                   |");
-        System.out.println("|        0. Return.                       |");
-        System.out.println("|                                         |");
-        System.out.println(" -----------------------------------------");
+        System.out.println(" ------------- Users' Information --------------");
+        System.out.println("|                                               |");
+        System.out.println("|        1. Show all users' account.            |");
+        System.out.println("|               4. Sort by Name.                |");
+        System.out.println("|               5. Sort by Creation Date.       |");
+        System.out.println("|               6. Filter by Role Admin.        |");
+        System.out.println("|               7. Sort by Role User.           |");
+        System.out.println("|        2. Update your account.                |");
+        System.out.println("|        3. Block user.                         |");
+        System.out.println("|        0. Return.                             |");
+        System.out.println("|                                               |");
+        System.out.println(" -----------------------------------------------");
     }
 
     public static void chooseActionInUsersInfo() {
@@ -56,14 +61,16 @@ public class UserInformation {
 
     public static void showAllUsers() {
         IUserService userService = new UserService();
-        System.out.println("\n------------------------------------------------------------------- USERS LIST ----------------------------------------------------------------------------");
-        System.out.printf("%-12s %-20s %-20s %-20s %-25s %-25s %-22s %-10s\n", "ID", "Full Name", "Date of Birth", "Phone Number", "Email", "Address", "Username", "Role");
-        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("\nUSERS LIST --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-12s %-25s %-20s %-20s %-25s %-25s %-22s %-10s %-10s\n", "ID", "Full Name", "Date of Birth", "Phone Number", "Email", "Address", "Username", "Role", "Creation Date");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         List<User> users = userService.getUsers();
         for (User user : users) {
-            System.out.printf("%-12d %-20s %-20s %-20s %-25s %-25s %-22s %-10s\n", user.getId(), user.getFullName(), user.getBirthday(), user.getPhoneNumber(), user.getEmail(), user.getAddress(), user.getUserName(), user.getRole());
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss a");
+            String creationDateFormat = dateFormat.format(user.getCreationTime());
+            System.out.printf("%-12d %-25s %-20s %-20s %-25s %-25s %-22s %-10s %-10s\n", user.getId(), user.getFullName(), user.getBirthday(), user.getPhoneNumber(), user.getEmail(), user.getAddress(), user.getUserName(), user.getRole(), creationDateFormat);
         }
-        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         do {
             System.out.print("Enter '0' to return: ");
             try {
@@ -88,7 +95,6 @@ public class UserInformation {
         }
         System.out.println("\n===> Your account has been UPDATED successfully!\n");
         chooseActionInUsersInfo();
-
     }
 
 }
