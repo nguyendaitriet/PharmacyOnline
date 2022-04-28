@@ -41,6 +41,17 @@ public class User {
     public String getFullName() {
         return this.fullName;
     }
+    public String getFirstName() {
+        int lastWhiteSpaceIndex = this.fullName.lastIndexOf(' ');
+        if (lastWhiteSpaceIndex == -1) return this.fullName;
+        return this.fullName.substring(lastWhiteSpaceIndex+1);
+    }
+    public String getLastName() {
+        int lastWhiteSpaceIndex = this.fullName.lastIndexOf(' ');
+        if (lastWhiteSpaceIndex == -1) return "";
+        return this.fullName.substring(0,lastWhiteSpaceIndex);
+
+    }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;

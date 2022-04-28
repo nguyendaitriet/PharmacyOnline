@@ -17,13 +17,13 @@ public class Menu {
 
     public static int chooseActionByNumber() {
         Scanner input = new Scanner(System.in);
-        System.out.print("Your choice is: ");
+        System.out.print("\nYour choice is: ");
         return input.nextInt();
     }
 
     public static String chooseActionByLetter() {
         Scanner input = new Scanner(System.in);
-        System.out.print("Your choice is: ");
+        System.out.print("\nYour choice is: ");
         return input.nextLine();
     }
 
