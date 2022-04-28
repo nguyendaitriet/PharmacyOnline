@@ -57,11 +57,11 @@ public class UserInformation {
     public static void showAllUsers() {
         IUserService userService = new UserService();
         System.out.println("\n------------------------------------------------------------------- USERS LIST ----------------------------------------------------------------------------");
-        System.out.printf("%-12s %-20s %-20s %-20s %-25s %-25s %-20s %-10s\n", "ID", "Full Name", "Date of Birth", "Phone Number", "Email", "Address", "Username", "Role");
+        System.out.printf("%-12s %-20s %-20s %-20s %-25s %-25s %-22s %-10s\n", "ID", "Full Name", "Date of Birth", "Phone Number", "Email", "Address", "Username", "Role");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------");
         List<User> users = userService.getUsers();
         for (User user : users) {
-            System.out.printf("%-12d %-20s %-20s %-20s %-25s %-25s %-20s %-10s\n", user.getId(), user.getFullName(), user.getBirthday(), user.getPhoneNumber(), user.getEmail(), user.getAddress(), user.getUserName(), user.getRole());
+            System.out.printf("%-12d %-20s %-20s %-20s %-25s %-25s %-22s %-10s\n", user.getId(), user.getFullName(), user.getBirthday(), user.getPhoneNumber(), user.getEmail(), user.getAddress(), user.getUserName(), user.getRole());
         }
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         do {

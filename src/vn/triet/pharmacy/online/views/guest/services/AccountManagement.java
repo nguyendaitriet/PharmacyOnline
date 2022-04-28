@@ -51,37 +51,30 @@ public class AccountManagement {
                 switch (number) {
                     case 2:
                         newRegister.enterFullName(currentUser);
-                        System.out.println("Updated your full name.\n");
                         is = false;
                         break;
                     case 3:
                         newRegister.enterBirthday(currentUser);
-                        System.out.println("Updated your date of birth.\n");
                         is = false;
                         break;
                     case 4:
                         newRegister.enterPhoneNumber(currentUser);
-                        System.out.println("Updated your phone number.\n");
                         is = false;
                         break;
                     case 5:
                         newRegister.enterAddress(currentUser);
-                        System.out.println("Updated your address.\n");
                         is = false;
                         break;
                     case 6:
                         newRegister.enterEmail(currentUser);
-                        System.out.println("Updated your email.\n");
                         is = false;
                         break;
                     case 7:
                         newRegister.enterUserName(currentUser);
-                        System.out.println("Updated your username.\n");
                         is = false;
                         break;
                     case 8:
                         newRegister.enterPassword(currentUser);
-                        System.out.println("Updated your password.\n");
                         is = false;
                         break;
                     case 9:
@@ -98,7 +91,6 @@ public class AccountManagement {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 Menu.showExceptionAction();
-
             }
         } while (!is);
         return number;

@@ -11,7 +11,8 @@ public class GuestView {
         System.out.println("|                                                   |");
         System.out.println("|   1. Buy medicine depend on your symptom(s).      |");
         System.out.println("|   2. Buy medicine with medical prescription.      |");
-        System.out.println("|   3. Update account.                              |");
+        System.out.println("|   3. Check all order.                             |");
+        System.out.println("|   4. Update account.                              |");
         System.out.println("|   0. Go back to homepage.                         |");
         System.out.println("|                                                   |");
         System.out.println("*---------------------------------------------------*\n");
@@ -32,6 +33,10 @@ public class GuestView {
                     break;
                 }
                 if (number == 3) {
+
+                    break;
+                }
+                if (number == 4) {
                     AccountManagement.confirmUpdating();
                     break;
                 }

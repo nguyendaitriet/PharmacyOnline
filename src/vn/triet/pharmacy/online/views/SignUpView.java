@@ -25,7 +25,7 @@ public class SignUpView {
         System.out.println();
         User newUser = new User();
         try {
-            enterID(newUser);
+            setID(newUser);
             enterFullName(newUser);
             enterBirthday(newUser);
             enterPhoneNumber(newUser);
@@ -100,27 +100,38 @@ public class SignUpView {
         } while (true);
     }
 
-    public void enterID(User newUser) {
+    public void setID(User newUser) {
+        int min = 100000;
+        int max = 999999;
+        int id;
         do {
-            try {
-                System.out.println("1. Enter ID (NUMBER). ");
-                System.out.print("==> ");
-                Scanner input = new Scanner(System.in);
-                int id = Integer.parseInt(input.nextLine());
-                if (!signUpService.isIdExisted(id)) {
-                    newUser.setId(id);
-                    break;
-                }
-                System.out.println("Your entered ID have existed. Please enter another ID!");
-                System.out.println();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                Menu.alert();
-                Menu.showExceptionAction();
-            }
-        }
-        while (true);
+            id = (int) Math.floor(Math.random() * (max - min + 1) + min);
+        } while (signUpService.isIdExisted(id));
+        newUser.setId(id);
+        System.out.println("1. Your Account ID: " + id);
     }
+
+//    public void enterID(User newUser) {
+//        do {
+//            try {
+//                System.out.println("1. Enter ID (NUMBER). ");
+//                System.out.print("==> ");
+//                Scanner input = new Scanner(System.in);
+//                int id = Integer.parseInt(input.nextLine());
+//                if (!signUpService.isIdExisted(id)) {
+//                    newUser.setId(id);
+//                    break;
+//                }
+//                System.out.println("Your entered ID have existed. Please enter another ID!");
+//                System.out.println();
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//                Menu.alert();
+//                Menu.showExceptionAction();
+//            }
+//        }
+//        while (true);
+//    }
 
     public void enterFullName(User newUser) {
         do {
@@ -159,50 +170,56 @@ public class SignUpView {
     }
 
     public void enterPhoneNumber(User newUser) {
-        System.out.println("4. Enter Phone Number (Example: 0783465748). ");
-        System.out.println("(Note: Your phone number must start with '0' and has from 10 to 11 digits)");
-        System.out.print("==> ");
-        Scanner input = new Scanner(System.in);
-        String phoneNumber = input.nextLine().trim();
-        System.out.println();
-        if (!ValidateUtils.isPhoneValid(phoneNumber)) {
-            System.out.println("Invalid phone number format, please try again!");
+        do {
+            System.out.println("4. Enter Phone Number (Example: 0783465748). ");
+            System.out.println("(Note: Your phone number must start with '0' and has from 10 to 11 digits)");
+            System.out.print("==> ");
+            Scanner input = new Scanner(System.in);
+            String phoneNumber = input.nextLine().trim();
             System.out.println();
-            enterPhoneNumber(newUser);
-        }
-        if (signUpService.checkExistedPhone(phoneNumber)) {
-            System.out.println("Phone number has existed. Please enter another number!");
-            System.out.println();
-            enterPhoneNumber(newUser);
-        }
-        newUser.setPhoneNumber(phoneNumber);
+            if (!ValidateUtils.isPhoneValid(phoneNumber)) {
+                System.out.println("Invalid phone number format, please try again!");
+                System.out.println();
+                continue;
+            }
+            if (signUpService.checkExistedPhone(phoneNumber)) {
+                System.out.println("Phone number has existed. Please enter another number!");
+                System.out.println();
+                continue;
+            }
+            newUser.setPhoneNumber(phoneNumber);
+            break;
+        } while (true);
     }
 
     public void enterAddress(User newUser) {
-            System.out.println("5. Enter Address (Example: 4/18 An Duong Vuong, Hue).");
-            System.out.print("==> ");
-            Scanner input = new Scanner(System.in);
-            String address = input.nextLine().trim();
-            newUser.setAddress(address);
+        System.out.println("5. Enter Address (Example: 4/18 An Duong Vuong, Hue).");
+        System.out.print("==> ");
+        Scanner input = new Scanner(System.in);
+        String address = input.nextLine().trim();
+        newUser.setAddress(address);
     }
 
 
     public void enterEmail(User newUser) {
-        System.out.println("6. Enter Email Address (Example: namnguyen123@gmail.com). ");
-        System.out.print("==> ");
-        Scanner input = new Scanner(System.in);
-        String email = input.nextLine().trim().toLowerCase();
-        if (!ValidateUtils.isEmailValid(email)) {
-            System.out.println("Invalid email address format, please try again!");
-            System.out.println();
-            enterEmail(newUser);
-        }
-        if (signUpService.checkExistedEmail(email)) {
-            System.out.println("Email address has existed. Please enter another email address!");
-            System.out.println();
-            enterEmail(newUser);
-        }
-        newUser.setEmail(email);
+        do {
+            System.out.println("6. Enter Email Address (Example: namnguyen123@gmail.com). ");
+            System.out.print("==> ");
+            Scanner input = new Scanner(System.in);
+            String email = input.nextLine().trim().toLowerCase();
+            if (!ValidateUtils.isEmailValid(email)) {
+                System.out.println("Invalid email address format, please try again!");
+                System.out.println();
+                continue;
+            }
+            if (signUpService.checkExistedEmail(email)) {
+                System.out.println("Email address has existed. Please enter another email address!");
+                System.out.println();
+                continue;
+            }
+            newUser.setEmail(email);
+            break;
+        } while (true);
     }
 
     public void enterUserName(User newUser) {
@@ -224,7 +241,7 @@ public class SignUpView {
     public void enterPassword(User newUser) {
         do {
             System.out.println("8. Enter password (Example: myname!0907)");
-            System.out.println("(Note: Minimum eight characters, at least one letter, one number and one special character).");
+            System.out.println("(NOTE: Minimum eight characters, at least one letter, one number and one special character).");
             System.out.print("==> ");
             Scanner input = new Scanner(System.in);
             String password = input.nextLine().trim();
