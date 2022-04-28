@@ -56,7 +56,7 @@ public class SignUpView {
             showConfirmForm();
             int number = Menu.chooseActionByNumber();
             if (number == 1) {
-                newUser.setCreationDate();
+                newUser.setCreationTime();
                 signUpService.add(newUser);
                 showSuccessfulMessage();
                 break;

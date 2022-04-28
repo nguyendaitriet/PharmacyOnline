@@ -61,16 +61,16 @@ public class UserInformation {
 
     public static void showAllUsers() {
         IUserService userService = new UserService();
-        System.out.println("\nUSERS LIST --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("\nUSERS LIST -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-12s %-25s %-20s %-20s %-25s %-25s %-22s %-10s %-10s\n", "ID", "Full Name", "Date of Birth", "Phone Number", "Email", "Address", "Username", "Role", "Creation Date");
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         List<User> users = userService.getUsers();
         for (User user : users) {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss a");
             String creationDateFormat = dateFormat.format(user.getCreationTime());
             System.out.printf("%-12d %-25s %-20s %-20s %-25s %-25s %-22s %-10s %-10s\n", user.getId(), user.getFullName(), user.getBirthday(), user.getPhoneNumber(), user.getEmail(), user.getAddress(), user.getUserName(), user.getRole(), creationDateFormat);
         }
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
         do {
             System.out.print("Enter '0' to return: ");
             try {

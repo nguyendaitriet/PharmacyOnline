@@ -1,8 +1,5 @@
 package vn.triet.pharmacy.online.models;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 public class User {
     private int id;
     private String fullName;
@@ -109,7 +106,7 @@ public class User {
         return creationTime;
     }
 
-    public void setCreationDate() {
+    public void setCreationTime() {
         this.creationTime = System.currentTimeMillis();
     }
 
@@ -123,6 +120,7 @@ public class User {
                 "~" + email +
                 "~" + userName +
                 "~" + password +
-                "~" + role;
+                "~" + role +
+                "~" + creationTime;
     }
 }
