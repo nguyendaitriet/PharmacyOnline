@@ -93,7 +93,6 @@ public class UserService implements IUserService {
             if (user.getUserName().equals(userName))
                 return true;
         }
-
         return false;
     }
 

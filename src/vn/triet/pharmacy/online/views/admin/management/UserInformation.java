@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserInformation {
-    private  static IUserService userService = new UserService();
+    private static IUserService userService = new UserService();
 
-    private  static List<User> users = userService.getUsers();
+    private static List<User> users = userService.getUsers();
 
     private static void showActionForm() {
         System.out.println("\n ------------- Users' Information --------------");
@@ -27,21 +27,19 @@ public class UserInformation {
         System.out.println("|               3. Sort by Creation Date.       |");
         System.out.println("|               4. Filter by Role Admin.        |");
         System.out.println("|               5. Filter by Role User.         |");
-        System.out.println("|        6. Update your Admin account.          |");
-        System.out.println("|        7. Block user.                         |");
+        System.out.println("|               6. Search by Full Name.         |");
+        System.out.println("|        7. Update your Admin account.          |");
+        System.out.println("|        8. Block user.                         |");
         System.out.println("|        0. Return.                             |");
         System.out.println("|                                               |");
         System.out.println(" -----------------------------------------------");
     }
 
     public static void chooseActionInUsersInfo() {
-//        IUserService userService = new UserService();
-//        List<User> users = userService.getUsers();
         do {
             showActionForm();
             try {
                 int number = Menu.chooseActionByNumber();
-
                 if (number == 1) {
                     showUsersList(users, 1);
                     break;
@@ -63,11 +61,16 @@ public class UserInformation {
                     break;
                 }
                 if (number == 6) {
-                    updateAdminAccount();
+                    searchByFullName(users);
                     break;
                 }
                 if (number == 7) {
-
+                    updateAdminAccount();
+                    break;
+                }
+                if (number == 8) {
+                    System.out.println("\nSorry, this function is in updating progress!\n");
+                    AdminView.chooseAdminAction();
                     break;
                 }
                 if (number == 0) {
@@ -94,7 +97,7 @@ public class UserInformation {
                 sortByNameASCE(users);
                 break;
             case 3:
-                sortByCreationDate(users);
+                sortByCreationDateASCE(users);
                 break;
             case 4:
                 filterByAdmin(users);
@@ -104,6 +107,10 @@ public class UserInformation {
                 break;
         }
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        showReturningChoice();
+    }
+
+    private static void showReturningChoice() {
         do {
             System.out.print("Enter '0' to return: ");
             try {
@@ -120,26 +127,77 @@ public class UserInformation {
         } while (true);
     }
 
+    private static void searchByFullName(List<User> users) {
+        boolean is = true;
+        do {
+            System.out.print("\nEnter name you want to search: ");
+            Scanner input = new Scanner(System.in);
+            String searchName = input.nextLine().toLowerCase().trim();
+            int count = 0;
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getFullName().toLowerCase().contains(searchName)) {
+                    count++;
+                    if (count == 1) {
+                        System.out.println("\nUSERS LIST ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                        System.out.printf("%-12s %-28s %-20s %-20s %-25s %-25s %-22s %-10s %-10s\n", "ID", "Full Name", "Date of Birth", "Phone Number", "Email", "Address", "Username", "Role", "Creation Date");
+                        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                    }
+                    showOneUser(users.get(i));
+                }
+                if (count > 0 && i == users.size() - 1) {
+                    is = true;
+                    System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                }
+            }
+            if (count == 0) {
+                System.out.printf("\nCan't find account with name '%s'. Do you want to try again?\n", searchName);
+                do {
+                    System.out.println("(Enter 'y' to find again or enter 'n' to exit)");
+                    try {
+                        String letter = Menu.chooseActionByLetter();
+                        if (letter.charAt(0) == 'y' && letter.length() == 1) {
+                            is = false;
+                            break;
+                        }
+                        if (letter.charAt(0) == 'n' && letter.length() == 1) {
+                            is = true;
+                            chooseActionInUsersInfo();
+                            break;
+                        }
+                        Menu.alert();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        Menu.alert();
+                    }
+                } while (true);
+            }
+        } while (!is);
+        showReturningChoice();
+    }
+
     private static void filterByUser(List<User> users) {
         int count = 0;
         for (User user : users) {
-            if (user.getRole() == Role.USER) showOneUser(user);
-            count++;
+            if (user.getRole() == Role.USER) {
+                showOneUser(user);
+                count++;
+            }
         }
-        System.out.printf("\n---> Total: %d user%s\n", count, count>1?"s":"");
+        System.out.printf("\n---> Total: %d user%s\n", count, count > 1 ? "s" : "");
     }
 
     private static void filterByAdmin(List<User> users) {
         int count = 0;
-
         for (User user : users) {
-            if (user.getRole() == Role.ADMIN) showOneUser(user);
-            count++;
+            if (user.getRole() == Role.ADMIN) {
+                showOneUser(user);
+                count++;
+            }
         }
-        System.out.printf("\n---> Total: %d administrator%s\n", count, count>1?"s":"");
+        System.out.printf("\n---> Total: %d administrator%s\n", count, count > 1 ? "s" : "");
     }
 
-    private static void sortByCreationDate(List<User> users) {
+    private static void sortByCreationDateASCE(List<User> users) {
         users.sort((e1, e2) -> Long.compare(e1.getCreationTime() - e2.getCreationTime(), 0));
         showAllUsers(users);
     }

@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Menu {
 
     public static void showEntrance() {
-        System.out.println(" ____________________________________________ ");
+        System.out.println("\n ____________________________________________ ");
         System.out.println("|     << Welcome to Pharmacy Online >>       |");
         System.out.println("|                                            |");
         System.out.println("|    1. Sign in to use our services.         |");
@@ -60,6 +60,5 @@ public class Menu {
             }
         } while (true);
     }
-
 
 }

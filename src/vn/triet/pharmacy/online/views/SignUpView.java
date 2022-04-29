@@ -18,6 +18,8 @@ public class SignUpView {
 
     private final static String ADMIN_CODE = "admin190996";
 
+    private static final Scanner input = new Scanner(System.in);
+
     public void createAccount() {
         System.out.println();
         System.out.println();
@@ -41,7 +43,6 @@ public class SignUpView {
             Menu.showExceptionAction();
         }
     }
-
 
     public void showConfirmForm() {
         System.out.println("\nPlease confirm that you want to sign up with above information!");
@@ -134,11 +135,12 @@ public class SignUpView {
 //        while (true);
 //    }
 
+
     public void enterFullName(User newUser) {
         do {
             System.out.println("2. Enter Full Name (Example: Will Smith). ");
             System.out.print("==> ");
-            Scanner input = new Scanner(System.in);
+//            Scanner input = new Scanner(System.in);
             String fullName = input.nextLine().trim();
             System.out.println();
             if (ValidateUtils.isNameValid(fullName)) {
@@ -155,7 +157,7 @@ public class SignUpView {
             System.out.println("3. Enter Date of Birth (Example: 12/04/1963) ");
             System.out.println("(Note: Your date must be before 01/01/2022)");
             System.out.print("==> ");
-            Scanner input = new Scanner(System.in);
+//            Scanner input = new Scanner(System.in);
             String birthday = input.nextLine().trim();
             System.out.println();
             if (ValidateUtils.isDateValid(birthday)) {
@@ -175,7 +177,7 @@ public class SignUpView {
             System.out.println("4. Enter Phone Number (Example: 0783465748). ");
             System.out.println("(Note: Your phone number must start with '0' and has from 10 to 11 digits)");
             System.out.print("==> ");
-            Scanner input = new Scanner(System.in);
+//            Scanner input = new Scanner(System.in);
             String phoneNumber = input.nextLine().trim();
             System.out.println();
             if (!ValidateUtils.isPhoneValid(phoneNumber)) {
@@ -196,17 +198,16 @@ public class SignUpView {
     public void enterAddress(User newUser) {
         System.out.println("5. Enter Address (Example: 4/18 An Duong Vuong, Hue).");
         System.out.print("==> ");
-        Scanner input = new Scanner(System.in);
+//        Scanner input = new Scanner(System.in);
         String address = input.nextLine().trim();
         newUser.setAddress(address);
     }
-
 
     public void enterEmail(User newUser) {
         do {
             System.out.println("6. Enter Email Address (Example: namnguyen123@gmail.com). ");
             System.out.print("==> ");
-            Scanner input = new Scanner(System.in);
+//            Scanner input = new Scanner(System.in);
             String email = input.nextLine().trim().toLowerCase();
             if (!ValidateUtils.isEmailValid(email)) {
                 System.out.println("Invalid email address format, please try again!");
@@ -227,7 +228,7 @@ public class SignUpView {
         do {
             System.out.println("7. Enter username.");
             System.out.print("==> ");
-            Scanner input = new Scanner(System.in);
+//            Scanner input = new Scanner(System.in);
             String username = input.nextLine().trim().toLowerCase();
             System.out.println();
             if (!signUpService.checkExistedUserName(username)) {
@@ -244,7 +245,7 @@ public class SignUpView {
             System.out.println("8. Enter password (Example: myname!0907)");
             System.out.println("(NOTE: Minimum eight characters, at least one letter, one number and one special character).");
             System.out.print("==> ");
-            Scanner input = new Scanner(System.in);
+//            Scanner input = new Scanner(System.in);
             String password = input.nextLine().trim();
             System.out.println();
             if (ValidateUtils.isPasswordValid(password)) {
@@ -279,7 +280,7 @@ public class SignUpView {
 
     private boolean checkAdminCode() {
         System.out.print("Enter administrator code: ");
-        Scanner input = new Scanner(System.in);
+//        Scanner input = new Scanner(System.in);
         String code = input.nextLine().trim();
         if (code.equals(ADMIN_CODE)) {
             System.out.println("Set ROLE as administrator successfully!\n");

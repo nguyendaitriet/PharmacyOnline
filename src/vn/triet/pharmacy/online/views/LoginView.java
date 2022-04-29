@@ -49,11 +49,10 @@ public class LoginView {
     }
 
     public static void showChoicesWhenWrong() {
-        System.out.println("Wrong username or password!");
+        System.out.println("\nWrong username or password!");
         System.out.println("Do you want to try again?");
         do {
             System.out.println("(Enter 'y' to sign in again or enter 'n' to return)");
-            System.out.println();
             try {
                 String letter = Menu.chooseActionByLetter();
                 if (letter.charAt(0) == 'y' && letter.length() == 1) {
