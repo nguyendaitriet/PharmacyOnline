@@ -3,12 +3,14 @@ package vn.triet.pharmacy.online.views.guest.services;
 import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;
+import vn.triet.pharmacy.online.utils.ValidateUtils;
 import vn.triet.pharmacy.online.views.GuestView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.SignUpView;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class AccountManagement {
     private static IUserService userService = new UserService();
@@ -30,7 +32,7 @@ public class AccountManagement {
         System.out.printf("%-17s %-12s\n", "5. Address:", user.getAddress());
         System.out.printf("%-17s %-12s\n", "6. Email:", user.getEmail());
         System.out.printf("%-17s %-12s\n", "7. Username:", user.getUserName());
-        System.out.printf("%-17s %-12s\n", "8. Password:", user.getPassword());
+//        System.out.printf("%-17s %-12s\n", "8. Password:", user.getPassword());
         System.out.println("\n-----------------------------------------\n");
     }
 
@@ -44,8 +46,9 @@ public class AccountManagement {
             showChangeStatus(number);
             System.out.println("Choose what information you want to update.");
             System.out.println("NOTE: You CANNOT update your account ID. Please don't enter '1'!\n");
-            System.out.println("---> Enter '0' to cancel updating.");
+            System.out.println("---> Enter '8' to update password.");
             System.out.println("---> Enter '9' to CONFIRM that you agree to update your account with below information.\n");
+            System.out.println("---> Enter '0' to cancel updating.");
             try {
                 number = Menu.chooseActionByNumber();
                 switch (number) {
@@ -74,8 +77,8 @@ public class AccountManagement {
                         is = false;
                         break;
                     case 8:
-                        newRegister.enterPassword(currentUser);
-                        is = false;
+                        updatePassword(currentUser);
+                        is = true;
                         break;
                     case 9:
                         userService.update(currentUser);
@@ -106,15 +109,51 @@ public class AccountManagement {
         GuestView.chooseServicesForGuest();
     }
 
+    public static void updatePassword(User user) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("\n----- Update your password");
+        int count = 0;
+        do {
+            System.out.print("\nEnter old password: ");
+            String oldPass = input.nextLine().trim();
+            if (!user.getPassword().equals(oldPass)) {
+                count++;
+                if (count < 3) {
+                    System.out.println("\nWrong password! Please try again.");
+                    System.out.printf("You have %d trial%s left!\n", 3-count, 3-count>1?"s":"");
+                }
+                if (count == 3) {
+                    System.out.println("\nWrong password!");
+                    System.out.println("Sorry, your trial has end!");
+                    updateAccount();
+                    break;
+                }
+                continue;
+            }
+            do {
+                System.out.print("\nEnter new password: ");
+                String newPass = input.nextLine().trim();
+                if (ValidateUtils.isPasswordValid(newPass)) {
+                    user.setPassword(newPass);
+                    userService.update(user);
+                    System.out.println("\nYour password has been UPDATED successfully!");
+                    updateAccount();
+                    break;
+                }
+                System.out.println("Invalid password format, please try again!\n");
+            } while (true);
+            break;
+        } while (true);
+    }
+
     public static void showChangeStatus(int number) {
         switch (number) {
             case 2 -> System.out.println("--- Your full name has been changed.\n");
             case 3 -> System.out.println("--- Your date of birth has been changed.\n");
             case 4 -> System.out.println("--- Your phone number has been changed.\n");
-            case 5 -> System.out.println("--- Your address been changed.\n");
-            case 6 -> System.out.println("--- Your email been changed.\n");
+            case 5 -> System.out.println("--- Your address has been changed.\n");
+            case 6 -> System.out.println("--- Your email has been changed.\n");
             case 7 -> System.out.println("--- Your username has been changed.\n");
-            case 8 -> System.out.println("--- Your password has been changed.\n");
         }
     }
 }
