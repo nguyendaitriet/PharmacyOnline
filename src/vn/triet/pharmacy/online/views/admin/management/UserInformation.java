@@ -22,7 +22,7 @@ public class UserInformation {
     private static void showActionForm() {
         System.out.println("\n ------------- Users' Information --------------");
         System.out.println("|                                               |");
-        System.out.println("|        1. Show all users' account.            |");
+        System.out.println("|        1. Show users' list.                   |");
         System.out.println("|               2. Sort by Name.                |");
         System.out.println("|               3. Sort by Creation Date.       |");
         System.out.println("|               4. Filter by Role Admin.        |");

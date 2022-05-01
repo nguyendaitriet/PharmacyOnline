@@ -32,7 +32,6 @@ public class AccountManagement {
         System.out.printf("%-17s %-12s\n", "5. Address:", user.getAddress());
         System.out.printf("%-17s %-12s\n", "6. Email:", user.getEmail());
         System.out.printf("%-17s %-12s\n", "7. Username:", user.getUserName());
-//        System.out.printf("%-17s %-12s\n", "8. Password:", user.getPassword());
         System.out.println("\n-----------------------------------------\n");
     }
 

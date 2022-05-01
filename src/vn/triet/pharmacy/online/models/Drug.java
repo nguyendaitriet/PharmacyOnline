@@ -1,36 +1,82 @@
 package vn.triet.pharmacy.online.models;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class Drug {
-    private String id;
+    private long id;
     private String drugName;
     private int drugContent;
     private int quantity;
-    private double pricePerTablet;
+    private String dosageForm;
+    private String usage;
+    private String dosagePerDay;
+    private int totalDosage5Days;
+    private double pricePerUnit;
     private String productionDate;
     private String expirationDate;
+    private String note;
 
-    public Drug(String id, String drugName, int drugContent, int quantity, double pricePerTablet, String productionDate, String expirationDate) {
-        this.id = id;
-        this.drugName = drugName;
-        this.drugContent = drugContent;
-        this.quantity = quantity;
-        this.pricePerTablet = pricePerTablet;
-        this.productionDate = productionDate;
-        this.expirationDate = expirationDate;
+    public Drug(String raw) {
+        String[] drugInformation = raw.split("~");
+        this.id = Long.parseLong(drugInformation[0]);
+        this.drugName = drugInformation[1];
+        this.drugContent = Integer.parseInt(drugInformation[2]);
+        this.quantity = Integer.parseInt(drugInformation[3]);
+        this.dosageForm = drugInformation[4];
+        this.usage = drugInformation[5];
+        this.dosagePerDay = drugInformation[6];
+        this.totalDosage5Days = Integer.parseInt(drugInformation[7]);
+        this.pricePerUnit = Double.parseDouble(drugInformation[8]);
+        this.productionDate = drugInformation[9];
+        this.expirationDate = drugInformation[10];
+        this.note = drugInformation[11];
     }
 
-    public Drug(String id) {
-        this.id = id;
+    public String getDosagePerDay() {
+        return dosagePerDay;
     }
 
-    public String getId() {
+    public void setDosagePerDay(String dosagePerDay) {
+        this.dosagePerDay = dosagePerDay;
+    }
+
+    public int getTotalDosage5Days() {
+        return totalDosage5Days;
+    }
+
+    public void setTotalDosage5Days(int totalDosage5Days) {
+        this.totalDosage5Days = totalDosage5Days;
+    }
+
+    public String getDosageForm() {
+        return dosageForm;
+    }
+
+    public void setDosageForm(String dosageForm) {
+        this.dosageForm = dosageForm;
+    }
+
+    public String getUsage() {
+        return usage;
+    }
+
+    public void setUsage(String usage) {
+        this.usage = usage;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -58,12 +104,12 @@ public class Drug {
         this.quantity = quantity;
     }
 
-    public double getPricePerTablet() {
-        return pricePerTablet;
+    public double getPricePerUnit() {
+        return pricePerUnit;
     }
 
-    public void setPricePerTablet(double pricePerTablet) {
-        this.pricePerTablet = pricePerTablet;
+    public void setPricePerUnit(double pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
     }
 
     public String getProductionDate() {
@@ -84,38 +130,30 @@ public class Drug {
 
     @Override
     public String toString() {
-        return "Drug{" +
-                "id=" + id +
-                ", drugName='" + drugName + '\'' +
-                ", drugContent=" + drugContent +
-                ", quantity=" + quantity +
-                ", pricePerTablet=" + pricePerTablet +
-                ", productionDate='" + productionDate + '\'' +
-                ", expirationDate='" + expirationDate + '\'' +
-                '}';
+        return id +
+                "~" + drugName +
+                "~" + drugContent +
+                "~" + quantity +
+                "~" + dosageForm +
+                "~" + usage +
+                "~" + dosagePerDay +
+                "~" + totalDosage5Days +
+                "~" + pricePerUnit +
+                "~" + productionDate +
+                "~" + expirationDate +
+                "~" + note;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Drug other = (Drug) obj;
-        return Objects.equals(id, other.id);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Drug drug = (Drug) o;
+        return drugContent == drug.drugContent && drugName.equals(drug.drugName) && productionDate.equals(drug.productionDate);
     }
-
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(drugName, drugContent, productionDate);
     }
-
-
-//    @Override
-//    public int compareTo(Drug o) {
-//        return this.drugName.compareTo(o.drugName);
-//    }
 }
