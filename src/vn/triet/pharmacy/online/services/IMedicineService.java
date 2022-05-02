@@ -17,6 +17,6 @@ public interface IMedicineService {
 
     boolean isIdExisted(int id);
 
-    void remove(int id);
+    void remove(Drug drug);
 
 }

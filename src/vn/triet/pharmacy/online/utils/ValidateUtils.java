@@ -1,5 +1,10 @@
 package vn.triet.pharmacy.online.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.regex.Pattern;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,5 +50,11 @@ public class ValidateUtils {
             result += array[i];
         }
         return result;
+    }
+
+    public static long convertDateToMilli(String date) throws ParseException {
+        // 23/04/2021 -> 1619110800000
+        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        return date1.getTime();
     }
 }

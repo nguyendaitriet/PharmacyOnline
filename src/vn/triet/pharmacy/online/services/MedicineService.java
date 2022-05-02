@@ -56,7 +56,7 @@ public class MedicineService implements IMedicineService{
                     drug.setDosagePerDay(newDrug.getDosagePerDay());
                 if (newDrug.getTotalDosage5Days() != drug.getTotalDosage5Days())
                     drug.setTotalDosage5Days(newDrug.getTotalDosage5Days());
-                if (newDrug.getPricePerUnit() != drug.getTotalDosage5Days())
+                if (newDrug.getPricePerPill() != drug.getTotalDosage5Days())
                     drug.setTotalDosage5Days(newDrug.getTotalDosage5Days());
                 if (newDrug.getProductionDate() != null && !newDrug.getProductionDate().isEmpty())
                     drug.setProductionDate(newDrug.getProductionDate());
@@ -76,9 +76,9 @@ public class MedicineService implements IMedicineService{
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(Drug drug) {
         List<Drug> drugs = getDrugs();
-        drugs.remove(id);
+        drugs.remove(drug);
         CSVUtils.writeData(path, drugs);
     }
 }

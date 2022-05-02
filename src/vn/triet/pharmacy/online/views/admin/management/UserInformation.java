@@ -79,7 +79,6 @@ public class UserInformation {
                 }
                 Menu.alert();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 Menu.alert();
             }
         } while (true);

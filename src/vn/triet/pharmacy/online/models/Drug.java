@@ -5,28 +5,30 @@ import java.util.Objects;
 public class Drug {
     private long id;
     private String drugName;
-    private int drugContent;
+    private double drugContent;
     private int quantity;
     private String dosageForm;
     private String usage;
     private String dosagePerDay;
     private int totalDosage5Days;
-    private double pricePerUnit;
+    private double pricePerPill;
     private String productionDate;
     private String expirationDate;
     private String note;
+
+    public Drug() {}
 
     public Drug(String raw) {
         String[] drugInformation = raw.split("~");
         this.id = Long.parseLong(drugInformation[0]);
         this.drugName = drugInformation[1];
-        this.drugContent = Integer.parseInt(drugInformation[2]);
+        this.drugContent = Double.parseDouble(drugInformation[2]);
         this.quantity = Integer.parseInt(drugInformation[3]);
         this.dosageForm = drugInformation[4];
         this.usage = drugInformation[5];
         this.dosagePerDay = drugInformation[6];
         this.totalDosage5Days = Integer.parseInt(drugInformation[7]);
-        this.pricePerUnit = Double.parseDouble(drugInformation[8]);
+        this.pricePerPill = Double.parseDouble(drugInformation[8]);
         this.productionDate = drugInformation[9];
         this.expirationDate = drugInformation[10];
         this.note = drugInformation[11];
@@ -88,11 +90,11 @@ public class Drug {
         this.drugName = drugName;
     }
 
-    public int getDrugContent() {
+    public double getDrugContent() {
         return drugContent;
     }
 
-    public void setDrugContent(int drugContent) {
+    public void setDrugContent(double drugContent) {
         this.drugContent = drugContent;
     }
 
@@ -104,12 +106,12 @@ public class Drug {
         this.quantity = quantity;
     }
 
-    public double getPricePerUnit() {
-        return pricePerUnit;
+    public double getPricePerPill() {
+        return pricePerPill;
     }
 
-    public void setPricePerUnit(double pricePerUnit) {
-        this.pricePerUnit = pricePerUnit;
+    public void setPricePerPill(double pricePerPill) {
+        this.pricePerPill = pricePerPill;
     }
 
     public String getProductionDate() {
@@ -138,7 +140,7 @@ public class Drug {
                 "~" + usage +
                 "~" + dosagePerDay +
                 "~" + totalDosage5Days +
-                "~" + pricePerUnit +
+                "~" + pricePerPill +
                 "~" + productionDate +
                 "~" + expirationDate +
                 "~" + note;
@@ -149,7 +151,7 @@ public class Drug {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Drug drug = (Drug) o;
-        return drugContent == drug.drugContent && drugName.equals(drug.drugName) && productionDate.equals(drug.productionDate);
+        return drugContent == drug.drugContent && drugName.equalsIgnoreCase(drug.drugName);
     }
 
     @Override
