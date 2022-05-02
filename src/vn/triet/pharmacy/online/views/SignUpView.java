@@ -153,7 +153,7 @@ public class SignUpView {
         return -1;
     }
 
-    public void enterFullName(User newUser) {
+    public boolean enterFullName(User newUser) {
         do {
             System.out.println("2. Enter Full Name (Example: Will Smith). ");
             System.out.print("==> ");
@@ -161,14 +161,14 @@ public class SignUpView {
             System.out.println();
             if (ValidateUtils.isNameValid(fullName)) {
                 newUser.setFullName(fullName);
-                break;
+                return false;
             }
-            if (cancelEntering(fullName) == 0) break;
+            if (cancelEntering(fullName) == 0) return true;
             System.out.println("Invalid name format, please try again!\n");
         } while (true);
     }
 
-    public void enterBirthday(User newUser) {
+    public boolean enterBirthday(User newUser) {
         do {
             System.out.println("3. Enter Date of Birth (Example: 12/04/1963) ");
             System.out.println("(Note: Your date must be before 01/01/2022)");
@@ -179,22 +179,21 @@ public class SignUpView {
                 int before01012022 = ValidateUtils.convertDate(birthday).compareTo("20220101");
                 if (before01012022 < 0) {
                     newUser.setBirthday(birthday);
-                    break;
-                }
+                    return false;                }
             }
-            if (cancelEntering(birthday) == 0) break;
+            if (cancelEntering(birthday) == 0) return true;
             System.out.println("Invalid date format or date is after 01/01/2022, please try again!\n");
         } while (true);
     }
 
-    public void enterPhoneNumber(User newUser) {
+    public boolean enterPhoneNumber(User newUser) {
         do {
             System.out.println("4. Enter Phone Number (Example: 0783465748). ");
             System.out.println("(Note: Your phone number must start with '0' and has from 10 to 11 digits)");
             System.out.print("==> ");
             String phoneNumber = input.nextLine().trim();
             System.out.println();
-            if (cancelEntering(phoneNumber) == 0) break;
+            if (cancelEntering(phoneNumber) == 0) return true;
             if (!ValidateUtils.isPhoneValid(phoneNumber)) {
                 System.out.println("Invalid phone number format, please try again!\n");
                 continue;
@@ -204,24 +203,25 @@ public class SignUpView {
                 continue;
             }
             newUser.setPhoneNumber(phoneNumber);
-            break;
+            return false;
         } while (true);
     }
 
-    public void enterAddress(User newUser) {
+    public boolean enterAddress(User newUser) {
         System.out.println("5. Enter Address (Example: 4/18 An Duong Vuong, Hue).");
         System.out.print("==> ");
         String address = input.nextLine().trim();
-        cancelEntering(address);
+        if (cancelEntering(address) == 0) return true;
         newUser.setAddress(address);
+        return false;
     }
 
-    public void enterEmail(User newUser) {
+    public boolean enterEmail(User newUser) {
         do {
             System.out.println("6. Enter Email Address (Example: namnguyen123@gmail.com). ");
             System.out.print("==> ");
             String email = input.nextLine().trim().toLowerCase();
-            if (cancelEntering(email) == 0) break;
+            if (cancelEntering(email) == 0) return true;
             if (!ValidateUtils.isEmailValid(email)) {
                 System.out.println("Invalid email address format, please try again!\n");
                 continue;
@@ -231,11 +231,11 @@ public class SignUpView {
                 continue;
             }
             newUser.setEmail(email);
-            break;
+            return false;
         } while (true);
     }
 
-    public void enterUserName(User newUser) {
+    public boolean enterUserName(User newUser) {
         do {
             System.out.println("7. Enter username.");
             System.out.print("==> ");
@@ -243,9 +243,9 @@ public class SignUpView {
             System.out.println();
             if (!signUpService.checkExistedUserName(username)) {
                 newUser.setUserName(username);
-                break;
+                return false;
             }
-            if (cancelEntering(username) == 0) break;
+            if (cancelEntering(username) == 0) return true;
             System.out.println("Username has existed. Please enter another username!\n");
         } while (true);
     }
