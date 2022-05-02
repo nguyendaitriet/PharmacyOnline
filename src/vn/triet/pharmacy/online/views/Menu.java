@@ -34,6 +34,7 @@ public class Menu {
         String exit = input.next();
         if (exit.equals("0")) chooseInEntrance();
     }
+
     public static void alert() {
         System.out.println("!!!!! INVALID input. Please try again !!!!!");
         System.out.println();

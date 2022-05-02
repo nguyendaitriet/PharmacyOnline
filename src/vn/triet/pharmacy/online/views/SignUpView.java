@@ -5,6 +5,7 @@ import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
+import vn.triet.pharmacy.online.views.admin.management.UserInformation;
 import vn.triet.pharmacy.online.views.guest.services.AccountManagement;
 
 import java.util.Scanner;
@@ -23,6 +24,7 @@ public class SignUpView {
 
     public void createAccount() {
         System.out.println("\n\n----- Create your Account -----\n");
+        System.out.println("-----> NOTE: Enter 'exit-01' if you want to cancel signing up at any step.\n");
         User newUser = new User();
         try {
             setID(newUser);
@@ -133,6 +135,23 @@ public class SignUpView {
 //        while (true);
 //    }
 
+    public int cancelEntering(String string) {
+        switch (string) {
+            case "exit-01":
+                System.out.println("\n-----> Your register has been canceled!");
+                Menu.chooseInEntrance();
+                return 0;
+            case "exit-02":
+                System.out.println("\n-----> Your updating has been canceled!");
+                GuestView.chooseServicesForGuest();
+                return 0;
+            case "exit-03":
+                System.out.println("\n-----> Your updating has been canceled!");
+                UserInformation.chooseActionInUsersInfo();
+                return 0;
+        }
+        return -1;
+    }
 
     public void enterFullName(User newUser) {
         do {
@@ -144,6 +163,7 @@ public class SignUpView {
                 newUser.setFullName(fullName);
                 break;
             }
+            if (cancelEntering(fullName) == 0) break;
             System.out.println("Invalid name format, please try again!\n");
         } while (true);
     }
@@ -162,6 +182,7 @@ public class SignUpView {
                     break;
                 }
             }
+            if (cancelEntering(birthday) == 0) break;
             System.out.println("Invalid date format or date is after 01/01/2022, please try again!\n");
         } while (true);
     }
@@ -173,6 +194,7 @@ public class SignUpView {
             System.out.print("==> ");
             String phoneNumber = input.nextLine().trim();
             System.out.println();
+            if (cancelEntering(phoneNumber) == 0) break;
             if (!ValidateUtils.isPhoneValid(phoneNumber)) {
                 System.out.println("Invalid phone number format, please try again!\n");
                 continue;
@@ -190,6 +212,7 @@ public class SignUpView {
         System.out.println("5. Enter Address (Example: 4/18 An Duong Vuong, Hue).");
         System.out.print("==> ");
         String address = input.nextLine().trim();
+        cancelEntering(address);
         newUser.setAddress(address);
     }
 
@@ -198,6 +221,7 @@ public class SignUpView {
             System.out.println("6. Enter Email Address (Example: namnguyen123@gmail.com). ");
             System.out.print("==> ");
             String email = input.nextLine().trim().toLowerCase();
+            if (cancelEntering(email) == 0) break;
             if (!ValidateUtils.isEmailValid(email)) {
                 System.out.println("Invalid email address format, please try again!\n");
                 continue;
@@ -221,6 +245,7 @@ public class SignUpView {
                 newUser.setUserName(username);
                 break;
             }
+            if (cancelEntering(username) == 0) break;
             System.out.println("Username has existed. Please enter another username!\n");
         } while (true);
     }
@@ -236,6 +261,7 @@ public class SignUpView {
                 newUser.setPassword(password);
                 break;
             }
+            if (cancelEntering(password) == 0) break;
             System.out.println("Invalid password format, please try again!\n");
         } while (true);
     }

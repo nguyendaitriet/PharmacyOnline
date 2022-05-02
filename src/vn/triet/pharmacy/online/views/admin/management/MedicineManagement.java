@@ -47,8 +47,9 @@ public class MedicineManagement {
                     break;
                 }
                 if (number == 4) {
-                    System.out.println("------ Sorry, this action is not available now. Please choose another!");
-                    chooseActionInMedicineManagement();
+//                    System.out.println("------ Sorry, this action is not available now. Please choose another!");
+//                    chooseActionInMedicineManagement();
+                    removeDrug();
                     break;
                 }
                 if (number == 0) {
@@ -150,21 +151,28 @@ public class MedicineManagement {
                     confirmRemovingDrug(drug);
                     break;
                 }
-                System.out.println("\nWrong ID, do you want to enter again?");
-                
+                if (id == 0) {
+                    chooseActionInMedicineManagement();
+                    break;
+                }
+                System.out.println("\nWrong ID, please try again or enter '0' to return.");
             } catch (Exception ex) {
                 Menu.alert();
             }
         } while (true);
     }
+
     public static void confirmRemovingDrug(Drug drug) {
         do {
+            System.out.printf("\nConfirm that you want to remove drug '%s'.\n", drug.getId());
+            System.out.println("1. Agree to remove.");
+            System.out.println("2. Cancel.");
             try {
-                showConfirmForm();
                 int number = Menu.chooseActionByNumber();
                 if (number == 1) {
-                    System.out.println("\nDrug " + drug.getId()  +" has been removed successfully!");
+                    System.out.printf("\nDrug '%s' has been removed successfully!",drug.getId());
                     medicineService.remove(drug);
+                    chooseActionInMedicineManagement();
                     break;
                 }
                 if (number == 2) {
