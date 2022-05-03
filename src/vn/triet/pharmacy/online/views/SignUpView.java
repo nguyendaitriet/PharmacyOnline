@@ -158,6 +158,10 @@ public class SignUpView {
             System.out.print("==> ");
             String fullName = input.nextLine().trim();
             System.out.println();
+            if (fullName.equals("")) {
+                System.out.println("Your name is required!");
+                continue;
+            }
             if (ValidateUtils.isNameValid(fullName)) {
                 newUser.setFullName(fullName);
                 return false;
@@ -174,6 +178,10 @@ public class SignUpView {
             System.out.print("==> ");
             String birthday = input.nextLine().trim();
             System.out.println();
+            if (birthday.equals("")) {
+                System.out.println("Your date of birth is required!");
+                continue;
+            }
             if (ValidateUtils.isDateValid(birthday)) {
                 int before01012022 = ValidateUtils.convertDate(birthday).compareTo("20220101");
                 if (before01012022 < 0) {
@@ -192,6 +200,10 @@ public class SignUpView {
             System.out.print("==> ");
             String phoneNumber = input.nextLine().trim();
             System.out.println();
+            if (phoneNumber.equals("")) {
+                System.out.println("Your phone number is required!");
+                continue;
+            }
             if (cancelEntering(phoneNumber) == 0) return true;
             if (!ValidateUtils.isPhoneValid(phoneNumber)) {
                 System.out.println("Invalid phone number format, please try again!\n");
@@ -220,6 +232,10 @@ public class SignUpView {
             System.out.println("6. Enter Email Address (Example: namnguyen123@gmail.com). ");
             System.out.print("==> ");
             String email = input.nextLine().trim().toLowerCase();
+            if (email.equals("")) {
+                System.out.println("Your email is required!");
+                continue;
+            }
             if (cancelEntering(email) == 0) return true;
             if (!ValidateUtils.isEmailValid(email)) {
                 System.out.println("Invalid email address format, please try again!\n");
@@ -240,6 +256,10 @@ public class SignUpView {
             System.out.print("==> ");
             String username = input.nextLine().trim().toLowerCase();
             System.out.println();
+            if (username.equals("")) {
+                System.out.println("Your username is required!");
+                continue;
+            }
             if (!signUpService.checkExistedUserName(username)) {
                 newUser.setUserName(username);
                 return false;
@@ -256,6 +276,10 @@ public class SignUpView {
             System.out.print("==> ");
             String password = input.nextLine().trim();
             System.out.println();
+            if (password.equals("")) {
+                System.out.println("Your password is required!");
+                continue;
+            }
             if (ValidateUtils.isPasswordValid(password)) {
                 newUser.setPassword(password);
                 break;
