@@ -44,26 +44,37 @@ public class MedicineService implements IMedicineService{
             if (drug.getId() == newDrug.getId()) {
                 if (newDrug.getDrugName() != null && !newDrug.getDrugName().isEmpty())
                     drug.setDrugName(newDrug.getDrugName());
+
                 if (newDrug.getDrugContent() != drug.getDrugContent())
                     drug.setDrugContent(newDrug.getDrugContent());
+
                 if (newDrug.getQuantity() != drug.getQuantity())
                     drug.setQuantity(newDrug.getQuantity());
+
                 if (newDrug.getDosageForm() != null && !newDrug.getDosageForm().isEmpty())
                     drug.setDosageForm(newDrug.getDosageForm());
+
                 if (newDrug.getUsage() != null && !newDrug.getUsage().isEmpty())
                     drug.setUsage(newDrug.getUsage());
+
                 if (newDrug.getDosagePerDay() != null && !newDrug.getDosagePerDay().isEmpty())
                     drug.setDosagePerDay(newDrug.getDosagePerDay());
+
                 if (newDrug.getTotalDosage5Days() != drug.getTotalDosage5Days())
                     drug.setTotalDosage5Days(newDrug.getTotalDosage5Days());
-                if (newDrug.getPricePerPill() != drug.getTotalDosage5Days())
-                    drug.setTotalDosage5Days(newDrug.getTotalDosage5Days());
+
+                if (newDrug.getPricePerPill() != drug.getPricePerPill())
+                    drug.setPricePerPill(newDrug.getPricePerPill());
+
                 if (newDrug.getProductionDate() != null && !newDrug.getProductionDate().isEmpty())
                     drug.setProductionDate(newDrug.getProductionDate());
+
                 if (newDrug.getExpirationDate() != null && !newDrug.getExpirationDate().isEmpty())
                     drug.setExpirationDate(newDrug.getExpirationDate());
+
                 if (newDrug.getNote() != null && !newDrug.getNote().isEmpty())
                     drug.setNote(newDrug.getNote());
+
                 CSVUtils.writeData(path, drugs);
                 break;
             }

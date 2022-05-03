@@ -23,11 +23,10 @@ public class MedicineManagement {
         System.out.println("|        1. Show drugs list.                          |");
         System.out.println("|             2. Sort by quantity.                    |");
         System.out.println("|             3. Sort by price per pill.              |");
-        System.out.println("|             4. Sort by production date.             |");
-        System.out.println("|             5. Show a drug in detail (by ID).       |");
-        System.out.println("|        6. Add new drug.                             |");
-//        System.out.println("|        3. Edit drug's information.                  |");
-//        System.out.println("|        4. Remove drug.                              |");
+        System.out.println("|             4. Sort by expiration date.             |");
+        System.out.println("|             5. Check a drug detail (by ID).         |");
+        System.out.println("|             6. Search drug by name.                 |");
+        System.out.println("|        7. Add new drug.                             |");
         System.out.println("|        0. Return.                                   |");
         System.out.println("|                                                     |");
         System.out.println(" -----------------------------------------------------");
@@ -44,17 +43,15 @@ public class MedicineManagement {
                     break;
                 }
                 if (number == 2) {
-
+                    showDrugsList(drugs, 2);
                     break;
                 }
                 if (number == 3) {
-
+                    showDrugsList(drugs, 3);
                     break;
                 }
                 if (number == 4) {
-//                    System.out.println("------ Sorry, this action is not available now. Please choose another!");
-//                    chooseActionInMedicineManagement();
-                    removeDrug();
+                    showDrugsList(drugs, 4);
                     break;
                 }
                 if (number == 5) {
@@ -62,6 +59,10 @@ public class MedicineManagement {
                     break;
                 }
                 if (number == 6) {
+
+                    break;
+                }
+                if (number == 7) {
                     addNewDrug();
                     break;
                 }
@@ -87,20 +88,17 @@ public class MedicineManagement {
                 showAllDrugs(drugs);
                 break;
             case 2:
-//                sortByNameASCE(drugs);
+                sortByQuantityASCE(drugs);
                 break;
             case 3:
-//                sortByCreationDateASCE(drugs);
+                sortByPricePerPillASCE(drugs);
                 break;
             case 4:
-//                filterByAdmin(drugs);
-                break;
-            case 5:
-//                filterByUser(drugs);
+                sortByExpirationDateASCE(drugs);
                 break;
         }
         System.out.println("------------------------------------------------------------------------------------------------------------------------\n");
-        showReturningChoice();
+        chooseNextOperation();
     }
 
     public static void showAllDrugs(List<Drug> drugs) {
@@ -111,12 +109,21 @@ public class MedicineManagement {
         System.out.printf("%-12s %-25s %-23s %-20s %-20s %-20s\n", drug.getId(), drug.getDrugName(), drug.getDrugContent(), drug.getQuantity(), drug.getPricePerPill(), drug.getExpirationDate());
     }
 
-    private static void showReturningChoice() {
+    private static void chooseNextOperation() {
         do {
-            System.out.print("Enter '0' to return: ");
+            System.out.println("---> Enter '1' to edit a drug (by ID).");
+            System.out.println("---> Enter '2' to remove a drug (by ID).");
+            System.out.println("---> Enter '0' to return.");
             try {
-                Scanner input = new Scanner(System.in);
-                int number = input.nextInt();
+                int number = Menu.chooseActionByNumber();
+                if (number == 1) {
+                    updateDrug();
+                    break;
+                }
+                if (number == 2) {
+                    removeDrug();
+                    break;
+                }
                 if (number == 0) {
                     chooseActionInMedicineManagement();
                     break;
@@ -128,76 +135,98 @@ public class MedicineManagement {
         } while (true);
     }
 
-    public static void addNewDrug() {
-        System.out.println("\n\n----- Add new drug -----\n");
-        Drug newDrug = new Drug();
-        try {
-            setID(newDrug);
-            do {
-                enterDrugName(newDrug);
-                enterDrugContent(newDrug);
-            } while (!checkDuplicateDrug(newDrug));
-            enterQuantity(newDrug);
-            enterDosageForm(newDrug);
-            enterUsage(newDrug);
-            enterDosagePerDay(newDrug);
-            enterTotalDosage5Days(newDrug);
-            enterPricePerPill(newDrug);
-            enterProductionDate(newDrug);
-            enterExpirationDate(newDrug);
-            enterNote(newDrug);
-            confirmAddingNewDrug(newDrug);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Menu.alert();
-            Menu.showExceptionAction();
-        }
+    private static void sortByQuantityASCE(List<Drug> drugs) {
+        drugs.sort((e1, e2) -> Integer.compare(e1.getQuantity() - e2.getQuantity(), 0));
+        showAllDrugs(drugs);
     }
 
-    public static void removeDrug() {
-        do {
-            try {
-                System.out.print("\nEnter drug ID you want to REMOVE: ");
-                int id = Integer.parseInt(input.nextLine());
-                if (medicineService.isIdExisted(id)) {
-                    Drug drug = medicineService.getDrugById(id);
-                    confirmRemovingDrug(drug);
-                    break;
-                }
-                if (id == 0) {
-                    chooseActionInMedicineManagement();
-                    break;
-                }
-                System.out.println("\nWrong ID, please try again or enter '0' to return.");
-            } catch (Exception ex) {
-                Menu.alert();
-            }
-        } while (true);
+    private static void sortByPricePerPillASCE(List<Drug> drugs) {
+        drugs.sort((e1, e2) -> Double.compare(e1.getPricePerPill() - e2.getPricePerPill(), 0));
+        showAllDrugs(drugs);
     }
 
-    public static void confirmRemovingDrug(Drug drug) {
-        do {
-            System.out.printf("\nConfirm that you want to remove drug '%s'.\n", drug.getId());
-            System.out.println("1. Agree to remove.");
-            System.out.println("2. Cancel.");
+    private static void sortByExpirationDateASCE(List<Drug> drugs) {
+        drugs.sort((e1, e2) -> {
             try {
-                int number = Menu.chooseActionByNumber();
-                if (number == 1) {
-                    System.out.printf("\nDrug '%s' has been removed successfully!", drug.getId());
-                    medicineService.remove(drug);
-                    chooseActionInMedicineManagement();
-                    break;
-                }
-                if (number == 2) {
-                    chooseActionInMedicineManagement();
-                    break;
-                }
-                Menu.alert();
-            } catch (Exception ex) {
-                Menu.alert();
+                long e1Milli = ValidateUtils.convertDateToMilli(e1.getExpirationDate());
+                long e2Milli = ValidateUtils.convertDateToMilli(e2.getExpirationDate());
+                return Long.compare(e1Milli - e2Milli, 0);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
-        } while (true);
+        });
+        showAllDrugs(drugs);
     }
+
+    private static void searchByFullName(List<User> users) {
+        boolean is = true;
+        do {
+            System.out.print("\nEnter name you want to search: ");
+            Scanner input = new Scanner(System.in);
+            String searchName = input.nextLine().toLowerCase().trim();
+            int count = 0;
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getFullName().toLowerCase().contains(searchName)) {
+                    count++;
+                    if (count == 1) {
+                        System.out.println("\nUSERS LIST ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                        System.out.printf("%-12s %-28s %-20s %-20s %-25s %-25s %-22s %-10s %-10s\n", "ID", "Full Name", "Date of Birth", "Phone Number", "Email", "Address", "Username", "Role", "Creation Date");
+                        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                    }
+                    showOneUser(users.get(i));
+                }
+                if (count > 0 && i == users.size() - 1) {
+                    is = true;
+                    System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                }
+            }
+            if (count == 0) {
+                System.out.printf("\nCan't find account with name '%s'. Do you want to try again?\n", searchName);
+                do {
+                    System.out.println("(Enter 'y' to find again or enter 'n' to exit)");
+                    try {
+                        String letter = Menu.chooseActionByLetter();
+                        if (letter.charAt(0) == 'y' && letter.length() == 1) {
+                            is = false;
+                            break;
+                        }
+                        if (letter.charAt(0) == 'n' && letter.length() == 1) {
+                            is = true;
+                            chooseActionInUsersInfo();
+                            break;
+                        }
+                        Menu.alert();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        Menu.alert();
+                    }
+                } while (true);
+            }
+        } while (!is);
+        showReturningChoice();
+    }
+
+//    public static void removeDrug() {
+//        do {
+//            try {
+//                System.out.print("\nEnter drug ID you want to REMOVE: ");
+//                int id = Integer.parseInt(input.nextLine());
+//                if (medicineService.isIdExisted(id)) {
+//                    Drug drug = medicineService.getDrugById(id);
+//                    confirmRemovingDrug(drug);
+//                    break;
+//                }
+//                if (id == 0) {
+//                    chooseActionInMedicineManagement();
+//                    break;
+//                }
+//                System.out.println("\nID doesn't exist, please try again or enter '0' to return.");
+//            } catch (Exception ex) {
+//                Menu.alert();
+//            }
+//        } while (true);
+//    }
+
 
     public static void setID(Drug newDrug) {
         int min = 100001;
@@ -211,7 +240,7 @@ public class MedicineManagement {
     }
 
     private static boolean cancelEntering(String string) {
-        if (string.equals("exit-04")) {
+        if (string.equalsIgnoreCase("exit-04")) {
             System.out.println("\nYour operation has been canceled!");
             chooseActionInMedicineManagement();
             return true;
@@ -234,19 +263,21 @@ public class MedicineManagement {
         } while (true);
     }
 
-    private static void enterDrugContent(Drug newDrug) {
+    private static boolean enterDrugContent(Drug newDrug) {
         do {
             try {
                 System.out.println("3. Enter Drug Content (mg). ");
                 System.out.print("==> ");
-                double drugContent = Double.parseDouble(input.nextLine());
+                String drugContent = input.nextLine();
+                if (cancelEntering(drugContent)) return true;
+                double drugContentValue = Double.parseDouble(drugContent);
                 System.out.println();
-                if (drugContent <= 0) {
+                if (drugContentValue <= 0) {
                     System.out.println("You can't enter a negative value, please try again!\n");
                     continue;
                 }
-                newDrug.setDrugContent(drugContent);
-                break;
+                newDrug.setDrugContent(drugContentValue);
+                return false;
             } catch (Exception ex) {
                 Menu.alert();
             }
@@ -264,39 +295,44 @@ public class MedicineManagement {
         return true;
     }
 
-    private static void enterQuantity(Drug newDrug) {
+    private static boolean enterQuantity(Drug newDrug) {
         do {
             try {
                 System.out.println("4. Enter Quantity (pill). ");
                 System.out.print("==> ");
-                int quantity = Integer.parseInt(input.nextLine());
+                String quantity = input.nextLine();
+                if (cancelEntering(quantity)) return true;
+                int quantityValue = Integer.parseInt(quantity);
                 System.out.println();
-                if (quantity <= 0) {
+                if (quantityValue <= 0) {
                     System.out.println("You can't enter a negative value, please try again!\n");
                     continue;
                 }
-                newDrug.setQuantity(quantity);
-                break;
+                newDrug.setQuantity(quantityValue);
+                return false;
             } catch (Exception ex) {
                 Menu.alert();
             }
         } while (true);
     }
 
-    private static void enterDosageForm(Drug newDrug) {
+    private static boolean enterDosageForm(Drug newDrug) {
         do {
             try {
-                System.out.println("5. Enter dosage form (Choose '1' or '2').");
+                System.out.print("5. Enter dosage form (Choose '1' or '2').\n");
                 System.out.printf("%-10s %-15s", " ", "1. Tablet.\n");
                 System.out.printf("%-10s %-15s", " ", "2. Capsule.\n");
-                int number = Menu.chooseActionByNumber();
+                System.out.print("==> ");
+                String value = input.nextLine();
+                if (cancelEntering(value)) return true;
+                int number = Integer.parseInt(value);
                 if (number == 1) {
                     newDrug.setDosageForm("tablet");
-                    break;
+                    return false;
                 }
                 if (number == 2) {
                     newDrug.setDosageForm("capsule");
-                    break;
+                    return false;
                 }
                 Menu.alert();
             } catch (Exception ex) {
@@ -305,76 +341,86 @@ public class MedicineManagement {
         } while (true);
     }
 
-    private static void enterUsage(Drug newDrug) {
+    private static boolean enterUsage(Drug newDrug) {
         System.out.println("6. Enter common usage (Example: fever, cough).");
         System.out.print("==> ");
         String usage = input.nextLine().trim();
+        if (cancelEntering(usage)) return true;
         newDrug.setUsage(usage);
+        return false;
     }
 
-    private static void enterDosagePerDay(Drug newDrug) {
+    private static boolean enterDosagePerDay(Drug newDrug) {
         System.out.println("7. Enter dosage per day (Example: 1 Morning, 1 Night).");
         System.out.print("==> ");
         String dosagePerDay = input.nextLine().trim();
+        if (cancelEntering(dosagePerDay)) return true;
         newDrug.setDosagePerDay(dosagePerDay);
+        return false;
     }
 
-    private static void enterTotalDosage5Days(Drug newDrug) {
+    private static boolean enterTotalDosage5Days(Drug newDrug) {
         do {
             try {
                 System.out.println("8. Enter total dosage in 5 days.");
                 System.out.print("==> ");
-                int totalDosage5Days = Integer.parseInt(input.nextLine());
-                if (totalDosage5Days <= 0) {
+                String totalDosage5Days = input.nextLine();
+                if (cancelEntering(totalDosage5Days)) return true;
+                int totalDosage5DaysValue = Integer.parseInt(totalDosage5Days);
+                if (totalDosage5DaysValue <= 0) {
                     System.out.println("You can't enter a negative value, please try again!\n");
                     continue;
                 }
-                newDrug.setTotalDosage5Days(totalDosage5Days);
-                break;
+                newDrug.setTotalDosage5Days(totalDosage5DaysValue);
+                return false;
             } catch (Exception ex) {
                 Menu.alert();
             }
         } while (true);
     }
 
-    private static void enterPricePerPill(Drug newDrug) {
+    private static boolean enterPricePerPill(Drug newDrug) {
         do {
             try {
                 System.out.println("9. Enter price per pill.");
                 System.out.print("==> ");
-                double pricePerPill = Double.parseDouble(input.nextLine());
-                if (pricePerPill <= 0) {
+                String pricePerPill = input.nextLine();
+                if (cancelEntering(pricePerPill)) return true;
+                double pricePerPillValue = Double.parseDouble(pricePerPill);
+                if (pricePerPillValue <= 0) {
                     System.out.println("You can't enter a negative value, please try again!\n");
                     continue;
                 }
-                newDrug.setPricePerPill(pricePerPill);
-                break;
+                newDrug.setPricePerPill(pricePerPillValue);
+                return false;
             } catch (Exception ex) {
                 Menu.alert();
             }
         } while (true);
     }
 
-    private static void enterProductionDate(Drug newDrug) {
+    private static boolean enterProductionDate(Drug newDrug) {
         do {
             System.out.println("10. Enter Production Date (Example: 12/04/2021) ");
             System.out.print("==> ");
             String productionDate = input.nextLine().trim();
+            if (cancelEntering(productionDate)) return true;
             System.out.println();
             if (ValidateUtils.isDateValid(productionDate)) {
                 newDrug.setProductionDate(productionDate);
-                break;
+                return false;
             }
             System.out.println("Invalid date format, please try again!\n");
         } while (true);
     }
 
 
-    private static void enterExpirationDate(Drug newDrug) throws ParseException {
+    private static boolean enterExpirationDate(Drug newDrug) throws ParseException {
         do {
             System.out.println("11. Enter Expiration Date (Example: 12/04/2022) ");
             System.out.print("==> ");
             String expirationDate = input.nextLine().trim();
+            if (cancelEntering(expirationDate)) return true;
             System.out.println();
             if (!ValidateUtils.isDateValid(expirationDate)) {
                 System.out.println("Invalid date format, please try again!\n");
@@ -387,15 +433,17 @@ public class MedicineManagement {
                 continue;
             }
             newDrug.setExpirationDate(expirationDate);
-            break;
+            return false;
         } while (true);
     }
 
-    private static void enterNote(Drug newDrug) {
+    private static boolean enterNote(Drug newDrug) {
         System.out.println("12. Enter note (Example: antibiotic).");
         System.out.print("==> ");
         String note = input.nextLine();
+        if (cancelEntering(note)) return true;
         newDrug.setNote(note);
+        return false;
     }
 
     public static void showConfirmForm() {
@@ -427,7 +475,7 @@ public class MedicineManagement {
     }
 
     public static void showDrugDetail(Drug drug) {
-        System.out.println("\nDRUG DETAIL------------------------------\n");
+        System.out.println("\nDRUG DETAIL ------------------------------------------\n");
         System.out.printf("%-30s %-12d\n", "1. ID:", drug.getId());
         System.out.printf("%-30s %-12s\n", "2. Generic Name:", drug.getDrugName());
         System.out.printf("%-30s %-12s\n", "3. Drug Content (mg):", drug.getDrugContent());
@@ -440,14 +488,14 @@ public class MedicineManagement {
         System.out.printf("%-30s %-12s\n", "10. Production Date:", drug.getProductionDate());
         System.out.printf("%-30s %-12s\n", "11. Expiration Date:", drug.getExpirationDate());
         System.out.printf("%-30s %-12s\n", "12. Note:", drug.getNote());
-        System.out.println("\n-----------------------------------------\n");
+        System.out.println("\n-----------------------------------------------------\n");
     }
 
     public static Drug getExistedDrug() {
         Drug drug = null;
         do {
             try {
-                System.out.print("\nEnter Drug ID you want to UPDATE: ");
+                System.out.print("\nEnter Drug ID: ");
                 int id = Integer.parseInt(input.nextLine());
                 if (medicineService.isIdExisted(id)) {
                     drug = medicineService.getDrugById(id);
@@ -457,12 +505,37 @@ public class MedicineManagement {
                     chooseActionInMedicineManagement();
                     break;
                 }
-                System.out.println("\nWrong ID, please try again or enter '0' to return.");
+                System.out.println("\nID doesn't exist, please try again or enter '0' to return.");
             } catch (Exception ex) {
                 Menu.alert();
             }
         } while (true);
         return drug;
+    }
+
+    public static void removeDrug() {
+        Drug drug = getExistedDrug();
+        do {
+            System.out.printf("\nConfirm that you want to remove drug '%s'.\n", drug.getId());
+            System.out.println("1. Agree to remove.");
+            System.out.println("2. Cancel.");
+            try {
+                int number = Menu.chooseActionByNumber();
+                if (number == 1) {
+                    System.out.printf("\nDrug '%s' has been removed successfully!", drug.getId());
+                    medicineService.remove(drug);
+                    chooseActionInMedicineManagement();
+                    break;
+                }
+                if (number == 2) {
+                    chooseActionInMedicineManagement();
+                    break;
+                }
+                Menu.alert();
+            } catch (Exception ex) {
+                Menu.alert();
+            }
+        } while (true);
     }
 
     public static void updateDrug() {
@@ -473,42 +546,55 @@ public class MedicineManagement {
             showDrugDetail(oldDrug);
             showChangeStatus(number);
             System.out.println("Choose what information you want to update.");
-            System.out.println("NOTE: You CANNOT update your account ID. Please don't enter '1'!\n");
-            System.out.println("---> Enter '8' to update password.");
-            System.out.println("---> Enter '9' to CONFIRM that you agree to update your account with below information.\n");
+            System.out.println("NOTE: You CANNOT update drug ID. Please don't enter '1'!\n");
+            System.out.println("---> Enter '13' to CONFIRM that you agree to update your account with below information.\n");
             System.out.println("---> Enter '0' to cancel updating.");
             System.out.println("---> NOTE: You can enter 'exit-04' to cancel updating at any step (2-12).\n");
             try {
                 number = Menu.chooseActionByNumber();
                 switch (number) {
                     case 2:
-                        is = newRegister.enterFullName(currentUser);
+                        is = enterDrugName(oldDrug);
                         break;
                     case 3:
-                        is = newRegister.enterBirthday(currentUser);
+                        is = enterDrugContent(oldDrug);
                         break;
                     case 4:
-                        is = newRegister.enterPhoneNumber(currentUser);
+                        is = enterQuantity(oldDrug);
                         break;
                     case 5:
-                        is = newRegister.enterAddress(currentUser);
+                        is = enterDosageForm(oldDrug);
                         break;
                     case 6:
-                        is = newRegister.enterEmail(currentUser);
+                        is = enterUsage(oldDrug);
                         break;
                     case 7:
-                        is = newRegister.enterUserName(currentUser);
+                        is = enterDosagePerDay(oldDrug);
                         break;
                     case 8:
-                        updatePassword(currentUser);
-                        is = true;
+                        is = enterTotalDosage5Days(oldDrug);
                         break;
                     case 9:
-                        userService.update(currentUser);
+                        is = enterPricePerPill(oldDrug);
+                        break;
+                    case 10:
+                        is = enterProductionDate(oldDrug);
+                        break;
+                    case 11:
+                        is = enterExpirationDate(oldDrug);
+                        break;
+                    case 12:
+                        is = enterNote(oldDrug);
+                        break;
+                    case 13:
                         is = true;
+                        medicineService.update(oldDrug);
+                        System.out.println("\n-----> Drug has been updated successfully!\n");
+                        chooseActionInMedicineManagement();
                         break;
                     case 0:
                         is = true;
+                        chooseActionInMedicineManagement();
                         break;
                     default:
                         Menu.alert();
@@ -523,17 +609,44 @@ public class MedicineManagement {
 
     private static void showChangeStatus(int number) {
         switch (number) {
-            case 2 -> System.out.println("--- Your full name has been changed.\n");
-            case 3 -> System.out.println("--- Your date of birth has been changed.\n");
-            case 4 -> System.out.println("--- Your phone number has been changed.\n");
-            case 5 -> System.out.println("--- Your address has been changed.\n");
-            case 6 -> System.out.println("--- Your email has been changed.\n");
-            case 7 -> System.out.println("--- Your username has been changed.\n");
-            case 8 -> System.out.println("--- Your username has been changed.\n");
-            case 9 -> System.out.println("--- Your username has been changed.\n");
-            case 10 -> System.out.println("--- Your username has been changed.\n");
-            case 11 -> System.out.println("--- Your username has been changed.\n");
-            case 12 -> System.out.println("--- Your username has been changed.\n");
+            case 2 -> System.out.println("---  Drug name has been changed.\n");
+            case 3 -> System.out.println("---  Drug content has been changed.\n");
+            case 4 -> System.out.println("---  Quantity has been changed.\n");
+            case 5 -> System.out.println("---  Dosage form has been changed.\n");
+            case 6 -> System.out.println("---  Usage has been changed.\n");
+            case 7 -> System.out.println("---  Dosage per day has been changed.\n");
+            case 8 -> System.out.println("---  Total dosage in 5 days has been changed.\n");
+            case 9 -> System.out.println("---  Price per pill has been changed.\n");
+            case 10 -> System.out.println("---  Production date has been changed.\n");
+            case 11 -> System.out.println("---  Expiration date has been changed.\n");
+            case 12 -> System.out.println("---  Note has been changed.\n");
+        }
+    }
+
+    public static void addNewDrug() {
+        System.out.println("\n\n----- Add new drug -----\n");
+        System.out.println("---> NOTE: You can enter 'exit-04' to cancel operating at any step (2-12).\n");
+        Drug newDrug = new Drug();
+        try {
+            setID(newDrug);
+            do {
+                enterDrugName(newDrug);
+                enterDrugContent(newDrug);
+            } while (!checkDuplicateDrug(newDrug));
+            enterQuantity(newDrug);
+            enterDosageForm(newDrug);
+            enterUsage(newDrug);
+            enterDosagePerDay(newDrug);
+            enterTotalDosage5Days(newDrug);
+            enterPricePerPill(newDrug);
+            enterProductionDate(newDrug);
+            enterExpirationDate(newDrug);
+            enterNote(newDrug);
+            confirmAddingNewDrug(newDrug);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Menu.alert();
+            Menu.showExceptionAction();
         }
     }
 }

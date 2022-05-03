@@ -36,7 +36,7 @@ public class LoginView {
         }
 
         if (user.getRole() == Role.ADMIN) {
-            System.out.println("\nSuccessful sign-in as ADMIN!");
+            System.out.println("\nSign in successfully as ADMIN!");
             userID = user.getId();
             AdminView.chooseAdminAction();
             return;

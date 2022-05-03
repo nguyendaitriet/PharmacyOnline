@@ -36,8 +36,7 @@ public class Menu {
     }
 
     public static void alert() {
-        System.out.println("!!!!! INVALID input. Please try again !!!!!");
-        System.out.println();
+        System.out.println("!!!!! INVALID input. Please try again !!!!!\n");
     }
 
     public static void chooseInEntrance() {

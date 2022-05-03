@@ -47,44 +47,38 @@ public class AccountManagement {
             System.out.println("NOTE: You CANNOT update your account ID. Please don't enter '1'!\n");
             System.out.println("---> Enter '8' to update password.");
             System.out.println("---> Enter '9' to CONFIRM that you agree to update your account with below information.\n");
-            System.out.println("---> Enter '0' to cancel updating.");
-//            System.out.println("---> NOTE: You can enter 'exit-02' to cancel updating at any step (2-7) with User account.\n");
-//            System.out.println("---> NOTE: You can enter 'exit-03' to cancel updating at any step (2-7) with Admin account.\n");
+            System.out.println("---> Enter '0' to cancel updating.\n");
+            System.out.println("---> NOTE: You can enter 'exit-02' to cancel updating at any step (2-7) with User account.\n");
+            System.out.println("---> NOTE: You can enter 'exit-03' to cancel updating at any step (2-7) with Admin account.\n");
 
             try {
                 number = Menu.chooseActionByNumber();
                 switch (number) {
                     case 2:
-//                        newRegister.enterFullName(currentUser);
                         is = newRegister.enterFullName(currentUser);
                         break;
                     case 3:
-//                        newRegister.enterBirthday(currentUser);
                         is = newRegister.enterBirthday(currentUser);
                         break;
                     case 4:
-//                        newRegister.enterPhoneNumber(currentUser);
                         is = newRegister.enterPhoneNumber(currentUser);
                         break;
                     case 5:
-//                        newRegister.enterAddress(currentUser);
                         is = newRegister.enterAddress(currentUser);
                         break;
                     case 6:
-//                        newRegister.enterEmail(currentUser);
                         is = newRegister.enterEmail(currentUser);
                         break;
                     case 7:
-//                        newRegister.enterUserName(currentUser);
                         is = newRegister.enterUserName(currentUser);
                         break;
                     case 8:
-                        updatePassword(currentUser);
                         is = true;
+                        updatePassword(currentUser);
                         break;
                     case 9:
-                        userService.update(currentUser);
                         is = true;
+                        userService.update(currentUser);
                         break;
                     case 0:
                         is = true;

@@ -136,7 +136,7 @@ public class SignUpView {
 //    }
 
     public int cancelEntering(String string) {
-        switch (string) {
+        switch (string.toLowerCase()) {
             case "exit-01":
                 System.out.println("\n-----> Your register has been canceled!");
                 Menu.chooseInEntrance();
