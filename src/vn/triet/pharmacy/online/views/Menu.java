@@ -27,14 +27,6 @@ public class Menu {
         return input.nextLine();
     }
 
-    public static void showExceptionAction() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("INVALID INPUT!");
-        System.out.print("Enter '0' to return Homepage or any letter to continue: ");
-        String exit = input.next();
-        if (exit.equals("0")) chooseInEntrance();
-    }
-
     public static void alert() {
         System.out.println("!!!!! INVALID input. Please try again !!!!!\n");
     }

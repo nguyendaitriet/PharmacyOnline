@@ -89,7 +89,7 @@ public class AccountManagement {
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                Menu.showExceptionAction();
+                Menu.alert();
             }
         } while (!is);
         return number;

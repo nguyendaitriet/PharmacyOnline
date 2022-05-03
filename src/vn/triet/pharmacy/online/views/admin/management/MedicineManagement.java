@@ -59,7 +59,7 @@ public class MedicineManagement {
                     break;
                 }
                 if (number == 6) {
-
+                    searchDrugByName(drugs);
                     break;
                 }
                 if (number == 7) {
@@ -158,30 +158,30 @@ public class MedicineManagement {
         showAllDrugs(drugs);
     }
 
-    private static void searchByFullName(List<User> users) {
+    private static void searchDrugByName(List<Drug> drugs) {
         boolean is = true;
         do {
-            System.out.print("\nEnter name you want to search: ");
-            Scanner input = new Scanner(System.in);
+            System.out.print("\nEnter drug name you want to search: ");
             String searchName = input.nextLine().toLowerCase().trim();
             int count = 0;
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getFullName().toLowerCase().contains(searchName)) {
+            for (int i = 0; i < drugs.size(); i++) {
+                if (drugs.get(i).getDrugName().toLowerCase().contains(searchName)) {
                     count++;
                     if (count == 1) {
-                        System.out.println("\nUSERS LIST ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-                        System.out.printf("%-12s %-28s %-20s %-20s %-25s %-25s %-22s %-10s %-10s\n", "ID", "Full Name", "Date of Birth", "Phone Number", "Email", "Address", "Username", "Role", "Creation Date");
-                        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                        System.out.println("\nDRUGS LIST -------------------------------------------------------------------------------------------------------------");
+                        System.out.printf("%-12s %-25s %-23s %-20s %-20s %-20s\n",
+                                "ID", "Drug Name", "Drug Content (mg)", "Quantity (pill)", "Price per Pill", "Expiration Date");
+                        System.out.println("------------------------------------------------------------------------------------------------------------------------");
                     }
-                    showOneUser(users.get(i));
+                    showOneDrug(drugs.get(i));
                 }
-                if (count > 0 && i == users.size() - 1) {
+                if (count > 0 && i == drugs.size() - 1) {
                     is = true;
-                    System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                    System.out.println("------------------------------------------------------------------------------------------------------------------------");
                 }
             }
             if (count == 0) {
-                System.out.printf("\nCan't find account with name '%s'. Do you want to try again?\n", searchName);
+                System.out.printf("\nCan't find drug with name '%s'. Do you want to try again?\n", searchName);
                 do {
                     System.out.println("(Enter 'y' to find again or enter 'n' to exit)");
                     try {
@@ -192,7 +192,7 @@ public class MedicineManagement {
                         }
                         if (letter.charAt(0) == 'n' && letter.length() == 1) {
                             is = true;
-                            chooseActionInUsersInfo();
+                            chooseActionInMedicineManagement();
                             break;
                         }
                         Menu.alert();
@@ -203,7 +203,7 @@ public class MedicineManagement {
                 } while (true);
             }
         } while (!is);
-        showReturningChoice();
+        chooseNextOperation();
     }
 
 //    public static void removeDrug() {
@@ -602,7 +602,7 @@ public class MedicineManagement {
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                Menu.showExceptionAction();
+                Menu.alert();
             }
         } while (!is);
     }
@@ -644,9 +644,7 @@ public class MedicineManagement {
             enterNote(newDrug);
             confirmAddingNewDrug(newDrug);
         } catch (Exception ex) {
-            ex.printStackTrace();
             Menu.alert();
-            Menu.showExceptionAction();
         }
     }
 }

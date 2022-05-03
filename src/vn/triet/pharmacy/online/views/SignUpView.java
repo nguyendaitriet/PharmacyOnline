@@ -40,7 +40,6 @@ public class SignUpView {
         } catch (Exception ex) {
             ex.printStackTrace();
             Menu.alert();
-            Menu.showExceptionAction();
         }
     }
 
