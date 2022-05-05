@@ -1,6 +1,7 @@
 package vn.triet.pharmacy.online.views;
 
 import vn.triet.pharmacy.online.views.guest.services.AccountManagement;
+import vn.triet.pharmacy.online.views.guest.services.MedicineBuy;
 
 public class GuestView {
 
@@ -29,7 +30,7 @@ public class GuestView {
                     break;
                 }
                 if (number == 2) {
-
+                    MedicineBuy.setInformation();
                     break;
                 }
                 if (number == 3) {

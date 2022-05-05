@@ -15,14 +15,6 @@ import java.util.Scanner;
 public class AccountManagement {
     private static IUserService userService = new UserService();
 
-    public static User getCurrentUser() {
-        List<User> users = userService.getUsers();
-        for (User user : users) {
-            if (user.getId() == LoginView.getUserID()) return user;
-        }
-        return null;
-    }
-
     public static void showCurrentAccount(User user) {
         System.out.println("\n--------------Your Account---------------\n");
         System.out.printf("%-17s %-12d\n", "1. ID:", user.getId());
@@ -36,7 +28,7 @@ public class AccountManagement {
     }
 
     public static int updateAccount() {
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getUserById(LoginView.getUserID());
         SignUpView newRegister = new SignUpView();
         boolean is = true;
         int number = -1;

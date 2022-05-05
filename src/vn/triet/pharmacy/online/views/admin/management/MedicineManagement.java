@@ -1,7 +1,6 @@
 package vn.triet.pharmacy.online.views.admin.management;
 
 import vn.triet.pharmacy.online.models.Drug;
-import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IMedicineService;
 import vn.triet.pharmacy.online.services.MedicineService;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
@@ -206,28 +205,6 @@ public class MedicineManagement {
         chooseNextOperation();
     }
 
-//    public static void removeDrug() {
-//        do {
-//            try {
-//                System.out.print("\nEnter drug ID you want to REMOVE: ");
-//                int id = Integer.parseInt(input.nextLine());
-//                if (medicineService.isIdExisted(id)) {
-//                    Drug drug = medicineService.getDrugById(id);
-//                    confirmRemovingDrug(drug);
-//                    break;
-//                }
-//                if (id == 0) {
-//                    chooseActionInMedicineManagement();
-//                    break;
-//                }
-//                System.out.println("\nID doesn't exist, please try again or enter '0' to return.");
-//            } catch (Exception ex) {
-//                Menu.alert();
-//            }
-//        } while (true);
-//    }
-
-
     public static void setID(Drug newDrug) {
         int min = 100001;
         int max = 999999;
@@ -273,7 +250,7 @@ public class MedicineManagement {
                 double drugContentValue = Double.parseDouble(drugContent);
                 System.out.println();
                 if (drugContentValue <= 0) {
-                    System.out.println("You can't enter a negative value, please try again!\n");
+                    System.out.println("You can't enter a negative value or '0', please try again!\n");
                     continue;
                 }
                 newDrug.setDrugContent(drugContentValue);
@@ -304,7 +281,7 @@ public class MedicineManagement {
                 if (cancelEntering(quantity)) return true;
                 int quantityValue = Integer.parseInt(quantity);
                 System.out.println();
-                if (quantityValue <= 0) {
+                if (quantityValue < 0) {
                     System.out.println("You can't enter a negative value, please try again!\n");
                     continue;
                 }
@@ -320,8 +297,8 @@ public class MedicineManagement {
         do {
             try {
                 System.out.print("5. Enter dosage form (Choose '1' or '2').\n");
-                System.out.printf("%-10s %-15s", " ", "1. Tablet.\n");
-                System.out.printf("%-10s %-15s", " ", "2. Capsule.\n");
+                System.out.printf("%-10s %-15s\n", " ", "1. Tablet.");
+                System.out.printf("%-10s %-15s\n", " ", "2. Capsule.");
                 System.out.print("==> ");
                 String value = input.nextLine();
                 if (cancelEntering(value)) return true;
