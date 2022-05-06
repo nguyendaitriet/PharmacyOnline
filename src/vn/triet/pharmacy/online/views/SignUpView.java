@@ -103,9 +103,9 @@ public class SignUpView {
     public void setID(User newUser) {
         int min = 100000;
         int max = 999999;
-        int id;
+        long id;
         do {
-            id = (int) Math.floor(Math.random() * (max - min + 1) + min);
+            id = (long) Math.floor(Math.random() * (max - min + 1) + min);
         } while (signUpService.isIdExisted(id));
         newUser.setId(id);
         System.out.println("1. Your Account ID: " + id);
@@ -283,11 +283,11 @@ public class SignUpView {
         boolean check;
         do {
             String letter = Menu.chooseActionByLetter();
-            if (letter.charAt(0) == 'y' && letter.length() == 1) {
+            if (letter.charAt(0) == 'y') {
                 check = checkAdminCode();
                 break;
             }
-            if (letter.charAt(0) == 'n' && letter.length() == 1) {
+            if (letter.charAt(0) == 'n') {
                 check = false;
                 break;
             }

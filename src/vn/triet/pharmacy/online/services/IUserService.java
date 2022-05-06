@@ -13,7 +13,7 @@ public interface IUserService {
 
     void update(User newUser);
 
-    boolean isIdExisted(int id);
+    boolean isIdExisted(long id);
 
     boolean checkExistedEmail(String email);
 
@@ -21,5 +21,5 @@ public interface IUserService {
 
     boolean checkExistedUserName(String userName);
 
-    User getUserById(int id);
+    User getUserById(long id);
 }

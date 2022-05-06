@@ -18,13 +18,17 @@ public class Menu {
     public static int chooseActionByNumber() {
         Scanner input = new Scanner(System.in);
         System.out.print("\nYour choice is: ");
-        return input.nextInt();
+        return Integer.parseInt(input.nextLine());
     }
 
     public static String chooseActionByLetter() {
         Scanner input = new Scanner(System.in);
-        System.out.print("\nYour choice is: ");
-        return input.nextLine();
+        do {
+            System.out.print("\nYour choice is: ");
+            String letter = input.nextLine();
+            if (letter.length() == 1) return letter;
+            Menu.alert();
+        } while (true);
     }
 
     public static void alert() {

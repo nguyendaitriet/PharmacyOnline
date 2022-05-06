@@ -62,7 +62,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean isIdExisted(int id) {
+    public boolean isIdExisted(long id) {
         return getUserById(id) != null;
     }
 
@@ -97,7 +97,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUserById(int id) {
+    public User getUserById(long id) {
         List<User> users = getUsers();
         for (User user : users) {
             if (user.getId() == id)

@@ -1,17 +1,27 @@
 package vn.triet.pharmacy.online.models;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 public class Order {
     private long id;
     private long userId;
     private String name;
     private String phoneNumber;
     private String address;
+    private double totalPrice;
     private long creationTime;
+
+    public Order(){}
+
+    public Order(String record) {
+        String[] orders = record.split("~");
+        id = Long.parseLong(orders[0]);
+        userId = Long.parseLong(orders[1]);
+        name = orders[2];
+        phoneNumber = orders[3];
+        address = orders[4];
+        totalPrice = Double.parseDouble(orders[5]);
+        creationTime = Long.parseLong(orders[6]);
+    }
+
 
     public long getId() {
         return id;
@@ -61,36 +71,22 @@ public class Order {
         this.creationTime = creationTime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return id == order.id;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", creationTime=" + creationTime +
-                '}';
-    }
-
-    public static void main(String[] args) {
-        Map<Order, List<OrderItem>> newList = new HashMap<>();
-//        newList.put(15,new Drug("112617~Paracetamol~500.0~900~tablet~Headache,Fever~1 Morning, 1 Afternoon, 1 Night~15~500.0~06/11/2021~06/11/2022~Pain Reliever"));
-//        newList.put(17,new Drug("112617~Paracetamol~500.0~900~tablet~Headache,Fever~1 Morning, 1 Afternoon, 1 Night~15~500.0~06/11/2021~06/11/2022~Pain Reliever"));
-//        System.out.println(newList.get(15).getId());
-        System.out.println(newList.keySet());
+        return  id +
+                "~" + userId +
+                "~" + name +
+                "~" + phoneNumber +
+                "~" + address +
+                "~" + totalPrice +
+                "~" + creationTime;
     }
 }

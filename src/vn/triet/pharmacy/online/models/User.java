@@ -1,7 +1,7 @@
 package vn.triet.pharmacy.online.models;
 
 public class User {
-    private int id;
+    private long id;
     private String fullName;
     private String birthday;
     private String phoneNumber;
@@ -30,11 +30,11 @@ public class User {
         this.creationTime = Long.parseLong(userInformation[9]);
     }
 
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

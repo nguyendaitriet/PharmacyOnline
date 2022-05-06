@@ -9,9 +9,9 @@ import java.util.Scanner;
 
 public class LoginView {
 
-    private static int userID;
+    private static long userID;
 
-    public static int getUserID() {
+    public static long getUserID() {
         return userID;
     }
 
