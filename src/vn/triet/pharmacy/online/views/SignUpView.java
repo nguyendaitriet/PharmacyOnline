@@ -1,5 +1,6 @@
 package vn.triet.pharmacy.online.views;
 
+import vn.triet.pharmacy.online.models.Exit;
 import vn.triet.pharmacy.online.models.Role;
 import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IUserService;
@@ -23,7 +24,7 @@ public class SignUpView {
 
     public void createAccount() {
         System.out.println("\n\n----- Create your Account -----\n");
-        System.out.println("-----> NOTE: Enter 'exit-01' if you want to cancel signing up at any step.\n");
+        System.out.println("-----> NOTE: Enter '"+Exit.E1+"' if you want to cancel signing up at any step.\n");
         User newUser = new User();
         try {
             setID(newUser);
@@ -108,20 +109,21 @@ public class SignUpView {
             id = (long) Math.floor(Math.random() * (max - min + 1) + min);
         } while (signUpService.isIdExisted(id));
         newUser.setId(id);
-        System.out.println("1. Your Account ID: " + id);
+        System.out.println("\n1. Your Account ID: " + id);
     }
 
     public boolean cancelEntering(String string) {
+
         switch (string.toLowerCase()) {
-            case "exit-01":
+            case Exit.E1:
                 System.out.println("\n-----> Your register has been canceled!");
                 Menu.chooseInEntrance();
                 return true;
-            case "exit-02":
+            case Exit.E2:
                 System.out.println("\n-----> Your updating has been canceled!");
                 GuestView.chooseServicesForGuest();
                 return true;
-            case "exit-03":
+            case Exit.E3:
                 System.out.println("\n-----> Your updating has been canceled!");
                 UserInformation.chooseActionInUsersInfo();
                 return true;
@@ -131,7 +133,7 @@ public class SignUpView {
 
     public boolean enterFullName(User newUser) {
         do {
-            System.out.println("2. Enter Full Name (Example: Will Smith). ");
+            System.out.println("\n2. Enter Full Name (Example: Will Smith). ");
             System.out.print("==> ");
             String fullName = input.nextLine().trim();
             System.out.println();
@@ -150,30 +152,33 @@ public class SignUpView {
 
     public boolean enterBirthday(User newUser) {
         do {
-            System.out.println("3. Enter Date of Birth (Example: 12/04/1963) ");
-            System.out.println("(Note: Your date must be before 01/01/2022)");
+            System.out.println("\n3. Enter Date of Birth (Example: 12/04/1963) ");
+            System.out.println("NOTE: Make sure you're OVER 18 years old (Your date must be before 01/01/2005).");
             System.out.print("==> ");
             String birthday = input.nextLine().trim();
             System.out.println();
+            if (cancelEntering(birthday)) return true;
             if (birthday.equals("")) {
                 System.out.println("Your date of birth is required!");
                 continue;
             }
-            if (ValidateUtils.isDateValid(birthday)) {
-                int before01012022 = ValidateUtils.convertDate(birthday).compareTo("20220101");
-                if (before01012022 < 0) {
-                    newUser.setBirthday(birthday);
-                    return false;
-                }
+            if (!ValidateUtils.isDateValid(birthday)) {
+                System.out.println("Invalid date, please try again!\n");
+                continue;
             }
-            if (cancelEntering(birthday)) return true;
-            System.out.println("Invalid date format or date is after 01/01/2022, please try again!\n");
+            int before01012022 = ValidateUtils.convertDate(birthday).compareTo("20220101");
+            if (before01012022 > 0) {
+                System.out.println("Sorry '"+ birthday +"' is after 01/01/2005, please try again!\n");
+                continue;
+            }
+            newUser.setBirthday(birthday);
+            return false;
         } while (true);
     }
 
     public boolean enterPhoneNumber(User newUser) {
         do {
-            System.out.println("4. Enter Phone Number (Example: 0783465748). ");
+            System.out.println("\n4. Enter Phone Number (Example: 0783465748). ");
             System.out.println("(Note: First digit must be '0', second digit is form '1' to '9' and length is from 10 to 11 digits)");
             System.out.print("==> ");
             String phoneNumber = input.nextLine().trim();
@@ -197,7 +202,7 @@ public class SignUpView {
     }
 
     public boolean enterAddress(User newUser) {
-        System.out.println("5. Enter Address (Example: 4/18 An Duong Vuong, Hue).");
+        System.out.println("\n5. Enter Address (Example: 4/18 An Duong Vuong, Hue).");
         System.out.print("==> ");
         String address = input.nextLine().trim();
         if (cancelEntering(address)) return true;
@@ -207,7 +212,7 @@ public class SignUpView {
 
     public boolean enterEmail(User newUser) {
         do {
-            System.out.println("6. Enter Email Address (Example: namnguyen123@gmail.com). ");
+            System.out.println("\n6. Enter Email Address (Example: namnguyen123@gmail.com). ");
             System.out.print("==> ");
             String email = input.nextLine().trim().toLowerCase();
             if (email.equals("")) {
@@ -230,7 +235,7 @@ public class SignUpView {
 
     public boolean enterUserName(User newUser) {
         do {
-            System.out.println("7. Enter username.");
+            System.out.println("\n7. Enter username.");
             System.out.println("NOTE: ");
             System.out.println("  * Your username must start with A LETTER");
             System.out.println("  * All other characters can be alphabets, numbers or an underscore '_'");
@@ -258,7 +263,7 @@ public class SignUpView {
 
     public void enterPassword(User newUser) {
         do {
-            System.out.println("8. Enter password (Example: myname!0907)");
+            System.out.println("\n8. Enter password (Example: myname!0907)");
             System.out.println("(NOTE: Minimum eight characters, at least one letter, one number and one special character).");
             System.out.print("==> ");
             String password = input.nextLine().trim();
@@ -277,7 +282,7 @@ public class SignUpView {
     }
 
     private void setUpRole(User newUser) {
-        System.out.println("9. Set up ROLE:\n");
+        System.out.println("\n9. Set up ROLE:\n");
         System.out.println("---> Are you an administrator?");
         System.out.println("(Enter 'y' or 'n')\n");
         boolean check;

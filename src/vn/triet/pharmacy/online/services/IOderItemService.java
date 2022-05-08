@@ -8,10 +8,7 @@ import java.util.List;
 public interface IOderItemService {
     List<OrderItem> getOrderItems();
 
-//    void add(OrderItem2 newOrderItem);
-
-    void update();
-
     void addMoreOrderItems(ArrayList<OrderItem> newOrderItemList);
 
+    List<OrderItem> getUserOrderItemList(long orderID);
 }

@@ -5,7 +5,7 @@ import vn.triet.pharmacy.online.views.admin.management.UserInformation;
 
 public class AdminView {
 
-    public static void showActionsForm() {
+    private static void showActionsForm() {
         System.out.println("\n**************************************");
         System.out.println("|                                    |");
         System.out.println("|      ADMIN MANAGEMENT              |");
@@ -33,8 +33,8 @@ public class AdminView {
                     break;
                 }
                 if (number == 3) {
-
-                    break;
+                    System.out.println("\n----- Sorry, this service is not available now! -----");
+                    continue;
                 }
                 if (number == 0) {
                     Menu.chooseInEntrance();

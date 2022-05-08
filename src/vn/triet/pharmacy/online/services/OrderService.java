@@ -2,6 +2,8 @@ package vn.triet.pharmacy.online.services;
 
 import vn.triet.pharmacy.online.models.Order;
 import vn.triet.pharmacy.online.utils.CSVUtils;
+import vn.triet.pharmacy.online.utils.ValidateUtils;
+import vn.triet.pharmacy.online.views.LoginView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +28,6 @@ public class OrderService implements IOrderService {
         CSVUtils.writeData(path, orderList);
     }
 
-    @Override
-    public void update() {
-
-    }
 
     @Override
     public Order getOrderById(long id) {
@@ -47,4 +45,27 @@ public class OrderService implements IOrderService {
         orderList.remove(order);
         CSVUtils.writeData(path, orderList);
     }
+
+    @Override
+    public List<Order> getSearchOrderList(String searchContent, List<Order> userOrdersList) {
+        List<Order> searchOrderList = new ArrayList<>();
+        for (Order order : userOrdersList) {
+            String orderPlus = order.toString() + ValidateUtils.convertMilliToDate(order.getCreationTime());
+            if (orderPlus.toLowerCase().contains(searchContent)) {
+                searchOrderList.add(order);
+            }
+        }
+        return searchOrderList;
+    }
+
+    public List<Order> getUserOrdersList(long id) {
+        List<Order> userOrderList = new ArrayList<>();
+        for (Order userOrder : getOrders()) {
+            if (userOrder.getUserId() == id) {
+                userOrderList.add(userOrder);
+            }
+        }
+        return userOrderList;
+    }
+
 }

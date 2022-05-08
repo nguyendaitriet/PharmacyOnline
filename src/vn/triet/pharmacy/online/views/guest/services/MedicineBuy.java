@@ -9,17 +9,13 @@ import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.admin.management.MedicineManagement;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MedicineBuy {
     private static IMedicineService medicineService = new MedicineService();
     private static IUserService userService = new UserService();
     private static IOrderService orderService = new OrderService();
-    private static IOderItemService oderItemService = new OrderItemService();
-
+    private static IOderItemService orderItemService = new OrderItemService();
     private static final Scanner input = new Scanner(System.in);
 
     public static void setInformation() {
@@ -45,41 +41,67 @@ public class MedicineBuy {
                 ex.printStackTrace();
                 Menu.alert();
             }
+
+            if (newOrder.getName() == null || newOrder.getPhoneNumber() == null || newOrder.getAddress() == null) {
+                System.out.println("\nNo information added, please try again!\n");
+                continue;
+            }
+
             List<Drug> drugs = medicineService.getDrugs();
             ArrayList<OrderItem> orderItemList = showHowToGetDrug(drugs);
-            orderItemList.sort(Comparator.comparing(OrderItem::getDrugName).thenComparingDouble(OrderItem::getDrugContent));
+            if (orderItemList.size() == 0) {
+                System.out.println("\n----- There is no drugs in your bill. You can try again!");
+                continue;
+            }
+            modifyOrderItemList(orderItemList);
+
             double totalPrice = 0;
             for (OrderItem orderItem : orderItemList) {
                 orderItem.setOrderID(newOrder.getId());
                 totalPrice += orderItem.getPricePerPill() * orderItem.getQuantity();
             }
+
             newOrder.setTotalPrice(totalPrice);
             showBill(newOrder, orderItemList);
 
             if (confirmBuying()) {
                 System.out.println("\n----- Successful Payment. Thank you! -----\n");
+                System.out.println("At the next step, enter '0' to exit or others to buy new drugs.");
                 orderService.add(newOrder);
-                oderItemService.addMoreOrderItems(orderItemList);
-                CSVUtils.writeData("Data/drugs.csv",drugs);
+                orderItemService.addMoreOrderItems(orderItemList);
+                CSVUtils.writeData("Data/drugs.csv", drugs);
             }
         } while (true);
-//        System.out.println(newOrder);
+    }
+
+    public static void modifyOrderItemList(ArrayList<OrderItem> orderItemList) {
+        orderItemList.sort(Comparator.comparing(OrderItem::getDrugName).thenComparingDouble(OrderItem::getDrugContent));
+        for (int i = 0; i < orderItemList.size() - 1; ) {
+            OrderItem orderItem1 = orderItemList.get(i);
+            OrderItem orderItem2 = orderItemList.get(i + 1);
+            if (orderItem1.equals(orderItem2)) {
+                orderItem1.setQuantity(orderItem1.getQuantity() + orderItem2.getQuantity());
+                orderItemList.remove(i + 1);
+                continue;
+            }
+            i++;
+        }
     }
 
     public static boolean confirmBuying() {
-        System.out.println("\n---> Confirm that you want to pay the bill!");
-        System.out.println("(Enter 'y' or 'n')");
+        System.out.println("\n---> Please confirm that you want to pay the bill!");
+        System.out.println("(Enter 'y' to agree or 'n' to exit)");
         do {
             String letter = Menu.chooseActionByLetter();
-            if(letter.equals("y")) return true;
-            if(letter.equals("n")) return false;
+            if (letter.equals("y")) return true;
+            if (letter.equals("n")) return false;
             Menu.alert();
         } while (true);
     }
 
-    private static void showBill(Order newOrder, List<OrderItem> orderItemList) {
+    public static void showBill(Order newOrder, List<OrderItem> orderItemList) {
         System.out.println("\nMEDICAL BILL --------------------------------------------------------------------------");
-        System.out.printf("\n%-20s %-20s %-15s %-20s", "Drug Name", "Drug Content", "Quantity", "Price per Pill (VND)\n");
+        System.out.printf("\n%-20s %-20s %-15s %-20s", "Drug Name", "Drug Content (mg)", "Quantity", "Price per Pill (VND)\n");
         for (OrderItem orderItem : orderItemList) {
             System.out.printf("%-20s %-20s %-15s %-20s\n", orderItem.getDrugName(), orderItem.getDrugContent(), orderItem.getQuantity(), orderItem.getPricePerPill());
         }
@@ -87,12 +109,13 @@ public class MedicineBuy {
         System.out.println("     * Name: " + newOrder.getName());
         System.out.println("     * Phone Number: " + newOrder.getPhoneNumber());
         System.out.println("     * Address: " + newOrder.getAddress());
+        System.out.println("Creation Date: " + ValidateUtils.convertMilliToDate(newOrder.getCreationTime()));
         System.out.println("\n---> TOTAL PRICE (VND): " + newOrder.getTotalPrice());
         System.out.println("---------------------------------------------------------------------------------------\n");
-
     }
 
     public static void setNewOrderWithDefaultInfo(Order newOder) {
+        System.out.println("\n----- Your information has been added -----");
         User currentUser = userService.getUserById(LoginView.getUserID());
         newOder.setId(System.currentTimeMillis());
         newOder.setUserId(currentUser.getId());
@@ -100,13 +123,18 @@ public class MedicineBuy {
         newOder.setPhoneNumber(currentUser.getPhoneNumber());
         newOder.setAddress(currentUser.getAddress());
         newOder.setCreationTime(System.currentTimeMillis());
-
     }
 
     public static void setNewOrderWithOtherInfo(Order newOder) {
+        System.out.println("\n----- Please fill in all information below -----");
+        System.out.println("\n(Enter 'ex5' at any step to cancel)");
         String name = enterFullName();
+        if (name == null) return;
         String phone = enterPhoneNumber();
+        if (phone == null) return;
         String address = enterAddress();
+        if (address == null) return;
+
         newOder.setId(System.currentTimeMillis());
         newOder.setUserId(LoginView.getUserID());
         newOder.setName(name);
@@ -135,6 +163,7 @@ public class MedicineBuy {
         while (!ValidateUtils.isPhoneValid(phone = input.nextLine().trim())) {
             if (cancelEntering(phone)) return null;
             System.out.println("Invalid phone number format, please try again!\n");
+            System.out.println("2. Enter PhoneNumber.");
             System.out.println("(Note: Your phone number must start with '0' and has from 10 to 11 digits)");
             System.out.print("==> ");
         }
@@ -155,7 +184,7 @@ public class MedicineBuy {
     }
 
     private static boolean cancelEntering(String string) {
-        if ("exit-05".equalsIgnoreCase(string)) {
+        if (Exit.E5.equalsIgnoreCase(string)) {
             System.out.println("\n-----> Your operation has been canceled!");
             return true;
         }
@@ -168,23 +197,68 @@ public class MedicineBuy {
             System.out.println("\n(II) How do you want to get drug?\n");
             System.out.println("1. By drug ID.");
             System.out.println("2. By search drug name.");
-            System.out.println("0. Exit.");
+            System.out.println("0. Exit and show the bill.");
             try {
                 int number = Menu.chooseActionByNumber();
                 if (number == 1) {
-                    orderItemList = getDrugsBought(drugs);
-                    break;
+                    orderItemList = getDrugsBoughtByID(drugs);
                 }
                 if (number == 2) {
-
+                    orderItemList = searchDrugByName(drugs);
+                }
+                if (number == 0) {
                     break;
                 }
             } catch (Exception ex) {
                 Menu.alert();
             }
+
+            if (orderItemList.size() > 0) {
+                System.out.println("\n--- Added all drugs to your bill successfully ---");
+                System.out.println("*** At the next step, enter '0' to see all drugs you have got in your bill.");
+                System.out.println("*** Enter '1' or '2' to reject all drugs you have got and restart getting drug.");
+            }
+
         } while (true);
+//        showDrugsList(drugs);
         return orderItemList;
     }
+
+    public static ArrayList<OrderItem> searchDrugByName(List<Drug> drugs) {
+        ArrayList<OrderItem> newOrderItemList = new ArrayList<>();
+        do {
+            System.out.println("\nEnter name of drug you want to buy (Enter '0' to stop getting drug). ");
+            System.out.print("---> ");
+            String drugNameSearch = input.nextLine().trim().toLowerCase();
+            if (drugNameSearch.equals("0")) return newOrderItemList;
+            List<Drug> drugListSearch = new ArrayList<>();
+            for (Drug drug : drugs) {
+                if (drug.getDrugName().toLowerCase().contains(drugNameSearch)) {
+                    drugListSearch.add(drug);
+                }
+            }
+            if (drugListSearch.size() > 0) {
+//                ArrayList<OrderItem> drugBoughtList = getDrugsBoughtByID(drugListSearch);
+                newOrderItemList.addAll(getDrugsBoughtByID(drugListSearch));
+                changeQuantityAfterGetting(drugs, drugListSearch);
+                continue;
+            }
+            System.out.printf("\nSorry, '%s' can't be found. Please try again!\n", drugNameSearch);
+        } while (true);
+//        return newOrderItemList;
+    }
+
+    public static void changeQuantityAfterGetting(List<Drug> drugs, List<Drug> drugListSearch) {
+        for (Drug drugSearch : drugListSearch) {
+            for (Drug drug : drugs) {
+                if (drugSearch.getId() == drug.getId()) {
+                    drug.setQuantity(drugSearch.getQuantity());
+                    break;
+                }
+            }
+        }
+    }
+
 
     private static void showDrugsList(List<Drug> drugs) {
         System.out.println("\nDRUGS LIST -------------------------------------------------------------------------------------------------------------");
@@ -195,8 +269,7 @@ public class MedicineBuy {
         System.out.println("------------------------------------------------------------------------------------------------------------------------");
     }
 
-    private static ArrayList<OrderItem> getDrugsBought(List<Drug> drugs) {
-//        List<Drug> drugs = medicineService.getDrugs();
+    private static ArrayList<OrderItem> getDrugsBoughtByID(List<Drug> drugs) {
         ArrayList<OrderItem> drugsBought = new ArrayList<>();
         Drug availableDrug;
         boolean stopBuying;
@@ -204,8 +277,10 @@ public class MedicineBuy {
             showDrugsList(drugs);
             do {
                 try {
-                    System.out.print("\nEnter drug ID you want to buy: ");
+                    System.out.println("\nEnter drug ID you want to buy (Enter '0' to stop getting drug).");
+                    System.out.print("---> ");
                     int drugBoughtID = Integer.parseInt(input.nextLine());
+                    if (drugBoughtID == 0) return drugsBought;
                     availableDrug = medicineService.getDrugById(drugBoughtID);
                     if (availableDrug == null) {
                         System.out.println("Wrong ID, please try again!\n");
@@ -241,9 +316,10 @@ public class MedicineBuy {
             } while (true);
 
             drugsBought.add(getNewOrderDrug(availableDrug, quantityBuy));
+            System.out.printf("\n---> '%s %.1f mg' - %d has been added to your bill.\n", availableDrug.getDrugName(), availableDrug.getDrugContent(),quantityBuy);
 
             do {
-                System.out.println("\nDo you want to buy another drug?");
+                System.out.println("\nDo you want to get drug again?");
                 System.out.println("(Enter 'y' to continue, enter 'n' to stop)");
                 String letter = Menu.chooseActionByLetter();
                 if (letter.equals("y")) {

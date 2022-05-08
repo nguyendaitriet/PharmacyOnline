@@ -20,22 +20,23 @@ public class OrderItemService implements IOderItemService {
         return orderItemList;
     }
 
-//    @Override
-//    public void add(OrderItem2 newOrderItem) {
-//        List<OrderItem2> orderItemList = getOrderItems();
-//        orderItemList.add(newOrderItem);
-//        CSVUtils.writeData(path,orderItemList);
-//    }
-
     @Override
     public void addMoreOrderItems(ArrayList<OrderItem> newOrderItemList) {
         List<OrderItem> orderItemList = getOrderItems();
         orderItemList.addAll(newOrderItemList);
-        CSVUtils.writeData(path,orderItemList);
+        CSVUtils.writeData(path, orderItemList);
     }
 
     @Override
-    public void update() {
-
+    public List<OrderItem> getUserOrderItemList(long orderID) {
+        List<OrderItem> userOrderItemList = new ArrayList<>();
+        for (OrderItem orderItem : getOrderItems()) {
+            if (orderItem.getOrderID() == orderID) {
+                userOrderItemList.add(orderItem);
+            }
+        }
+        return userOrderItemList;
     }
+
+
 }

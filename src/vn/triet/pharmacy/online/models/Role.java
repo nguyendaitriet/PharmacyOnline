@@ -14,7 +14,6 @@ public enum Role {
         return this.value;
     }
 
-    // ADMIN , USER
     public static Role parseRole(String value) {
         Role[] values = values();
         for (Role role : values) {

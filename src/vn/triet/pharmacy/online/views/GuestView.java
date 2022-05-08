@@ -2,6 +2,7 @@ package vn.triet.pharmacy.online.views;
 
 import vn.triet.pharmacy.online.views.guest.services.AccountManagement;
 import vn.triet.pharmacy.online.views.guest.services.MedicineBuy;
+import vn.triet.pharmacy.online.views.guest.services.PurchaseHistory;
 
 public class GuestView {
 
@@ -12,7 +13,7 @@ public class GuestView {
         System.out.println("|                                                   |");
         System.out.println("|   1. Buy medicine depend on your symptom(s).      |");
         System.out.println("|   2. Buy medicine with medical prescription.      |");
-        System.out.println("|   3. Check all order.                             |");
+        System.out.println("|   3. Check your purchase history.                 |");
         System.out.println("|   4. Update account.                              |");
         System.out.println("|   0. Go back to homepage.                         |");
         System.out.println("|                                                   |");
@@ -26,15 +27,15 @@ public class GuestView {
                 int number = Menu.chooseActionByNumber();
 
                 if (number == 1) {
-
-                    break;
+                    System.out.println("\n----- Sorry, this service is not available now! -----");
+                    continue;
                 }
                 if (number == 2) {
                     MedicineBuy.setInformation();
                     break;
                 }
                 if (number == 3) {
-
+                    PurchaseHistory.chooseAction();
                     break;
                 }
                 if (number == 4) {

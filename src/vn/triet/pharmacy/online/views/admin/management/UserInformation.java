@@ -69,9 +69,8 @@ public class UserInformation {
                     break;
                 }
                 if (number == 8) {
-                    System.out.println("\nSorry, this function is in updating progress!\n");
-                    AdminView.chooseAdminAction();
-                    break;
+                    System.out.println("\n----- Sorry, this function is not available now! -----");
+                    continue;
                 }
                 if (number == 0) {
                     AdminView.chooseAdminAction();

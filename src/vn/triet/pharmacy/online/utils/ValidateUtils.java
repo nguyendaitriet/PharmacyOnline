@@ -1,5 +1,6 @@
 package vn.triet.pharmacy.online.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -62,4 +63,11 @@ public class ValidateUtils {
         Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
         return date1.getTime();
     }
+
+    public static String convertMilliToDate(long millisecond) {
+        // 23/04/2021 -> 1619110800000
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(millisecond);
+    }
+
 }

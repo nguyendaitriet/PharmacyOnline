@@ -1,5 +1,6 @@
 package vn.triet.pharmacy.online.views.guest.services;
 
+import vn.triet.pharmacy.online.models.Exit;
 import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;
@@ -9,6 +10,8 @@ import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.SignUpView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,14 +19,16 @@ public class AccountManagement {
     private static IUserService userService = new UserService();
 
     public static void showCurrentAccount(User user) {
+        String creationDate = ValidateUtils.convertMilliToDate(user.getCreationTime());
         System.out.println("\n--------------Your Account---------------\n");
-        System.out.printf("%-17s %-12d\n", "1. ID:", user.getId());
-        System.out.printf("%-17s %-12s\n", "2. Full Name:", user.getFullName());
-        System.out.printf("%-17s %-12s\n", "3. Date Of Birth:", user.getBirthday());
-        System.out.printf("%-17s %-12s\n", "4. Phone Number:", user.getPhoneNumber());
-        System.out.printf("%-17s %-12s\n", "5. Address:", user.getAddress());
-        System.out.printf("%-17s %-12s\n", "6. Email:", user.getEmail());
-        System.out.printf("%-17s %-12s\n", "7. Username:", user.getUserName());
+        System.out.printf("%-17s %d\n", "1. ID:", user.getId());
+        System.out.printf("%-17s %s\n", "2. Full Name:", user.getFullName());
+        System.out.printf("%-17s %s\n", "3. Date Of Birth:", user.getBirthday());
+        System.out.printf("%-17s %s\n", "4. Phone Number:", user.getPhoneNumber());
+        System.out.printf("%-17s %s\n", "5. Address:", user.getAddress());
+        System.out.printf("%-17s %s\n", "6. Email:", user.getEmail());
+        System.out.printf("%-17s %s\n", "7. Username:", user.getUserName());
+        System.out.printf("\n%s %s\n", "Creation Date:", creationDate);
         System.out.println("\n-----------------------------------------\n");
     }
 
@@ -36,12 +41,12 @@ public class AccountManagement {
             showCurrentAccount(currentUser);
             showChangeStatus(number);
             System.out.println("Choose what information you want to update.");
-            System.out.println("NOTE: You CANNOT update your account ID. Please don't enter '1'!\n");
+            System.out.println("NOTE: You CANNOT update your account ID. Please enter a value in range '2-7'!\n");
             System.out.println("---> Enter '8' to update password.");
             System.out.println("---> Enter '9' to CONFIRM that you agree to update your account with below information.\n");
             System.out.println("---> Enter '0' to cancel updating.\n");
-            System.out.println("---> NOTE: You can enter 'exit-02' to cancel updating at any step (2-7) with User account.\n");
-            System.out.println("---> NOTE: You can enter 'exit-03' to cancel updating at any step (2-7) with Admin account.\n");
+            System.out.println("---> NOTE: You can enter '" + Exit.E2 + "' to cancel updating at any step (2-7) with User account.\n");
+            System.out.println("---> NOTE: You can enter '" + Exit.E3 + "' to cancel updating at any step (2-7) with Admin account.\n");
 
             try {
                 number = Menu.chooseActionByNumber();
@@ -120,6 +125,7 @@ public class AccountManagement {
             }
             do {
                 System.out.print("\nEnter new password: ");
+                System.out.println("(NOTE: Minimum eight characters, at least one letter, one number and one special character).");
                 String newPass = input.nextLine().trim();
                 if (ValidateUtils.isPasswordValid(newPass)) {
                     user.setPassword(newPass);

@@ -1,6 +1,7 @@
 package vn.triet.pharmacy.online.views.admin.management;
 
 import vn.triet.pharmacy.online.models.Drug;
+import vn.triet.pharmacy.online.models.Exit;
 import vn.triet.pharmacy.online.services.IMedicineService;
 import vn.triet.pharmacy.online.services.MedicineService;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
@@ -217,7 +218,7 @@ public class MedicineManagement {
     }
 
     private static boolean cancelEntering(String string) {
-        if (string.equalsIgnoreCase("exit-04")) {
+        if (string.equalsIgnoreCase(Exit.E4)) {
             System.out.println("\nYour operation has been canceled!");
             chooseActionInMedicineManagement();
             return true;
@@ -526,7 +527,7 @@ public class MedicineManagement {
             System.out.println("NOTE: You CANNOT update drug ID. Please don't enter '1'!\n");
             System.out.println("---> Enter '13' to CONFIRM that you agree to update your account with below information.\n");
             System.out.println("---> Enter '0' to cancel updating.");
-            System.out.println("---> NOTE: You can enter 'exit-04' to cancel updating at any step (2-12).\n");
+            System.out.println("---> NOTE: You can enter '" + Exit.E4 + "' to cancel updating at any step (2-12).\n");
             try {
                 number = Menu.chooseActionByNumber();
                 switch (number) {
@@ -602,7 +603,7 @@ public class MedicineManagement {
 
     public static void addNewDrug() {
         System.out.println("\n\n----- Add new drug -----\n");
-        System.out.println("---> NOTE: You can enter 'exit-04' to cancel operating at any step (2-12).\n");
+        System.out.println("---> NOTE: You can enter '" + Exit.E4 + "' to cancel operating at any step (2-12).\n");
         Drug newDrug = new Drug();
         try {
             setID(newDrug);

@@ -9,11 +9,12 @@ public interface IOrderService {
 
     void add(Order newOrder);
 
-    void update();
+    List<Order> getUserOrdersList(long id);
 
     Order getOrderById(long id);
 
     void remove(Order order);
 
+    List<Order> getSearchOrderList(String searchContent, List<Order> userOrdersList);
 
 }
