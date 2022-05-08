@@ -97,7 +97,7 @@ public class MedicineManagement {
                 sortByExpirationDateASCE(drugs);
                 break;
         }
-        System.out.println("------------------------------------------------------------------------------------------------------------------------\n");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------");
         chooseNextOperation();
     }
 
@@ -111,7 +111,7 @@ public class MedicineManagement {
 
     private static void chooseNextOperation() {
         do {
-            System.out.println("---> Enter '1' to edit a drug (by ID).");
+            System.out.println("\n---> Enter '1' to edit a drug (by ID).");
             System.out.println("---> Enter '2' to remove a drug (by ID).");
             System.out.println("---> Enter '0' to return.");
             try {

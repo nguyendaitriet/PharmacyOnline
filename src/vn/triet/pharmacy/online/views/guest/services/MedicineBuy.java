@@ -29,9 +29,11 @@ public class MedicineBuy {
                 int number = Menu.chooseActionByNumber();
                 if (number == 1) {
                     setNewOrderWithDefaultInfo(newOrder);
+                    continue;
                 }
                 if (number == 2) {
                     setNewOrderWithOtherInfo(newOrder);
+                    continue;
                 }
                 if (number == 0) {
                     GuestView.chooseServicesForGuest();
@@ -101,7 +103,7 @@ public class MedicineBuy {
 
     public static void showBill(Order newOrder, List<OrderItem> orderItemList) {
         System.out.println("\nMEDICAL BILL --------------------------------------------------------------------------");
-        System.out.printf("\n%-20s %-20s %-15s %-20s", "Drug Name", "Drug Content (mg)", "Quantity", "Price per Pill (VND)\n");
+        System.out.printf("\n%-20s %-20s %-15s %-20s", "Drug Name", "Drug Content (mg)", "Quantity", "Price per Pill (VND)\n\n");
         for (OrderItem orderItem : orderItemList) {
             System.out.printf("%-20s %-20s %-15s %-20s\n", orderItem.getDrugName(), orderItem.getDrugContent(), orderItem.getQuantity(), orderItem.getPricePerPill());
         }
@@ -336,6 +338,10 @@ public class MedicineBuy {
         } while (!stopBuying);
 
         return drugsBought;
+    }
+
+    private static int getQuantityBuy(List<Drug> drugs, Drug availableDrug){
+        return 0;
     }
 
     public static OrderItem getNewOrderDrug(Drug availableDrug, int quantityBuy) {

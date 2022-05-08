@@ -1,6 +1,8 @@
 package vn.triet.pharmacy.online.views;
 
+import vn.triet.pharmacy.online.models.OrderItem;
 import vn.triet.pharmacy.online.views.admin.management.MedicineManagement;
+import vn.triet.pharmacy.online.views.admin.management.OrderManagement;
 import vn.triet.pharmacy.online.views.admin.management.UserInformation;
 
 public class AdminView {
@@ -23,7 +25,6 @@ public class AdminView {
             showActionsForm();
             try {
                 int number = Menu.chooseActionByNumber();
-
                 if (number == 1) {
                     UserInformation.chooseActionInUsersInfo();
                     break;
@@ -33,8 +34,8 @@ public class AdminView {
                     break;
                 }
                 if (number == 3) {
-                    System.out.println("\n----- Sorry, this service is not available now! -----");
-                    continue;
+                    OrderManagement.chooseAction();
+                    break;
                 }
                 if (number == 0) {
                     Menu.chooseInEntrance();

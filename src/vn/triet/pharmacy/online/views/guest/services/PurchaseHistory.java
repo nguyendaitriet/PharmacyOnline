@@ -53,9 +53,11 @@ public class PurchaseHistory {
                 int number = Menu.chooseActionByNumber();
                 if (number == 1) {
                     searchOrder(userOrdersList);
+                    continue;
                 }
                 if (number == 2) {
                     showOrderDetails(userOrdersList);
+                    continue;
                 }
 
                 if (number == 0) {
@@ -68,21 +70,19 @@ public class PurchaseHistory {
         } while (true);
     }
 
-    private static void showOrderDetails(List<Order> userOrdersList) {
+    public static void showOrderDetails(List<Order> userOrdersList) {
         do {
             try {
-                System.out.print("\nEnter order ID you want to check(Enter '0' to exit).\n");
+                System.out.print("\nEnter order ID you want to check (Enter '0' to exit).\n");
                 System.out.print("---> ");
                 long orderID = Long.parseLong(input.nextLine());
                 if (orderID == 0) return;
-                Order order = orderService.getOrderById(orderID);
+                Order order = orderService.getOrderById(orderID, userOrdersList);
                 if (order == null) {
                     System.out.println("Wrong order ID, please try again!");
                     continue;
                 }
                 MedicineBuy.showBill(order, orderItemService.getUserOrderItemList(orderID));
-                System.out.println("\nReturn to Menu...");
-                break;
             } catch (Exception ex) {
                 Menu.alert();
             }

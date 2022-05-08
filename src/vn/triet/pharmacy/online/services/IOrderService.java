@@ -11,7 +11,7 @@ public interface IOrderService {
 
     List<Order> getUserOrdersList(long id);
 
-    Order getOrderById(long id);
+    Order getOrderById(long id,List<Order> orderList);
 
     void remove(Order order);
 

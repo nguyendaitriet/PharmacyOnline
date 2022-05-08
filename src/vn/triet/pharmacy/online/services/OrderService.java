@@ -30,8 +30,7 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public Order getOrderById(long id) {
-        List<Order> orderList = getOrders();
+    public Order getOrderById(long id,List<Order> orderList) {
         for (Order order : orderList) {
             if (order.getId() == id)
                 return order;
