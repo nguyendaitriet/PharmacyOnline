@@ -24,7 +24,7 @@ public class SignUpView {
 
     public void createAccount() {
         System.out.println("\n\n----- Create your Account -----\n");
-        System.out.println("-----> NOTE: Enter '"+Exit.E1+"' if you want to cancel signing up at any step.\n");
+        System.out.println("-----> NOTE: Enter '" + Exit.E1 + "' if you want to cancel signing up at any step.\n");
         User newUser = new User();
         try {
             setID(newUser);
@@ -168,7 +168,7 @@ public class SignUpView {
             }
             int before01012022 = ValidateUtils.convertDate(birthday).compareTo("20220101");
             if (before01012022 > 0) {
-                System.out.println("Sorry '"+ birthday +"' is after 01/01/2005, please try again!\n");
+                System.out.println("Sorry '" + birthday + "' is after 01/01/2005, please try again!\n");
                 continue;
             }
             newUser.setBirthday(birthday);

@@ -15,7 +15,7 @@ public class LoginView {
         return userID;
     }
 
-    private static IUserService signUpService = new UserService();
+    private static IUserService userService = new UserService();
 
     public static void signIn() {
         Scanner input = new Scanner(System.in);
@@ -24,11 +24,11 @@ public class LoginView {
         System.out.println("----- LOGIN -----");
         System.out.println();
         System.out.print("1. Username: ");
-        String username = input.next();
+        String username = input.nextLine().trim();
         System.out.print("2. Password: ");
-        String password = input.next();
+        String password = input.nextLine().trim();
 
-        User user = signUpService.login(username, password);
+        User user = userService.login(username, password);
 
         if (user == null) {
             showChoicesWhenWrong();
