@@ -1,6 +1,5 @@
 package vn.triet.pharmacy.online.views;
 
-import vn.triet.pharmacy.online.models.OrderItem;
 import vn.triet.pharmacy.online.views.admin.management.MedicineManagement;
 import vn.triet.pharmacy.online.views.admin.management.OrderManagement;
 import vn.triet.pharmacy.online.views.admin.management.UserInformation;

@@ -1,6 +1,5 @@
 package vn.triet.pharmacy.online.views;
 
-
 import java.util.Scanner;
 
 public class Menu {

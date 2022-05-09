@@ -7,7 +7,6 @@ import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
 import vn.triet.pharmacy.online.views.admin.management.UserInformation;
-
 import java.util.Scanner;
 
 public class SignUpView {
@@ -52,7 +51,6 @@ public class SignUpView {
 
     public void confirmSignUp(User newUser) {
         do {
-//            AccountManagement.showCurrentAccount(newUser);
             showConfirmForm();
             int number = Menu.chooseActionByNumber();
             if (number == 1) {

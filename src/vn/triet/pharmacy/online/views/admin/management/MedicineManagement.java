@@ -7,7 +7,6 @@ import vn.triet.pharmacy.online.services.MedicineService;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
 import vn.triet.pharmacy.online.views.AdminView;
 import vn.triet.pharmacy.online.views.Menu;
-
 import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
@@ -79,10 +78,6 @@ public class MedicineManagement {
     }
 
     public static void showDrugsList(List<Drug> drugs, int action) {
-        System.out.println("\nDRUGS LIST -------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-12s %-25s %-23s %-20s %-20s %-20s\n",
-                "ID", "Drug Name", "Drug Content (mg)", "Quantity (pill)", "Price per Pill", "Expiration Date");
-        System.out.println("------------------------------------------------------------------------------------------------------------------------");
         switch (action) {
             case 1:
                 showAllDrugs(drugs);
@@ -97,17 +92,21 @@ public class MedicineManagement {
                 sortByExpirationDateASCE(drugs);
                 break;
         }
-        System.out.println("------------------------------------------------------------------------------------------------------------------------");
         chooseNextOperation();
     }
 
     public static void showAllDrugs(List<Drug> drugs) {
-        for (Drug drug : drugs) showOneDrug(drug);
+        System.out.println("\nDRUGS LIST ----------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-12s %-25s %-23s %-17s %-20s %-20s\n",
+                "ID", "Drug Name", "Drug Content (mg)", "Price (VND)", "Quantity (pill)", "Expiration Date");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------");
+        for (Drug drug : drugs) {
+            System.out.printf("%-12s %-25s %-23s %-17s %-20s %-20s\n", drug.getId(), drug.getDrugName(), drug.getDrugContent(),
+                    ValidateUtils.priceWithDecimal(drug.getPricePerPill()), drug.getQuantity(), drug.getExpirationDate());
+        }
+        System.out.println("---------------------------------------------------------------------------------------------------------------------");
     }
 
-    public static void showOneDrug(Drug drug) {
-        System.out.printf("%-12s %-25s %-23s %-20s %-20s %-20s\n", drug.getId(), drug.getDrugName(), drug.getDrugContent(), drug.getQuantity(), drug.getPricePerPill(), drug.getExpirationDate());
-    }
 
     private static void chooseNextOperation() {
         do {
@@ -159,28 +158,12 @@ public class MedicineManagement {
     }
 
     private static void searchDrugByName(List<Drug> drugs) {
-        boolean is = true;
+        boolean is;
         do {
             System.out.print("\nEnter drug name you want to search: ");
             String searchName = input.nextLine().toLowerCase().trim();
-            int count = 0;
-            for (int i = 0; i < drugs.size(); i++) {
-                if (drugs.get(i).getDrugName().toLowerCase().contains(searchName)) {
-                    count++;
-                    if (count == 1) {
-                        System.out.println("\nDRUGS LIST -------------------------------------------------------------------------------------------------------------");
-                        System.out.printf("%-12s %-25s %-23s %-20s %-20s %-20s\n",
-                                "ID", "Drug Name", "Drug Content (mg)", "Quantity (pill)", "Price per Pill", "Expiration Date");
-                        System.out.println("------------------------------------------------------------------------------------------------------------------------");
-                    }
-                    showOneDrug(drugs.get(i));
-                }
-                if (count > 0 && i == drugs.size() - 1) {
-                    is = true;
-                    System.out.println("------------------------------------------------------------------------------------------------------------------------");
-                }
-            }
-            if (count == 0) {
+            List<Drug> drugsListSearch = medicineService.getSearchDrugList(searchName, drugs);
+            if (drugsListSearch.size() == 0) {
                 System.out.printf("\nCan't find drug with name '%s'. Do you want to try again?\n", searchName);
                 do {
                     System.out.println("(Enter 'y' to find again or enter 'n' to exit)");
@@ -201,7 +184,10 @@ public class MedicineManagement {
                         Menu.alert();
                     }
                 } while (true);
+                continue;
             }
+            showAllDrugs(drugsListSearch);
+            is = true;
         } while (!is);
         chooseNextOperation();
     }
@@ -392,7 +378,6 @@ public class MedicineManagement {
         } while (true);
     }
 
-
     private static boolean enterExpirationDate(Drug newDrug) throws ParseException {
         do {
             System.out.println("11. Enter Expiration Date (Example: 12/04/2022) ");
@@ -462,7 +447,7 @@ public class MedicineManagement {
         System.out.printf("%-30s %-12s\n", "6. Usage:", drug.getUsage());
         System.out.printf("%-30s %-12s\n", "7. Dosage per Day:", drug.getDosagePerDay());
         System.out.printf("%-30s %-12s\n", "8. Total dosage in 5 days:", drug.getTotalDosage5Days());
-        System.out.printf("%-30s %-12s\n", "9. Price per Pill:", drug.getPricePerPill());
+        System.out.printf("%-30s %-12s\n", "9. Price (VND):", ValidateUtils.priceWithDecimal(drug.getPricePerPill()));
         System.out.printf("%-30s %-12s\n", "10. Production Date:", drug.getProductionDate());
         System.out.printf("%-30s %-12s\n", "11. Expiration Date:", drug.getExpirationDate());
         System.out.printf("%-30s %-12s\n", "12. Note:", drug.getNote());
@@ -494,13 +479,13 @@ public class MedicineManagement {
     public static void removeDrug() {
         Drug drug = getExistedDrug();
         do {
-            System.out.printf("\nConfirm that you want to remove drug '%s'.\n", drug.getId());
+            System.out.printf("\nConfirm that you want to remove drug %s '%s %s mg'.\n", drug.getId(), drug.getDrugName(), drug.getDrugContent());
             System.out.println("1. Agree to remove.");
             System.out.println("2. Cancel.");
             try {
                 int number = Menu.chooseActionByNumber();
                 if (number == 1) {
-                    System.out.printf("\nDrug '%s' has been removed successfully!", drug.getId());
+                    System.out.printf("\nDrug '%s' has been removed successfully!\n", drug.getId());
                     medicineService.remove(drug);
                     chooseActionInMedicineManagement();
                     break;

@@ -1,7 +1,6 @@
 package vn.triet.pharmacy.online.services;
 
 import vn.triet.pharmacy.online.models.Order;
-
 import java.util.List;
 
 public interface IOrderService {
@@ -12,8 +11,6 @@ public interface IOrderService {
     List<Order> getUserOrdersList(long id);
 
     Order getOrderById(long id,List<Order> orderList);
-
-    void remove(Order order);
 
     List<Order> getSearchOrderList(String searchContent, List<Order> userOrdersList);
 

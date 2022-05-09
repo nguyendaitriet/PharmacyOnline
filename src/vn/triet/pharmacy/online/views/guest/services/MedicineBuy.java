@@ -8,7 +8,6 @@ import vn.triet.pharmacy.online.views.GuestView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.admin.management.MedicineManagement;
-
 import java.util.*;
 
 public class MedicineBuy {
@@ -95,10 +94,10 @@ public class MedicineBuy {
         System.out.println("\nMEDICAL BILL --------------------------------------------------------------------------");
         System.out.printf("\n%-20s %-20s %-15s %-13s %-15s\n\n", "Drug Name", "Drug Content (mg)", "Price (VND)", "Quantity", "Total (VND)");
         for (OrderItem orderItem : orderItemList) {
-            System.out.printf("%-20s %-20s %-15s %-13s %-15s\n", orderItem.getDrugName(), orderItem.getDrugContent(), orderItem.getPricePerPill(),
-                    orderItem.getQuantity(), orderItem.getPricePerPill() * orderItem.getQuantity());
+            System.out.printf("%-20s %-20s %-15s %-13s %-15s\n", orderItem.getDrugName(), orderItem.getDrugContent(), ValidateUtils.priceWithDecimal(orderItem.getPricePerPill()),
+                    orderItem.getQuantity(), ValidateUtils.priceWithDecimal(orderItem.getPricePerPill() * orderItem.getQuantity()));
         }
-        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", newOrder.getTotalPrice());
+        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", ValidateUtils.priceWithDecimal(newOrder.getTotalPrice()));
         System.out.println("Customer information:");
         System.out.println("     * Name: " + newOrder.getName());
         System.out.println("     * Phone Number: " + newOrder.getPhoneNumber());
@@ -114,12 +113,12 @@ public class MedicineBuy {
             orderItem.setOrderID(newOrder.getId());
             orderItem.setCreationTime(newOrder.getCreationTime());
             double total = orderItem.getQuantity() * orderItem.getPricePerPill();
-            System.out.printf("%-20s %-20s %-15s %-13s %-15s\n", orderItem.getDrugName(), orderItem.getDrugContent(), orderItem.getPricePerPill(),
-                    orderItem.getQuantity(), total);
+            System.out.printf("%-20s %-20s %-15s %-13s %-15s\n", orderItem.getDrugName(), orderItem.getDrugContent(),
+                    ValidateUtils.priceWithDecimal(orderItem.getPricePerPill()), orderItem.getQuantity(), ValidateUtils.priceWithDecimal(total));
             totalPrice += total;
         }
         newOrder.setTotalPrice(totalPrice);
-        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", totalPrice);
+        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", ValidateUtils.priceWithDecimal(totalPrice));
     }
 
     public static void showDrugsGot(Order newOrder, List<OrderItem> orderItemList) {
@@ -270,26 +269,31 @@ public class MedicineBuy {
         }
     }
 
-    private static void showDrugsList(List<Drug> drugs) {
-        System.out.println("\nDRUGS LIST -------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-12s %-25s %-23s %-20s %-20s %-20s\n",
-                "ID", "Drug Name", "Drug Content (mg)", "Quantity (pill)", "Price per Pill", "Expiration Date");
-        System.out.println("------------------------------------------------------------------------------------------------------------------------");
-        MedicineManagement.showAllDrugs(drugs);
-        System.out.println("------------------------------------------------------------------------------------------------------------------------");
-    }
+//    private static void showDrugsList(List<Drug> drugs) {
+//        System.out.println("\nDRUGS LIST -------------------------------------------------------------------------------------------------------------");
+//        System.out.printf("%-12s %-25s %-23s %-20s %-20s %-20s\n",
+//                "ID", "Drug Name", "Drug Content (mg)", "Quantity (pill)", "Price per Pill", "Expiration Date");
+//        System.out.println("------------------------------------------------------------------------------------------------------------------------");
+//        MedicineManagement.showAllDrugs(drugs);
+//        System.out.println("------------------------------------------------------------------------------------------------------------------------");
+//    }
 
     private static ArrayList<OrderItem> getDrugsBoughtByID(Order newOrder, List<Drug> drugs) {
         ArrayList<OrderItem> drugsBought = new ArrayList<>();
         boolean stopBuying;
         do {
-            showDrugsList(drugs);
+            MedicineManagement.showAllDrugs(drugs);
+
             Drug availableDrug = getAvailableDrug();
+
             if (availableDrug == null) return drugsBought;
+
             int quantityBuy = getQuantityBuy(drugs, availableDrug);
+
             drugsBought.add(getNewOrderDrug(availableDrug, quantityBuy));
             System.out.printf("\n---> '%s %.1f mg' - %d has been added to your bill.\n", availableDrug.getDrugName(), availableDrug.getDrugContent(), quantityBuy);
             modifyOrderItemList(drugsBought);
+
             showDrugsGot(newOrder, drugsBought);
             stopBuying = confirmContinuing();
         } while (!stopBuying);

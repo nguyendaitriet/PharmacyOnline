@@ -3,8 +3,6 @@ package vn.triet.pharmacy.online.services;
 import vn.triet.pharmacy.online.models.Order;
 import vn.triet.pharmacy.online.utils.CSVUtils;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
-import vn.triet.pharmacy.online.views.LoginView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +34,6 @@ public class OrderService implements IOrderService {
                 return order;
         }
         return null;
-    }
-
-    @Override
-    public void remove(Order order) {
-        List<Order> orderList = getOrders();
-        orderList.remove(order);
-        CSVUtils.writeData(path, orderList);
     }
 
     @Override

@@ -22,7 +22,6 @@ public class Order {
         creationTime = Long.parseLong(orders[6]);
     }
 
-
     public long getId() {
         return id;
     }

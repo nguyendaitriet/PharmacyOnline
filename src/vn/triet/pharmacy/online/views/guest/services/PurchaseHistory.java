@@ -1,7 +1,6 @@
 package vn.triet.pharmacy.online.views.guest.services;
 
 import vn.triet.pharmacy.online.models.Order;
-import vn.triet.pharmacy.online.models.OrderItem;
 import vn.triet.pharmacy.online.models.Role;
 import vn.triet.pharmacy.online.services.IOderItemService;
 import vn.triet.pharmacy.online.services.IOrderService;
@@ -11,7 +10,6 @@ import vn.triet.pharmacy.online.utils.ValidateUtils;
 import vn.triet.pharmacy.online.views.GuestView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,16 +19,16 @@ public class PurchaseHistory {
     private static final Scanner input = new Scanner(System.in);
 
     public static void showOrderList(Role role, List<Order> orderList) {
-        System.out.println("\nOrders List -------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-17s %-17s %s    %-20s %-18s %-20s %-15s\n", "Order ID", "Creation Date", role == Role.ADMIN ? "Account ID" : "",
+        System.out.println("\nOrders List -------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-17s %-17s %s    %-20s %-18s %-25s %-15s\n", "Order ID", "Creation Date", role == Role.ADMIN ? "Account ID" : "",
                 "Customer Name", "Phone Number", "Address", "Total Price (VND)");
-        System.out.println("-------------------------------------------------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------");
         for (Order order : orderList) {
             String creationDate = ValidateUtils.convertMilliToDate(order.getCreationTime());
-            System.out.printf("%-17s %-17s %s    %-20s %-18s %-20s %-15s\n", order.getId(), creationDate, role == Role.ADMIN ? order.getUserId() + "    " : "",
-                    order.getName(), order.getPhoneNumber(), order.getAddress(), order.getTotalPrice());
+            System.out.printf("%-17s %-17s %s    %-20s %-18s %-25s %-15s\n", order.getId(), creationDate, role == Role.ADMIN ? order.getUserId() + "    " : "",
+                    order.getName(), order.getPhoneNumber(), order.getAddress(), ValidateUtils.priceWithDecimal(order.getTotalPrice()));
         }
-        System.out.println("-------------------------------------------------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     private static void showActionForm() {
@@ -45,14 +43,13 @@ public class PurchaseHistory {
 
     public static void chooseAction() {
         List<Order> userOrdersList = orderService.getUserOrdersList(LoginView.getUserID());
-//        List<Order> userOrdersList = orderService.getUserOrdersList(346749);
         do {
             showOrderList(Role.USER, userOrdersList);
             showActionForm();
             try {
                 int number = Menu.chooseActionByNumber();
                 if (number == 1) {
-                    searchOrder(userOrdersList);
+                    searchOrder(Role.USER, userOrdersList);
                     continue;
                 }
                 if (number == 2) {
@@ -89,7 +86,7 @@ public class PurchaseHistory {
         } while (true);
     }
 
-    public static void searchOrder(List<Order> userOrdersList) {
+    public static void searchOrder(Role role,List<Order> userOrdersList) {
         do {
             System.out.print("\nEnter anything you want to search (Enter '0' to exit).\n");
             System.out.print("---> ");
@@ -100,7 +97,7 @@ public class PurchaseHistory {
                 System.out.println("Sorry, can't find any order with your given information!");
                 continue;
             }
-            showOrderList(Role.USER, searchList);
+            showOrderList(role, searchList);
             showOrderDetails(searchList);
         } while (true);
     }

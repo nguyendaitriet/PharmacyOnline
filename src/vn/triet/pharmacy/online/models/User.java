@@ -12,7 +12,6 @@ public class User {
     private Role role;
     private long creationTime;
 
-
     public User() {
     }
 

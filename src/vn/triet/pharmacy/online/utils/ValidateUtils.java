@@ -1,10 +1,9 @@
 package vn.triet.pharmacy.online.utils;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.regex.Pattern;
 import java.time.LocalDate;
@@ -65,9 +64,14 @@ public class ValidateUtils {
     }
 
     public static String convertMilliToDate(long millisecond) {
-        // 23/04/2021 -> 1619110800000
+        // 1619110800000 -> 23/04/2021
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(millisecond);
+    }
+
+    public static String priceWithDecimal (Double price) {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        return formatter.format(price);
     }
 
 }

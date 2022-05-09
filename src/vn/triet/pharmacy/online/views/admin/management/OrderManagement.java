@@ -7,7 +7,6 @@ import vn.triet.pharmacy.online.services.OrderService;
 import vn.triet.pharmacy.online.views.AdminView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.guest.services.PurchaseHistory;
-
 import java.util.List;
 
 public class OrderManagement {
@@ -37,7 +36,7 @@ public class OrderManagement {
                     continue;
                 }
                 if (number == 3) {
-                    PurchaseHistory.searchOrder(userOrdersList);
+                    PurchaseHistory.searchOrder(Role.ADMIN, userOrdersList);
                     continue;
                 }
                 if (number == 4) {

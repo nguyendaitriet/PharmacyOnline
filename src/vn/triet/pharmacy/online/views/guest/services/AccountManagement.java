@@ -9,10 +9,6 @@ import vn.triet.pharmacy.online.views.GuestView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.SignUpView;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Scanner;
 
 public class AccountManagement {

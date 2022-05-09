@@ -2,11 +2,10 @@ package vn.triet.pharmacy.online.services;
 
 import vn.triet.pharmacy.online.models.Drug;
 import vn.triet.pharmacy.online.utils.CSVUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedicineService implements IMedicineService{
+public class MedicineService implements IMedicineService {
     public static String path = "data/drugs.csv";
 
     @Override
@@ -91,5 +90,16 @@ public class MedicineService implements IMedicineService{
         List<Drug> drugs = getDrugs();
         drugs.remove(drug);
         CSVUtils.writeData(path, drugs);
+    }
+
+    @Override
+    public List<Drug> getSearchDrugList(String searchContent, List<Drug> userDrugsList) {
+        List<Drug> drugListSearch = new ArrayList<>();
+        for (Drug drugSearch : userDrugsList) {
+            if(drugSearch.getDrugName().toLowerCase().contains(searchContent)) {
+                drugListSearch.add(drugSearch);
+            }
+        }
+        return drugListSearch;
     }
 }
