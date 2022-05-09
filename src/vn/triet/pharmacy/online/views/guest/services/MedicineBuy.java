@@ -48,20 +48,12 @@ public class MedicineBuy {
             }
 
             List<Drug> drugs = medicineService.getDrugs();
-            ArrayList<OrderItem> orderItemList = showHowToGetDrug(drugs);
+            ArrayList<OrderItem> orderItemList = showHowToGetDrug(newOrder, drugs);
             if (orderItemList.size() == 0) {
                 System.out.println("\n----- There is no drugs in your bill. You can try again!");
                 continue;
             }
-            modifyOrderItemList(orderItemList);
 
-            double totalPrice = 0;
-            for (OrderItem orderItem : orderItemList) {
-                orderItem.setOrderID(newOrder.getId());
-                totalPrice += orderItem.getPricePerPill() * orderItem.getQuantity();
-            }
-
-            newOrder.setTotalPrice(totalPrice);
             showBill(newOrder, orderItemList);
 
             if (confirmBuying()) {
@@ -104,15 +96,36 @@ public class MedicineBuy {
         System.out.printf("\n%-20s %-20s %-15s %-13s %-15s\n\n", "Drug Name", "Drug Content (mg)", "Price (VND)", "Quantity", "Total (VND)");
         for (OrderItem orderItem : orderItemList) {
             System.out.printf("%-20s %-20s %-15s %-13s %-15s\n", orderItem.getDrugName(), orderItem.getDrugContent(), orderItem.getPricePerPill(),
-                    orderItem.getQuantity(), orderItem.getQuantity()*orderItem.getPricePerPill());
+                    orderItem.getQuantity(), orderItem.getPricePerPill() * orderItem.getQuantity());
         }
-        System.out.printf("\n%-52s %s %s\n","","TOTAL PRICE (VND):", newOrder.getTotalPrice());
+        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", newOrder.getTotalPrice());
         System.out.println("Customer information:");
         System.out.println("     * Name: " + newOrder.getName());
         System.out.println("     * Phone Number: " + newOrder.getPhoneNumber());
         System.out.println("     * Address: " + newOrder.getAddress());
         System.out.println("Creation Date: " + ValidateUtils.convertMilliToDate(newOrder.getCreationTime()));
         System.out.println("\n---------------------------------------------------------------------------------------\n");
+    }
+
+    public static void showDrugFromGetting(Order newOrder, List<OrderItem> orderItemList) {
+        System.out.printf("\n%-20s %-20s %-15s %-13s %-15s\n\n", "Drug Name", "Drug Content (mg)", "Price (VND)", "Quantity", "Total (VND)");
+        double totalPrice = 0;
+        for (OrderItem orderItem : orderItemList) {
+            orderItem.setOrderID(newOrder.getId());
+            orderItem.setCreationTime(newOrder.getCreationTime());
+            double total = orderItem.getQuantity() * orderItem.getPricePerPill();
+            System.out.printf("%-20s %-20s %-15s %-13s %-15s\n", orderItem.getDrugName(), orderItem.getDrugContent(), orderItem.getPricePerPill(),
+                    orderItem.getQuantity(), total);
+            totalPrice += total;
+        }
+        newOrder.setTotalPrice(totalPrice);
+        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", totalPrice);
+    }
+
+    public static void showDrugsGot(Order newOrder, List<OrderItem> orderItemList) {
+        System.out.print("\n---------------------------------------------------------------------------------------");
+        showDrugFromGetting(newOrder, orderItemList);
+        System.out.println("---------------------------------------------------------------------------------------\n");
     }
 
     public static void setNewOrderWithDefaultInfo(Order newOder) {
@@ -192,7 +205,7 @@ public class MedicineBuy {
         return false;
     }
 
-    public static ArrayList<OrderItem> showHowToGetDrug(List<Drug> drugs) {
+    public static ArrayList<OrderItem> showHowToGetDrug(Order newOrder, List<Drug> drugs) {
         ArrayList<OrderItem> orderItemList = new ArrayList<>();
         do {
             System.out.println("\n(II) How do you want to get drug?\n");
@@ -202,12 +215,10 @@ public class MedicineBuy {
             try {
                 int number = Menu.chooseActionByNumber();
                 if (number == 1) {
-                    orderItemList = getDrugsBoughtByID(drugs);
-
+                    orderItemList = getDrugsBoughtByID(newOrder, drugs);
                 }
                 if (number == 2) {
-                    orderItemList = searchDrugByName(drugs);
-
+                    orderItemList = searchDrugByName(newOrder, drugs);
                 }
                 if (number == 0) {
                     break;
@@ -226,7 +237,7 @@ public class MedicineBuy {
         return orderItemList;
     }
 
-    public static ArrayList<OrderItem> searchDrugByName(List<Drug> drugs) {
+    public static ArrayList<OrderItem> searchDrugByName(Order newOrder, List<Drug> drugs) {
         ArrayList<OrderItem> newOrderItemList = new ArrayList<>();
         do {
             System.out.println("\nEnter name of drug you want to buy (Enter '0' to stop getting drug). ");
@@ -240,7 +251,7 @@ public class MedicineBuy {
                 }
             }
             if (drugListSearch.size() > 0) {
-                newOrderItemList.addAll(getDrugsBoughtByID(drugListSearch));
+                newOrderItemList.addAll(getDrugsBoughtByID(newOrder, drugListSearch));
                 changeQuantityAfterGetting(drugs, drugListSearch);
                 continue;
             }
@@ -268,23 +279,20 @@ public class MedicineBuy {
         System.out.println("------------------------------------------------------------------------------------------------------------------------");
     }
 
-    private static ArrayList<OrderItem> getDrugsBoughtByID(List<Drug> drugs) {
+    private static ArrayList<OrderItem> getDrugsBoughtByID(Order newOrder, List<Drug> drugs) {
         ArrayList<OrderItem> drugsBought = new ArrayList<>();
         boolean stopBuying;
         do {
             showDrugsList(drugs);
-
             Drug availableDrug = getAvailableDrug();
-            if (availableDrug==null) return drugsBought;
-
+            if (availableDrug == null) return drugsBought;
             int quantityBuy = getQuantityBuy(drugs, availableDrug);
-
             drugsBought.add(getNewOrderDrug(availableDrug, quantityBuy));
             System.out.printf("\n---> '%s %.1f mg' - %d has been added to your bill.\n", availableDrug.getDrugName(), availableDrug.getDrugContent(), quantityBuy);
-
+            modifyOrderItemList(drugsBought);
+            showDrugsGot(newOrder, drugsBought);
             stopBuying = confirmContinuing();
         } while (!stopBuying);
-
         return drugsBought;
     }
 
@@ -346,7 +354,6 @@ public class MedicineBuy {
         } while (true);
     }
 
-
     public static OrderItem getNewOrderDrug(Drug availableDrug, int quantityBuy) {
         OrderItem newOrderDrug = new OrderItem();
         newOrderDrug.setId(System.currentTimeMillis());
@@ -355,7 +362,6 @@ public class MedicineBuy {
         newOrderDrug.setDrugContent(availableDrug.getDrugContent());
         newOrderDrug.setPricePerPill(availableDrug.getPricePerPill());
         newOrderDrug.setQuantity(quantityBuy);
-        newOrderDrug.setCreationTime(System.currentTimeMillis());
         return newOrderDrug;
     }
 }
