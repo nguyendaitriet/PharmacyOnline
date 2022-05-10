@@ -1,11 +1,11 @@
-package vn.triet.pharmacy.online.views.guest.services;
+package vn.triet.pharmacy.online.views.customer.services;
 
 import vn.triet.pharmacy.online.models.Exit;
 import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
-import vn.triet.pharmacy.online.views.GuestView;
+import vn.triet.pharmacy.online.views.CustomerView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.SignUpView;
@@ -91,11 +91,11 @@ public class AccountManagement {
     public static void confirmUpdating() {
         int number = updateAccount();
         if (number == 0) {
-            GuestView.chooseServicesForGuest();
+            CustomerView.chooseServicesForGuest();
             return;
         }
         System.out.println("\n===> Your account has been UPDATED successfully!\n");
-        GuestView.chooseServicesForGuest();
+        CustomerView.chooseServicesForGuest();
     }
 
     public static void updatePassword(User user) {

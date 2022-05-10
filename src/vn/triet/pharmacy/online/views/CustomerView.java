@@ -1,10 +1,10 @@
 package vn.triet.pharmacy.online.views;
 
-import vn.triet.pharmacy.online.views.guest.services.AccountManagement;
-import vn.triet.pharmacy.online.views.guest.services.MedicineBuy;
-import vn.triet.pharmacy.online.views.guest.services.PurchaseHistory;
+import vn.triet.pharmacy.online.views.customer.services.AccountManagement;
+import vn.triet.pharmacy.online.views.customer.services.MedicineBuy;
+import vn.triet.pharmacy.online.views.customer.services.PurchaseHistory;
 
-public class GuestView {
+public class CustomerView {
 
     public static void showServicesForm() {
         System.out.println("\n*---------------------------------------------------*");

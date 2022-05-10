@@ -1,10 +1,10 @@
-package vn.triet.pharmacy.online.views.guest.services;
+package vn.triet.pharmacy.online.views.customer.services;
 
 import vn.triet.pharmacy.online.models.*;
 import vn.triet.pharmacy.online.services.*;
 import vn.triet.pharmacy.online.utils.CSVUtils;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
-import vn.triet.pharmacy.online.views.GuestView;
+import vn.triet.pharmacy.online.views.CustomerView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.admin.management.MedicineManagement;
@@ -33,7 +33,7 @@ public class MedicineBuy {
                     setNewOrderWithOtherInfo(newOrder);
                 }
                 if (number == 0) {
-                    GuestView.chooseServicesForGuest();
+                    CustomerView.chooseServicesForGuest();
                     break;
                 }
             } catch (Exception ex) {
@@ -268,15 +268,6 @@ public class MedicineBuy {
             }
         }
     }
-
-//    private static void showDrugsList(List<Drug> drugs) {
-//        System.out.println("\nDRUGS LIST -------------------------------------------------------------------------------------------------------------");
-//        System.out.printf("%-12s %-25s %-23s %-20s %-20s %-20s\n",
-//                "ID", "Drug Name", "Drug Content (mg)", "Quantity (pill)", "Price per Pill", "Expiration Date");
-//        System.out.println("------------------------------------------------------------------------------------------------------------------------");
-//        MedicineManagement.showAllDrugs(drugs);
-//        System.out.println("------------------------------------------------------------------------------------------------------------------------");
-//    }
 
     private static ArrayList<OrderItem> getDrugsBoughtByID(Order newOrder, List<Drug> drugs) {
         ArrayList<OrderItem> drugsBought = new ArrayList<>();

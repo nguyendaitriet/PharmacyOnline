@@ -43,7 +43,7 @@ public class LoginView {
 
         System.out.println("\nSuccessful sign-in!");
         userID = user.getId();
-        GuestView.chooseServicesForGuest();
+        CustomerView.chooseServicesForGuest();
 
     }
 

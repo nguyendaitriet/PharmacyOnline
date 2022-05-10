@@ -6,7 +6,7 @@ import vn.triet.pharmacy.online.services.IOrderService;
 import vn.triet.pharmacy.online.services.OrderService;
 import vn.triet.pharmacy.online.views.AdminView;
 import vn.triet.pharmacy.online.views.Menu;
-import vn.triet.pharmacy.online.views.guest.services.PurchaseHistory;
+import vn.triet.pharmacy.online.views.customer.services.PurchaseHistory;
 import java.util.List;
 
 public class OrderManagement {

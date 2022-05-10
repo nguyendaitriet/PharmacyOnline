@@ -1,4 +1,4 @@
-package vn.triet.pharmacy.online.views.guest.services;
+package vn.triet.pharmacy.online.views.customer.services;
 
 import vn.triet.pharmacy.online.models.Order;
 import vn.triet.pharmacy.online.models.Role;
@@ -7,7 +7,7 @@ import vn.triet.pharmacy.online.services.IOrderService;
 import vn.triet.pharmacy.online.services.OrderItemService;
 import vn.triet.pharmacy.online.services.OrderService;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
-import vn.triet.pharmacy.online.views.GuestView;
+import vn.triet.pharmacy.online.views.CustomerView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import java.util.List;
@@ -58,7 +58,7 @@ public class PurchaseHistory {
                 }
 
                 if (number == 0) {
-                    GuestView.chooseServicesForGuest();
+                    CustomerView.chooseServicesForGuest();
                     break;
                 }
             } catch (Exception ex) {

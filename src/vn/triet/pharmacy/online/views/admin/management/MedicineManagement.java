@@ -443,7 +443,7 @@ public class MedicineManagement {
         System.out.printf("%-30s %-12s\n", "2. Generic Name:", drug.getDrugName());
         System.out.printf("%-30s %-12s\n", "3. Drug Content (mg):", drug.getDrugContent());
         System.out.printf("%-30s %-12s\n", "4. Quantity (pill):", drug.getQuantity());
-        System.out.printf("%-30s %-12s\n", "5. Dosage Form", drug.getDosageForm());
+        System.out.printf("%-30s %-12s\n", "5. Dosage Form:", drug.getDosageForm());
         System.out.printf("%-30s %-12s\n", "6. Usage:", drug.getUsage());
         System.out.printf("%-30s %-12s\n", "7. Dosage per Day:", drug.getDosagePerDay());
         System.out.printf("%-30s %-12s\n", "8. Total dosage in 5 days:", drug.getTotalDosage5Days());
@@ -509,7 +509,7 @@ public class MedicineManagement {
             showDrugDetail(oldDrug);
             showChangeStatus(number);
             System.out.println("Choose what information you want to update.");
-            System.out.println("NOTE: You CANNOT update drug ID. Please don't enter '1'!\n");
+            System.out.println("NOTE: You CANNOT update drug ID. Please enter a value in range '2-12'!\n");
             System.out.println("---> Enter '13' to CONFIRM that you agree to update your account with below information.\n");
             System.out.println("---> Enter '0' to cancel updating.");
             System.out.println("---> NOTE: You can enter '" + Exit.E4 + "' to cancel updating at any step (2-12).\n");
@@ -579,7 +579,7 @@ public class MedicineManagement {
             case 6 -> System.out.println("---  Usage has been changed.\n");
             case 7 -> System.out.println("---  Dosage per day has been changed.\n");
             case 8 -> System.out.println("---  Total dosage in 5 days has been changed.\n");
-            case 9 -> System.out.println("---  Price per pill has been changed.\n");
+            case 9 -> System.out.println("---  Price has been changed.\n");
             case 10 -> System.out.println("---  Production date has been changed.\n");
             case 11 -> System.out.println("---  Expiration date has been changed.\n");
             case 12 -> System.out.println("---  Note has been changed.\n");

@@ -119,7 +119,7 @@ public class SignUpView {
                 return true;
             case Exit.E2:
                 System.out.println("\n-----> Your updating has been canceled!");
-                GuestView.chooseServicesForGuest();
+                CustomerView.chooseServicesForGuest();
                 return true;
             case Exit.E3:
                 System.out.println("\n-----> Your updating has been canceled!");
