@@ -4,6 +4,8 @@ import vn.triet.pharmacy.online.models.Role;
 import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LoginView {
@@ -26,7 +28,6 @@ public class LoginView {
         String username = input.nextLine().trim();
         System.out.print("2. Password: ");
         String password = input.nextLine().trim();
-
         User user = userService.login(username, password);
 
         if (user == null) {

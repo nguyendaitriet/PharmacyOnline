@@ -50,7 +50,6 @@ public class Menu {
                 }
                 alert();
             } catch (Exception io) {
-                io.printStackTrace();
                 alert();
             }
         } while (true);

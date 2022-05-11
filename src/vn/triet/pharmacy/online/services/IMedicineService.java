@@ -1,6 +1,7 @@
 package vn.triet.pharmacy.online.services;
 
 import vn.triet.pharmacy.online.models.Drug;
+
 import java.util.List;
 
 public interface IMedicineService {
@@ -13,9 +14,9 @@ public interface IMedicineService {
 
     void update(Drug newDrug);
 
-    boolean isIdExisted(int id);
-
     void remove(Drug drug);
+
+    boolean isIdExisted(int id);
 
     List<Drug> getSearchDrugList(String searchContent, List<Drug> userDrugsList);
 

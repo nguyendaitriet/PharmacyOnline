@@ -163,7 +163,7 @@ public class SignUpView {
                 System.out.println("Invalid date, please try again!\n");
                 continue;
             }
-            int before01012022 = ValidateUtils.convertDate(birthday).compareTo("20220101");
+            int before01012022 = ValidateUtils.convertDate(birthday).compareTo("20050101");
             if (before01012022 > 0) {
                 System.out.println("Sorry '" + birthday + "' is after 01/01/2005, please try again!\n");
                 continue;

@@ -7,7 +7,9 @@ import vn.triet.pharmacy.online.services.MedicineService;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
 import vn.triet.pharmacy.online.views.AdminView;
 import vn.triet.pharmacy.online.views.Menu;
+
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,7 +24,7 @@ public class MedicineManagement {
         System.out.println("|        1. Show drugs list.                          |");
         System.out.println("|             2. Sort by quantity.                    |");
         System.out.println("|             3. Sort by price per pill.              |");
-        System.out.println("|             4. Sort by expiration date.             |");
+        System.out.println("|             4. Show expired drugs list.             |");
         System.out.println("|             5. Check a drug detail (by ID).         |");
         System.out.println("|             6. Search drug by name.                 |");
         System.out.println("|        7. Add new drug.                             |");
@@ -77,7 +79,7 @@ public class MedicineManagement {
         } while (true);
     }
 
-    public static void showDrugsList(List<Drug> drugs, int action) {
+    public static void showDrugsList(List<Drug> drugs, int action) throws ParseException {
         switch (action) {
             case 1:
                 showAllDrugs(drugs);
@@ -89,7 +91,7 @@ public class MedicineManagement {
                 sortByPricePerPillASCE(drugs);
                 break;
             case 4:
-                sortByExpirationDateASCE(drugs);
+                showExpiredDrugs(drugs);
                 break;
         }
         chooseNextOperation();
@@ -144,19 +146,19 @@ public class MedicineManagement {
         showAllDrugs(drugs);
     }
 
-    private static void sortByExpirationDateASCE(List<Drug> drugs) {
-        drugs.sort((e1, e2) -> {
-            try {
-                long e1Milli = ValidateUtils.convertDateToMilli(e1.getExpirationDate());
-                long e2Milli = ValidateUtils.convertDateToMilli(e2.getExpirationDate());
-                return Long.compare(e1Milli - e2Milli, 0);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+    private static void showExpiredDrugs(List<Drug> drugs) throws ParseException {
+        List<Drug> expiredDrugs = new ArrayList<>();
+        for (Drug drug : drugs) {
+            long expirationTime = ValidateUtils.convertDateToMilli(drug.getExpirationDate());
+            long expiredTime = (long) (System.currentTimeMillis() + 2592 * Math.pow(10, 6));
+            if (expirationTime <= expiredTime) {
+                expiredDrugs.add(drug);
             }
-        });
-        showAllDrugs(drugs);
+        }
+        System.out.println("----- This list includes drugs expired or is expiring next month -----");
+        showAllDrugs(expiredDrugs);
     }
-
+    
     private static void searchDrugByName(List<Drug> drugs) {
         boolean is;
         do {
