@@ -158,7 +158,7 @@ public class MedicineManagement {
         System.out.println("----- This list includes drugs expired or is expiring next month -----");
         showAllDrugs(expiredDrugs);
     }
-    
+
     private static void searchDrugByName(List<Drug> drugs) {
         boolean is;
         do {
