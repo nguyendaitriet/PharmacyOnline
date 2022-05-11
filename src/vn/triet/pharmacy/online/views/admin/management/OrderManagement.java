@@ -59,7 +59,7 @@ public class OrderManagement {
     }
 
     private static void sortByTotalPriceACSE(List<Order> userOrdersList) {
-        userOrdersList.sort((e1, e2) -> Double.compare(e1.getTotalPrice() - e2.getTotalPrice(), 0));
+        userOrdersList.sort((e1, e2) -> Double.compare(e1.getGrandTotal() - e2.getGrandTotal(), 0));
         showResultAndOperation(userOrdersList);
     }
 

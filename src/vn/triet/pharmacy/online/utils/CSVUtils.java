@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-
 public class CSVUtils {
     public static <T> void writeData(String path, List<T> items) {
         try {

@@ -26,7 +26,7 @@ public class PurchaseHistory {
         for (Order order : orderList) {
             String creationDate = ValidateUtils.convertMilliToDate(order.getCreationTime());
             System.out.printf("%-17s %-17s %s    %-20s %-18s %-25s %-15s\n", order.getId(), creationDate, role == Role.ADMIN ? order.getUserId() + "    " : "",
-                    order.getName(), order.getPhoneNumber(), order.getAddress(), ValidateUtils.priceWithDecimal(order.getTotalPrice()));
+                    order.getName(), order.getPhoneNumber(), order.getAddress(), ValidateUtils.priceWithDecimal(order.getGrandTotal()));
         }
         System.out.println("-------------------------------------------------------------------------------------------------------------------------------------");
     }

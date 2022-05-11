@@ -10,9 +10,11 @@ public class OrderItem {
     private double drugContent;
     private double pricePerPill;
     private int quantity;
+    private double totalPrice;
     private long creationTime;
 
-    public OrderItem() {}
+    public OrderItem() {
+    }
 
     public OrderItem(String record) {
         String[] orderItems = record.split("~");
@@ -24,6 +26,8 @@ public class OrderItem {
         pricePerPill = Double.parseDouble(orderItems[5]);
         quantity = Integer.parseInt(orderItems[6]);
         creationTime = Long.parseLong(orderItems[7]);
+        totalPrice = Double.parseDouble(orderItems[8]);
+
     }
 
     public long getId() {
@@ -90,6 +94,14 @@ public class OrderItem {
         this.creationTime = creationTime;
     }
 
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice() {
+        this.totalPrice = pricePerPill*quantity;
+    }
+
     @Override
     public String toString() {
         return id +
@@ -99,7 +111,9 @@ public class OrderItem {
                 "~" + drugContent +
                 "~" + pricePerPill +
                 "~" + quantity +
-                "~" + creationTime;
+                "~" + creationTime+
+                "~" + totalPrice;
+
     }
 
     @Override

@@ -1,6 +1,6 @@
 package vn.triet.pharmacy.online.views.customer.services;
 
-import vn.triet.pharmacy.online.models.Exit;
+import vn.triet.pharmacy.online.views.Exit;
 import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;

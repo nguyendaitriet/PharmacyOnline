@@ -6,7 +6,7 @@ public class Order {
     private String name;
     private String phoneNumber;
     private String address;
-    private double totalPrice;
+    private double grandTotal;
     private long creationTime;
 
     public Order(){}
@@ -18,7 +18,7 @@ public class Order {
         name = orders[2];
         phoneNumber = orders[3];
         address = orders[4];
-        totalPrice = Double.parseDouble(orders[5]);
+        grandTotal = Double.parseDouble(orders[5]);
         creationTime = Long.parseLong(orders[6]);
     }
 
@@ -70,12 +70,12 @@ public class Order {
         this.creationTime = creationTime;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public double getGrandTotal() {
+        return grandTotal;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setGrandTotal(double grandTotal) {
+        this.grandTotal = grandTotal;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class Order {
                 "~" + name +
                 "~" + phoneNumber +
                 "~" + address +
-                "~" + totalPrice +
+                "~" + grandTotal +
                 "~" + creationTime;
     }
 }

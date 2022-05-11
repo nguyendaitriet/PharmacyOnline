@@ -5,6 +5,7 @@ import vn.triet.pharmacy.online.services.*;
 import vn.triet.pharmacy.online.utils.CSVUtils;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
 import vn.triet.pharmacy.online.views.CustomerView;
+import vn.triet.pharmacy.online.views.Exit;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.admin.management.MedicineManagement;
@@ -95,9 +96,9 @@ public class MedicineBuy {
         System.out.printf("\n%-20s %-20s %-15s %-13s %-15s\n\n", "Drug Name", "Drug Content (mg)", "Price (VND)", "Quantity", "Total (VND)");
         for (OrderItem orderItem : orderItemList) {
             System.out.printf("%-20s %-20s %-15s %-13s %-15s\n", orderItem.getDrugName(), orderItem.getDrugContent(), ValidateUtils.priceWithDecimal(orderItem.getPricePerPill()),
-                    orderItem.getQuantity(), ValidateUtils.priceWithDecimal(orderItem.getPricePerPill() * orderItem.getQuantity()));
+                    orderItem.getQuantity(), ValidateUtils.priceWithDecimal(orderItem.getTotalPrice()));
         }
-        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", ValidateUtils.priceWithDecimal(newOrder.getTotalPrice()));
+        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", ValidateUtils.priceWithDecimal(newOrder.getGrandTotal()));
         System.out.println("Customer information:");
         System.out.println("     * Name: " + newOrder.getName());
         System.out.println("     * Phone Number: " + newOrder.getPhoneNumber());
@@ -108,17 +109,17 @@ public class MedicineBuy {
 
     public static void showDrugFromGetting(Order newOrder, List<OrderItem> orderItemList) {
         System.out.printf("\n%-20s %-20s %-15s %-13s %-15s\n\n", "Drug Name", "Drug Content (mg)", "Price (VND)", "Quantity", "Total (VND)");
-        double totalPrice = 0;
+        double grandTotal = 0;
         for (OrderItem orderItem : orderItemList) {
             orderItem.setOrderID(newOrder.getId());
             orderItem.setCreationTime(newOrder.getCreationTime());
-            double total = orderItem.getQuantity() * orderItem.getPricePerPill();
+            double total = orderItem.getTotalPrice();
             System.out.printf("%-20s %-20s %-15s %-13s %-15s\n", orderItem.getDrugName(), orderItem.getDrugContent(),
                     ValidateUtils.priceWithDecimal(orderItem.getPricePerPill()), orderItem.getQuantity(), ValidateUtils.priceWithDecimal(total));
-            totalPrice += total;
+            grandTotal += total;
         }
-        newOrder.setTotalPrice(totalPrice);
-        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", ValidateUtils.priceWithDecimal(totalPrice));
+        newOrder.setGrandTotal(grandTotal);
+        System.out.printf("\n%-52s %s %s\n", "", "TOTAL PRICE (VND):", ValidateUtils.priceWithDecimal(grandTotal));
     }
 
     public static void showDrugsGot(Order newOrder, List<OrderItem> orderItemList) {
@@ -357,6 +358,7 @@ public class MedicineBuy {
         newOrderDrug.setDrugContent(availableDrug.getDrugContent());
         newOrderDrug.setPricePerPill(availableDrug.getPricePerPill());
         newOrderDrug.setQuantity(quantityBuy);
+        newOrderDrug.setTotalPrice();
         return newOrderDrug;
     }
 }

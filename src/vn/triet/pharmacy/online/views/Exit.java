@@ -1,4 +1,4 @@
-package vn.triet.pharmacy.online.models;
+package vn.triet.pharmacy.online.views;
 
 public class Exit {
     public static final String E1 = "ex1";

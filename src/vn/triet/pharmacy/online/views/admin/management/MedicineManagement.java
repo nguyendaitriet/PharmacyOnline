@@ -1,7 +1,7 @@
 package vn.triet.pharmacy.online.views.admin.management;
 
 import vn.triet.pharmacy.online.models.Drug;
-import vn.triet.pharmacy.online.models.Exit;
+import vn.triet.pharmacy.online.views.Exit;
 import vn.triet.pharmacy.online.services.IMedicineService;
 import vn.triet.pharmacy.online.services.MedicineService;
 import vn.triet.pharmacy.online.utils.ValidateUtils;
