@@ -11,9 +11,8 @@ import vn.triet.pharmacy.online.views.AdminView;
 import vn.triet.pharmacy.online.views.Menu;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class MedicineManagement {
     private static IMedicineService medicineService = new MedicineService();
@@ -368,19 +367,36 @@ public class MedicineManagement {
         } while (true);
     }
 
-    private static boolean enterProductionDate(Drug newDrug) {
+    private static boolean enterProductionDate(Drug newDrug) throws ParseException {
         do {
-            System.out.println("10. Enter Production Date (Example: 12/04/2021) ");
+            System.out.println("10. Enter Production Date (Example: 12/04/2021).");
             System.out.print("==> ");
             String productionDate = input.nextLine().trim();
             if (cancelEntering(productionDate)) return true;
             System.out.println();
+            if (!checkProductionDate(productionDate)) continue;
             if (ValidateUtils.isDateValid(productionDate)) {
                 newDrug.setProductionDate(productionDate);
                 return false;
             }
             System.out.println("Invalid date format, please try again!\n");
         } while (true);
+    }
+
+    private static boolean checkProductionDate(String productionDate) throws ParseException {
+        long productionTime = ValidateUtils.convertDateToMilli(productionDate);
+        long currentTime = System.currentTimeMillis();
+        long range = Math.abs(currentTime - productionTime);
+        if (productionTime > currentTime) {
+            System.out.println("\nProduction Date must NOT be after today's date '" + ValidateUtils.convertMilliToDate(currentTime) + "'");
+            return false;
+        }
+        if (TimeUnit.DAYS.convert(range, TimeUnit.MILLISECONDS) / 365.0 > 2) {
+            System.out.println("\nDrug produced over 2 year ago from today must not be added!");
+            System.out.println("(You have to enter the date after '" + ValidateUtils.convertMilliToDate(currentTime - range) + "')");
+            return false;
+        }
+        return true;
     }
 
     private static boolean enterExpirationDate(Drug newDrug) throws ParseException {
@@ -473,7 +489,7 @@ public class MedicineManagement {
                     System.out.println("\nID doesn't exist, please try again or enter '0' to return.");
                     continue;
                 }
-                if(orderItemService.isItemOrdered(id)) {
+                if (orderItemService.isItemOrdered(id)) {
                     System.out.println("\nSorry, you can't remove this drug because it has been ordered");
                     System.out.println("Please enter another ID!");
                 }
