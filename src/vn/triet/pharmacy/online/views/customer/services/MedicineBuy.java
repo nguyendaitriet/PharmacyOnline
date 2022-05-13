@@ -361,4 +361,5 @@ public class MedicineBuy {
         newOrderDrug.setTotalPrice();
         return newOrderDrug;
     }
+
 }

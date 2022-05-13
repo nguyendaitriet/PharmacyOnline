@@ -2,6 +2,7 @@ package vn.triet.pharmacy.online.services;
 
 import vn.triet.pharmacy.online.models.OrderItem;
 import vn.triet.pharmacy.online.utils.CSVUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,5 +38,14 @@ public class OrderItemService implements IOderItemService {
         return userOrderItemList;
     }
 
-
+    @Override
+    public boolean isItemOrdered(long id) {
+        List<OrderItem> orderItems = getOrderItems();
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getDrugID() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

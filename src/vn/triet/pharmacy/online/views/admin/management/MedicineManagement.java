@@ -1,6 +1,8 @@
 package vn.triet.pharmacy.online.views.admin.management;
 
 import vn.triet.pharmacy.online.models.Drug;
+import vn.triet.pharmacy.online.services.IOderItemService;
+import vn.triet.pharmacy.online.services.OrderItemService;
 import vn.triet.pharmacy.online.views.Exit;
 import vn.triet.pharmacy.online.services.IMedicineService;
 import vn.triet.pharmacy.online.services.MedicineService;
@@ -15,6 +17,7 @@ import java.util.Scanner;
 
 public class MedicineManagement {
     private static IMedicineService medicineService = new MedicineService();
+    private static IOderItemService orderItemService = new OrderItemService();
 
     private static final Scanner input = new Scanner(System.in);
 
@@ -462,15 +465,18 @@ public class MedicineManagement {
             try {
                 System.out.print("\nEnter Drug ID: ");
                 int id = Integer.parseInt(input.nextLine());
-                if (medicineService.isIdExisted(id)) {
-                    drug = medicineService.getDrugById(id);
-                    break;
-                }
                 if (id == 0) {
                     chooseActionInMedicineManagement();
                     break;
                 }
-                System.out.println("\nID doesn't exist, please try again or enter '0' to return.");
+                if (!medicineService.isIdExisted(id)) {
+                    System.out.println("\nID doesn't exist, please try again or enter '0' to return.");
+                    continue;
+                }
+                if(orderItemService.isItemOrdered(id)) {
+                    System.out.println("\nSorry, you can't remove this drug because it has been ordered");
+                    System.out.println("Please enter another ID!");
+                }
             } catch (Exception ex) {
                 Menu.alert();
             }

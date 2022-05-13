@@ -20,10 +20,7 @@ public class LoginView {
 
     public static void signIn() {
         Scanner input = new Scanner(System.in);
-        System.out.println();
-        System.out.println();
-        System.out.println("----- LOGIN -----");
-        System.out.println();
+        System.out.println("\n\n----- LOGIN -----\n");
         System.out.print("1. Username: ");
         String username = input.nextLine().trim();
         System.out.print("2. Password: ");

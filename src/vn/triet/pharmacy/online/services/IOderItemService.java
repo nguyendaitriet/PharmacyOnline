@@ -1,6 +1,7 @@
 package vn.triet.pharmacy.online.services;
 
 import vn.triet.pharmacy.online.models.OrderItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,4 +11,7 @@ public interface IOderItemService {
     void addMoreOrderItems(ArrayList<OrderItem> newOrderItemList);
 
     List<OrderItem> getUserOrderItemList(long orderID);
+
+    boolean isItemOrdered(long id);
+
 }

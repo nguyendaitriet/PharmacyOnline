@@ -32,7 +32,7 @@ public class AccountManagement {
     public static int updateAccount() {
         User currentUser = userService.getUserById(LoginView.getUserID());
         SignUpView newRegister = new SignUpView();
-        boolean is = true;
+        boolean is;
         int number = -1;
         do {
             showCurrentAccount(currentUser);
@@ -82,7 +82,7 @@ public class AccountManagement {
                         is = false;
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                is = false;
                 Menu.alert();
             }
         } while (!is);
@@ -95,8 +95,10 @@ public class AccountManagement {
             CustomerView.chooseServicesForGuest();
             return;
         }
-        System.out.println("\n===> Your account has been UPDATED successfully!\n");
-        CustomerView.chooseServicesForGuest();
+        if (number == 9) {
+            System.out.println("\n===> Your account has been UPDATED successfully!\n");
+            CustomerView.chooseServicesForGuest();
+        }
     }
 
     public static void updatePassword(User user) {

@@ -10,7 +10,6 @@ import vn.triet.pharmacy.online.utils.ValidateUtils;
 import vn.triet.pharmacy.online.views.CustomerView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -46,7 +45,7 @@ public class PurchaseHistory {
         List<Order> userOrdersList = orderService.getUserOrdersList(LoginView.getUserID());
         do {
             if (userOrdersList.size() == 0) {
-                System.out.println("\n You don't have any order!");
+                System.out.println("\n----- You don't have any order!");
                 CustomerView.chooseServicesForGuest();
                 break;
             }
