@@ -9,6 +9,7 @@ import vn.triet.pharmacy.online.views.CustomerView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.SignUpView;
+
 import java.util.Scanner;
 
 public class AccountManagement {
@@ -121,8 +122,12 @@ public class AccountManagement {
             }
             do {
                 System.out.print("\nEnter new password: ");
-                System.out.println("(NOTE: Minimum eight characters, at least one letter, one number and one special character).");
+                System.out.println("(NOTE: Minimum eight characters, at least one letter, one number and one special character @$!%*#?&).");
                 String newPass = input.nextLine().trim();
+                if (newPass.equals(oldPass)) {
+                    System.out.println("This is your old password, please enter another password!\n");
+                    continue;
+                }
                 if (ValidateUtils.isPasswordValid(newPass)) {
                     user.setPassword(newPass);
                     userService.update(user);

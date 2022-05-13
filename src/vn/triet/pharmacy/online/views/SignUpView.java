@@ -131,6 +131,7 @@ public class SignUpView {
     public boolean enterFullName(User newUser) {
         do {
             System.out.println("\n2. Enter Full Name (Example: Will Smith). ");
+            System.out.println("(Note: Your name mustn't contain digit)");
             System.out.print("==> ");
             String fullName = input.nextLine().trim();
             System.out.println();
@@ -199,12 +200,18 @@ public class SignUpView {
     }
 
     public boolean enterAddress(User newUser) {
-        System.out.println("\n5. Enter Address (Example: 4/18 An Duong Vuong, Hue).");
-        System.out.print("==> ");
-        String address = input.nextLine().trim();
-        if (cancelEntering(address)) return true;
-        newUser.setAddress(address);
-        return false;
+        do {
+            System.out.println("\n5. Enter Address (Example: 4/18 An Duong Vuong, Hue), doesn't contain '~'.");
+            System.out.print("==> ");
+            String address = input.nextLine().trim();
+            if (cancelEntering(address)) return true;
+            if (!ValidateUtils.isAddressValid(address)) {
+                System.out.println("Address mustn't contain '~'\n");
+                continue;
+            }
+            newUser.setAddress(address);
+            return false;
+        } while (true);
     }
 
     public boolean enterEmail(User newUser) {
@@ -261,7 +268,7 @@ public class SignUpView {
     public void enterPassword(User newUser) {
         do {
             System.out.println("\n8. Enter password (Example: myname!0907)");
-            System.out.println("(NOTE: Minimum eight characters, at least one letter, one number and one special character).");
+            System.out.println("(NOTE: Minimum eight characters, at least one letter, one number and one special character @$!%*#?&).");
             System.out.print("==> ");
             String password = input.nextLine().trim();
             System.out.println();

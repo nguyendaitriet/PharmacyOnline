@@ -155,7 +155,7 @@ public class MedicineManagement {
                 expiredDrugs.add(drug);
             }
         }
-        System.out.println("----- This list includes drugs expired or is expiring next month -----");
+        System.out.println("\n----- This list includes drugs expired or is expiring next month -----");
         showAllDrugs(expiredDrugs);
     }
 

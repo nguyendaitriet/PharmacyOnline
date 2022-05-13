@@ -1,9 +1,11 @@
-112617~Paracetamol~500.0~770~tablet~Headache,Fever~1 Morning, 1 Afternoon, 1 Night~15~500.0~06/11/2021~06/11/2022~Pain Reliever
-369120~Ibuprofen~400.0~915~capsule~Headache,Fever~1 Morning, 1 Afternoon, 1 Night~15~1400.0~14/09/2021~14/09/2022~Pain Reliever
+112617~Paracetamol~500.0~700~tablet~Headache,Fever~1 Morning, 1 Afternoon, 1 Night~15~500.0~06/11/2021~06/11/2022~Pain Reliever
+369120~Ibuprofen~400.0~900~capsule~Headache,Fever~1 Morning, 1 Afternoon, 1 Night~15~1400.0~14/09/2021~14/09/2022~Pain Reliever
 522349~Aspirin~300.0~1000~tablet~Headache,Fever~2 Morning, 2 Afternoon,2 Night~30~800.0~17/04/2021~17/04/2022~Pain Reliever
-722847~Metronidazol~250.0~895~tablet~Toothache~1 Morning, 1 Afternoon, 1 Night~15~450.0~20/04/2021~20/04/2022~null
-510532~Clindamycin~300.0~920~capsule~Toothache~1 Morning, 1 Noon, 1 Afternoon, 1 Night~20~1500.0~30/03/2022~30/03/2023~antibiotic
-816727~Amoxicillin~500.0~885~capsule~Toothache~1 Morning, 1 Afternoon, 1 Night~15~650.0~24/02/2022~24/02/2024~antibiotic
-467847~Vitamin C~500.0~1915~tablet~Fever,Runny Nose~1 Morning~5~1000.0~08/03/2020~08/03/2023~supplements
-662649~Vitamin E~1000.0~1860~tablet~Dried Skin~1 Morning~5~3000.0~14/08/2021~14/08/2022~supplements
-290380~Mebendazol~500.0~498~tablet~worm infections~1 Morning~1~15000.0~30/03/2021~30/03/2023~antiworm
+722847~Metronidazole~250.0~500~tablet~Toothache~1 Morning, 1 Afternoon, 1 Night~15~450.0~20/04/2021~20/04/2022~null
+510532~Clindamycin~300.0~1000~capsule~Toothache~1 Morning, 1 Noon, 1 Afternoon, 1 Night~20~1500.0~30/03/2022~30/03/2023~antibiotic
+816727~Amoxicillin~500.0~900~capsule~Toothache~1 Morning, 1 Afternoon, 1 Night~15~650.0~24/02/2022~24/02/2024~antibiotic
+467847~Vitamin C~500.0~2500~tablet~Fever,Runny Nose~1 Morning~5~1000.0~08/03/2020~08/03/2023~supplements
+662649~Vitamin E~1000.0~1000~tablet~Dried Skin~1 Morning~5~3000.0~14/08/2021~14/08/2022~supplements
+290380~Mebendazole~500.0~500~tablet~worm infections~1 Morning~1~15000.0~30/03/2021~30/03/2023~antiworm
+923465~Cimetidine~400.0~800~tablet~stomach ache~1 Morning, 1 Night~10~1300.0~02/01/2022~02/01/2024~antihistamine
+618647~Famotidine~40.0~900~capsule~stomach ache~1 Night~5~850.0~29/03/2021~29/03/2023~antihistamine
