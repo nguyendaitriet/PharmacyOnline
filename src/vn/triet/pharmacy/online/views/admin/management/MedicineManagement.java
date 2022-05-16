@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class MedicineManagement {
     private static IMedicineService medicineService = new MedicineService();
     private static IOderItemService orderItemService = new OrderItemService();
-
     private static final Scanner input = new Scanner(System.in);
+    private static final int YEARS = 2;
 
     private static void showActionForm() {
         System.out.println("\n --------------- Medicine Management -----------------");
@@ -388,12 +388,13 @@ public class MedicineManagement {
         long currentTime = System.currentTimeMillis();
         long range = Math.abs(currentTime - productionTime);
         if (productionTime > currentTime) {
-            System.out.println("\nProduction Date must NOT be after today's date '" + ValidateUtils.convertMilliToDate(currentTime) + "'");
+            System.out.println("\nProduction Date must NOT be after today's date '" + ValidateUtils.convertMilliToDate(currentTime) + "'\n");
             return false;
         }
         if (TimeUnit.DAYS.convert(range, TimeUnit.MILLISECONDS) / 365.0 > 2) {
-            System.out.println("\nDrug produced over 2 year ago from today must not be added!");
-            System.out.println("(You have to enter the date after '" + ValidateUtils.convertMilliToDate(currentTime - range) + "')");
+            long years2Milli = (long) YEARS * 1000 * 60 * 60 * 24 * 365;
+            System.out.println("\nDrug produced over " + YEARS + " years ago from today MUST NOT be added!");
+            System.out.println("(You have to enter the date after '" + ValidateUtils.convertMilliToDate(currentTime - years2Milli) + "')\n");
             return false;
         }
         return true;
@@ -476,7 +477,6 @@ public class MedicineManagement {
     }
 
     public static Drug getExistedDrug() {
-        Drug drug = null;
         do {
             try {
                 System.out.print("\nEnter Drug ID: ");
@@ -492,12 +492,14 @@ public class MedicineManagement {
                 if (orderItemService.isItemOrdered(id)) {
                     System.out.println("\nSorry, you can't remove this drug because it has been ordered");
                     System.out.println("Please enter another ID!");
+                    continue;
                 }
+                return medicineService.getDrugById(id);
             } catch (Exception ex) {
                 Menu.alert();
             }
         } while (true);
-        return drug;
+        return null;
     }
 
     public static void removeDrug() {
