@@ -197,7 +197,7 @@ public class MedicineManagement {
     }
 
     public static void setID(Drug newDrug) {
-        int min = 100001;
+        int min = 100000;
         int max = 999999;
         int id;
         do {

@@ -9,7 +9,6 @@ import vn.triet.pharmacy.online.views.CustomerView;
 import vn.triet.pharmacy.online.views.LoginView;
 import vn.triet.pharmacy.online.views.Menu;
 import vn.triet.pharmacy.online.views.SignUpView;
-
 import java.util.Scanner;
 
 public class AccountManagement {

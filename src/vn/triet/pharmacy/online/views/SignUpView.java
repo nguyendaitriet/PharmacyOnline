@@ -241,8 +241,8 @@ public class SignUpView {
         do {
             System.out.println("\n7. Enter username.");
             System.out.println("NOTE: ");
-            System.out.println("  * Your username must start with A LETTER");
-            System.out.println("  * All other characters can be alphabets, numbers or an underscore '_'");
+            System.out.println("  * Your username must start with A LETTER.");
+            System.out.println("  * All other characters can be alphabets, numbers or an underscore '_'.");
             System.out.println("  * Length constraint is from 8 to 20 characters.");
             System.out.print("==> ");
             String username = input.nextLine().trim().toLowerCase();

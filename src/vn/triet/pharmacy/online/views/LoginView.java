@@ -4,8 +4,6 @@ import vn.triet.pharmacy.online.models.Role;
 import vn.triet.pharmacy.online.models.User;
 import vn.triet.pharmacy.online.services.IUserService;
 import vn.triet.pharmacy.online.services.UserService;
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LoginView {
